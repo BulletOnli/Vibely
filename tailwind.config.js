@@ -12,8 +12,7 @@ module.exports = {
                 custom2: "0 3px 4px rgb(0, 0, 0, .5);",
             },
             backgroundColor: {
-                customGradient:
-                    "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
+                custom: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
             },
         },
     },

@@ -1,11 +1,14 @@
 import {
     FormControl,
+    HStack,
+    Icon,
     Input,
     InputGroup,
     InputLeftElement,
     Spacer,
 } from "@chakra-ui/react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { BsFillMoonStarsFill } from "react-icons/bs";
 
 const Navbar = () => {
     return (
@@ -14,12 +17,22 @@ const Navbar = () => {
                 <h1 className="text-2xl font-bold mr-12">Logo</h1>
             </div>
 
-            <FormControl as="form" w="sm">
-                <InputGroup>
-                    <InputLeftElement children={<AiOutlineSearch />} />
-                    <Input placeholder="Search" rounded="full" />
-                </InputGroup>
-            </FormControl>
+            <HStack>
+                <FormControl as="form" w="xs">
+                    <InputGroup>
+                        <InputLeftElement
+                            children={
+                                <AiOutlineSearch
+                                    fontSize={20}
+                                    color="#9CA3AF"
+                                />
+                            }
+                        />
+                        <Input placeholder="Search" rounded="full" />
+                    </InputGroup>
+                </FormControl>
+                <Icon as={BsFillMoonStarsFill} boxSize={5} mx={3} />
+            </HStack>
         </div>
     );
 };

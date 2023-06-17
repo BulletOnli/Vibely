@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
                 <ChakraProvider>
-                    <div className="App">
+                    <div className="relative w-full flex flex-col text-black bg-[#e9ecef]">
                         <Navbar />
                         {children}
                         <Nav />

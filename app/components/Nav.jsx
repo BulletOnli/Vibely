@@ -1,9 +1,5 @@
 import { FaHome } from "react-icons/fa";
-import {
-    BsFillChatTextFill,
-    BsPeopleFill,
-    BsFillBellFill,
-} from "react-icons/bs";
+import { BsPeopleFill, BsFillBellFill, BsPersonCircle } from "react-icons/bs";
 
 const Nav = () => {
     return (
@@ -16,10 +12,10 @@ const Nav = () => {
                     <BsPeopleFill />
                 </li>
                 <li className="w-[50px] h-[50px] flex justify-center items-center text-2xl rounded-full shadow-md p-2 bg-white hover:cursor-pointer hover:bg-gray-50 hover:shadow-custom">
-                    <BsFillChatTextFill />
+                    <BsFillBellFill />
                 </li>
                 <li className="w-[50px] h-[50px] flex justify-center items-center text-2xl rounded-full shadow-md p-2 bg-white hover:cursor-pointer hover:bg-gray-50 hover:shadow-custom">
-                    <BsFillBellFill />
+                    <BsPersonCircle />
                 </li>
             </ul>
         </div>

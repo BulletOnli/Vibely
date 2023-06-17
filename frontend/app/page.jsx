@@ -10,7 +10,7 @@ const NewsFeedPage = () => {
             <Feed />
             <div className="sticky top-[6.6rem] w-[22rem] h-full flex flex-col gap-3">
                 <p className="text-xl w-full text-start font-semibold mb-4">
-                    Friends
+                    Friends trys
                 </p>
                 <FriendsList />
             </div>

@@ -1,11 +1,3 @@
-dist
 node_modules
-*.log*
 .env
-
-# lockfiles
 yarn.lock
-package-lock.json
-pnpm-lock.ya?ml
-
-index.js

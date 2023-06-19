@@ -7,13 +7,22 @@ import { BsFillGearFill, BsGear } from "react-icons/bs";
 import CreatePostTab from "./components/CreatePostTab";
 import Post from "./components/Post";
 import Notifications from "./components/Notifcations";
+import { useThemeStore } from "./store/themeStore";
 
 const NewsFeedPage = () => {
+    const { isDarked } = useThemeStore();
+    const darkMode = isDarked
+        ? "bg-[#242850] text-[#f5f5f5]"
+        : "bg-white text-black";
+    const hoverColor = isDarked ? "hover:bg-[#282E54]" : "hover:bg-gray-100";
+
     return (
         <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between gap-8 p-6">
             <div className="sticky top-[6.6rem] z-50 w-[22rem] h-[85vh] hidden lg:flex flex-col">
                 <Link href="/profile">
-                    <div className="w-full flex items-center justify-between p-4 bg-[#242850] rounded-xl shadow-custom">
+                    <div
+                        className={`${darkMode} w-full flex items-center justify-between p-4 rounded-xl shadow-custom`}
+                    >
                         <div className="flex items-center gap-4">
                             <Avatar size="md" name="Gemmuel" />
                             <div className="flex flex-col gap-0">
@@ -45,11 +54,15 @@ const NewsFeedPage = () => {
             <div className="z-50 sticky top-[6.6rem] w-[20rem] h-[85vh] hidden lg:flex flex-col gap-3">
                 <Notifications />
                 <VStack gap={2}>
-                    <p className="font-semibold w-full flex items-center justify-center gap-1 text-center p-2 bg-[#242850] rounded-lg shadow-custom hover:bg-[#282E54] cursor-pointer">
+                    <p
+                        className={`${darkMode}  ${hoverColor} font-semibold w-full flex items-center justify-center gap-1 text-center p-2 rounded-lg shadow-custom cursor-pointer`}
+                    >
                         <BsFillGearFill />
                         Settings and Privacy
                     </p>
-                    <p className="font-semibold w-full flex items-center justify-center gap-1 text-center p-2 bg-[#242850] rounded-lg shadow-custom hover:bg-[#282E54] cursor-pointer">
+                    <p
+                        className={`${darkMode} ${hoverColor} font-semibold w-full flex items-center justify-center gap-1 text-center p-2 rounded-lg shadow-custom cursor-pointer`}
+                    >
                         <FaSignOutAlt />
                         Help
                     </p>

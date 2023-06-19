@@ -2,10 +2,18 @@ import { Avatar, Button, HStack, Text } from "@chakra-ui/react";
 import { FaShare } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsHandThumbsDown } from "react-icons/bs";
+import { useThemeStore } from "../store/themeStore";
 
 const Post = () => {
+    const { isDarked } = useThemeStore();
+    const darkMode = isDarked
+        ? "bg-[#242850] text-[#f5f5f5]"
+        : "bg-white text-black";
+
     return (
-        <div className="relative w-full h-[20rem] lg:h-[25rem] flex flex-col items-center p-6 bg-[#242850] rounded-xl shadow-md">
+        <div
+            className={`${darkMode} relative w-full h-[20rem] lg:h-[25rem] flex flex-col items-center p-6 bg-[#242850] rounded-xl shadow-md`}
+        >
             <div className="w-full flex items-center justify-between gap-4">
                 <HStack>
                     <Avatar size="sm" name="Gemmuel" />
@@ -18,9 +26,9 @@ const Post = () => {
                 </HStack>
                 <Button
                     size="xs"
-                    colorScheme="twitter"
                     variant="outline"
-                    _hover={{ bg: "#1A1F40" }}
+                    color={isDarked ? "white" : "black"}
+                    _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                 >
                     Follow
                 </Button>
@@ -35,8 +43,8 @@ const Post = () => {
                     <Button
                         size="sm"
                         variant="outline"
-                        color="white"
-                        _hover={{ bg: "#1A1F40" }}
+                        color={isDarked ? "white" : "black"}
+                        _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                     >
                         <AiOutlineHeart fontSize={20} />
                         <Text mx={1}>13</Text>
@@ -45,8 +53,8 @@ const Post = () => {
                     <Button
                         size="sm"
                         variant="outline"
-                        color="white"
-                        _hover={{ bg: "#1A1F40" }}
+                        color={isDarked ? "white" : "black"}
+                        _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                     >
                         <BsHandThumbsDown fontSize={18} />
                         <Text mx={1}>1</Text>
@@ -57,8 +65,8 @@ const Post = () => {
                     leftIcon={<FaShare />}
                     colorScheme="gray"
                     variant="outline"
-                    color="white"
-                    _hover={{ bg: "#1A1F40" }}
+                    color={isDarked ? "white" : "black"}
+                    _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                 >
                     Repost
                 </Button>

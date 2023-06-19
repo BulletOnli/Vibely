@@ -1,9 +1,9 @@
 "use client";
 
 import { Avatar, AvatarBadge, Button, HStack, VStack } from "@chakra-ui/react";
-import Post from "../components/Post";
+import Post from "@/app/components/Post";
 import { FaShare } from "react-icons/fa";
-import { useThemeStore } from "../store/themeStore";
+import { useThemeStore } from "@/app/store/themeStore";
 
 const ProfilePage = () => {
     const { isDarked } = useThemeStore();

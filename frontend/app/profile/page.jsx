@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FaShare, FaBirthdayCake } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+import { MdLocationOn } from "react-icons/md";
 import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
 import { useThemeStore } from "../store/themeStore";
 import Post from "../components/Post";
@@ -20,9 +21,9 @@ const ProfilePage = () => {
     const bg = isDarked ? "bg-[#242850]" : "bg-white";
 
     return (
-        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 p-8 ">
+        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 p-6">
             <div
-                className={`relative lg:sticky lg:top-[6.6rem] w-[18rem] lg:w-[25rem] lg:h-fit lg:flex flex-col items-center lg:gap-4`}
+                className={`relative lg:sticky lg:top-[6rem] w-[18rem] lg:w-[25rem] lg:h-fit lg:flex flex-col items-center lg:gap-4`}
             >
                 <div
                     className={`relative ${bg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
@@ -62,13 +63,13 @@ const ProfilePage = () => {
                 </div>
 
                 <div
-                    className={`${bg} w-full flex flex-col gap-2 p-6 rounded-lg shadow-md`}
+                    className={`${bg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
                 >
                     <p className="text-lg font-semibold">
                         Personal Information
                     </p>
                     <HStack>
-                        <BsPersonFill fontSize={18} />
+                        <MdLocationOn fontSize={18} />
                         <p>Nueva Ecija, Philippines</p>
                     </HStack>
                     <HStack>
@@ -82,7 +83,7 @@ const ProfilePage = () => {
                 </div>
 
                 <div
-                    className={`${bg} w-full flex flex-col gap-2 p-6 rounded-lg shadow-md`}
+                    className={`${bg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
                 >
                     <p className="text-lg font-semibold">
                         Other Social accounts

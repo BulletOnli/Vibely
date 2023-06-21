@@ -16,6 +16,7 @@ import {
     BsFillPersonFill,
     BsBookmarksFill,
 } from "react-icons/bs";
+import { MdHelp } from "react-icons/md";
 import { HiUserGroup } from "react-icons/hi";
 
 import CreatePostTab from "./components/CreatePostTab";
@@ -129,7 +130,7 @@ const NewsFeedPage = () => {
                     <p
                         className={`${darkMode} ${hoverColor} font-semibold w-full flex items-center justify-center gap-1 text-center p-2 rounded-lg shadow-custom cursor-pointer`}
                     >
-                        <FaSignOutAlt />
+                        <MdHelp />
                         Help
                     </p>
                     <Button

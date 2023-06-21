@@ -12,7 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { FaShare } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsHandThumbsDown, BsThreeDots } from "react-icons/bs";
+import {
+    BsHandThumbsDown,
+    BsThreeDots,
+    BsPersonFillAdd,
+    BsTrash,
+    BsBookmark,
+} from "react-icons/bs";
 import { useThemeStore } from "../store/themeStore";
 
 const Post = () => {
@@ -43,23 +49,29 @@ const Post = () => {
                     >
                         <BsThreeDots size={20} />
                     </MenuButton>
-                    <MenuList bg={isDarked ? "#242850" : "white"}>
+                    <MenuList
+                        bg={isDarked ? "#242850" : "white"}
+                        fontWeight="semibold"
+                    >
                         <MenuItem
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                         >
+                            <BsPersonFillAdd className="mr-2" />
                             Follow
                         </MenuItem>
                         <MenuItem
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                         >
+                            <BsBookmark className="mr-2" />
                             Save Post
                         </MenuItem>
                         <MenuItem
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                         >
+                            <BsTrash className="mr-2" />
                             Remove Post
                         </MenuItem>
                     </MenuList>

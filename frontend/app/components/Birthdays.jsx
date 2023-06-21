@@ -1,4 +1,4 @@
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, HStack, VStack } from "@chakra-ui/react";
 import { useThemeStore } from "../store/themeStore";
 
 const Birthdays = () => {
@@ -15,14 +15,18 @@ const Birthdays = () => {
                     isDarked ? "text-[#f5f5f5]" : "text-black"
                 } text-lg w-full text-start font-bold mb-2`}
             >
-                Upcoming Birthdays
+                Today's Birthday
             </h1>
 
-            <p
-                className={`${hoverColor} text-gray-600 w-full text-center font-semibold p-2 rounded-md cursor-pointer`}
-            >
-                Gemmuel Dela Pena
-            </p>
+            <VStack>
+                <p
+                    className={`${
+                        isDarked ? "text-gray-300" : "text-gray-800"
+                    } w-full text-center font-semibold rounded-md cursor-pointer`}
+                >
+                    Gemmuel Dela Pena
+                </p>
+            </VStack>
         </div>
     );
 };

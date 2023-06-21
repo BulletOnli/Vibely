@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const themeStore = (set, get) => ({
-    isDarked: true,
+    isDarked: false,
     toggleTheme: () => {
         set({ isDarked: !get().isDarked });
     },

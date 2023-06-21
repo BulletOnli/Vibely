@@ -1,26 +1,42 @@
 import { FaHome } from "react-icons/fa";
-import { BsPeopleFill, BsFillBellFill, BsPersonCircle } from "react-icons/bs";
+import {
+    BsPeopleFill,
+    BsFillBellFill,
+    BsPersonCircle,
+    BsFillChatFill,
+} from "react-icons/bs";
+import { MdVideoLibrary } from "react-icons/md";
 
 import Nav from "./Nav";
 import { useThemeStore } from "@/app/store/themeStore";
+import { useDisclosure } from "@chakra-ui/react";
+import NotificationDrawer from "../NotificationDrawer";
 
 const NavbarBottom = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { isDarked } = useThemeStore();
     const darkMode = isDarked
-        ? "bg-[#1A1F40] text-[#f5f5f5]"
-        : "bg-white text-black";
+        ? "bg-[#282E54] text-[#f5f5f5]"
+        : "bg-[#E9ECEF] text-black";
 
     return (
-        <div className="fixed bottom-5 z-20 w-full flex justify-center items-center">
-            <ul
-                className={`${darkMode} flex items-center justify-center px-4 py-2 gap-10 rounded-full shadow-custom2`}
-            >
-                <Nav path="/" icon={<FaHome />} />
-                <Nav path="#" icon={<BsPeopleFill />} />
-                <Nav path="#" icon={<BsFillBellFill />} />
-                <Nav path="/profile" icon={<BsPersonCircle />} />
-            </ul>
-        </div>
+        <>
+            <div className="fixed bottom-5 z-20 w-full flex justify-center items-center">
+                <div
+                    className={`${darkMode} flex items-center justify-center px-4 py-2 gap-4 lg:gap-10 rounded-full shadow-custom2`}
+                >
+                    <Nav path="/" icon={<FaHome />} />
+                    <Nav path="#" icon={<MdVideoLibrary />} />
+                    <Nav path="#" icon={<BsFillChatFill />} />
+                    <Nav path="/profile" icon={<BsPersonCircle />} />
+                    <div className="flex lg:hidden " onClick={onOpen}>
+                        <Nav path="#" icon={<BsFillBellFill />} />
+                    </div>
+                </div>
+            </div>
+
+            <NotificationDrawer isOpen={isOpen} onClose={onClose} />
+        </>
     );
 };
 

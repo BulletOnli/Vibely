@@ -10,17 +10,21 @@ const Notifications = () => {
         <div
             className={`${darkMode} w-full h-full flex flex-col items-center p-4 rounded-xl shadow-custom`}
         >
-            <p className="text-xl w-full text-start font-semibold mb-2">
+            <h1
+                className={`${
+                    isDarked ? "text-[#f5f5f5]" : "text-black"
+                } text-lg w-full text-start font-bold mb-2`}
+            >
                 Notifications
-            </p>
+            </h1>
 
             <div
                 className={`${hoverColor} w-full flex items-center gap-2 p-2 rounded-md cursor-pointer`}
             >
                 <Avatar size="sm" />
-                <h1 className="text-sm font-semibold ">
+                <p className="text-sm font-semibold ">
                     Gemmuel Dela Pena upload a new post.
-                </h1>
+                </p>
             </div>
             <div
                 className={`${hoverColor} w-full flex items-center gap-2 p-2 rounded-md cursor-pointer`}

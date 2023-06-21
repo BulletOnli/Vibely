@@ -1,7 +1,18 @@
-import { Avatar, Button, HStack, Text } from "@chakra-ui/react";
+import {
+    Avatar,
+    Button,
+    HStack,
+    Icon,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Text,
+} from "@chakra-ui/react";
 import { FaShare } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsHandThumbsDown } from "react-icons/bs";
+import { BsHandThumbsDown, BsThreeDots } from "react-icons/bs";
 import { useThemeStore } from "../store/themeStore";
 
 const Post = () => {
@@ -12,7 +23,7 @@ const Post = () => {
 
     return (
         <div
-            className={`${darkMode} relative w-full h-[20rem] lg:h-[25rem] flex flex-col items-center p-6 bg-[#242850] rounded-xl shadow-md`}
+            className={`${darkMode} relative w-full h-full flex flex-col items-center p-6 bg-[#242850] rounded-xl shadow-md`}
         >
             <div className="w-full flex items-center justify-between gap-4">
                 <HStack>
@@ -24,19 +35,43 @@ const Post = () => {
                         </small>
                     </div>
                 </HStack>
-                <Button
-                    size="xs"
-                    variant="outline"
-                    color={isDarked ? "white" : "black"}
-                    _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
-                >
-                    Follow
-                </Button>
+                <Menu isLazy>
+                    <MenuButton
+                        variant="outline"
+                        color={isDarked ? "white" : "black"}
+                        _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                    >
+                        <BsThreeDots size={20} />
+                    </MenuButton>
+                    <MenuList bg={isDarked ? "#242850" : "white"}>
+                        <MenuItem
+                            bg={isDarked ? "#242850" : "white"}
+                            _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                        >
+                            Follow
+                        </MenuItem>
+                        <MenuItem
+                            bg={isDarked ? "#242850" : "white"}
+                            _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                        >
+                            Save Post
+                        </MenuItem>
+                        <MenuItem
+                            bg={isDarked ? "#242850" : "white"}
+                            _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                        >
+                            Remove Post
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
             </div>
-            <div className="w-full h-full flex justify-center items-center text-center p-8">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste
-                suscipit officia corrupti quae praesentium quam quibusdam
-                doloremque facilis laborum qui!
+            <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-center p-6 lg:p-10">
+                <img src="/tzuyu.jpg" alt="" />
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Iste suscipit officia corrupti quae praesentium quam
+                    quibusdam doloremque facilis laborum qui!
+                </p>
             </div>
             <div className="w-full flex items-center justify-between">
                 <HStack>

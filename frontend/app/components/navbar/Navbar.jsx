@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsFillMoonStarsFill } from "react-icons/bs";
+import { BsFillMoonStarsFill, BsSunFill } from "react-icons/bs";
 
 import { useThemeStore } from "@/app/store/themeStore";
 
@@ -21,39 +21,36 @@ const Navbar = () => {
 
     return (
         <div
-            className={`${darkMode} sticky z-50 top-0 w-full flex items-center justify-between px-8 py-4 rounded-bl-3xl rounded-br-3xl shadow-custom`}
+            className={`${darkMode} sticky z-50 top-0 w-full flex items-center justify-between px-4 lg:px-8 py-3 rounded-bl-[2rem] rounded-br-[2rem] shadow-custom`}
         >
-            <div className="w-full flex items-center gap-2">
-                <Link href="/">
-                    <h1 className="text-2xl font-bold">Logo</h1>
-                </Link>
-            </div>
+            <Link href="/">
+                <h1 className="text-xl lg:text-2xl font-bold">Logo</h1>
+            </Link>
 
-            <HStack>
-                <FormControl as="form" w={{ sm: "xs" }}>
-                    <InputGroup>
-                        <InputLeftElement
-                            children={
-                                <AiOutlineSearch
-                                    fontSize={20}
-                                    color="#9CA3AF"
-                                />
-                            }
-                        />
-                        <Input
-                            placeholder="Search"
-                            rounded="full"
-                            autoComplete="off"
-                        />
-                    </InputGroup>
-                </FormControl>
-                <Icon
-                    as={BsFillMoonStarsFill}
-                    boxSize={5}
-                    mx={3}
-                    onClick={toggleTheme}
-                />
-            </HStack>
+            <FormControl as="form" w={{ sm: "xs", lg: "md" }}>
+                <InputGroup>
+                    <InputLeftElement
+                        children={
+                            <AiOutlineSearch fontSize={20} color="#9CA3AF" />
+                        }
+                    />
+                    <Input
+                        placeholder="Search for creators"
+                        rounded="full"
+                        autoComplete="off"
+                        variant="outline"
+                        textAlign="center"
+                    />
+                </InputGroup>
+            </FormControl>
+
+            <Icon
+                as={isDarked ? BsSunFill : BsFillMoonStarsFill}
+                boxSize={5}
+                mx={3}
+                onClick={toggleTheme}
+                cursor="pointer"
+            />
         </div>
     );
 };

@@ -1,19 +1,9 @@
-import {
-    Avatar,
-    FormControl,
-    Textarea,
-    Button,
-    HStack,
-    Input,
-} from "@chakra-ui/react";
-import { useThemeStore } from "../store/themeStore";
+import { FormControl, Textarea, Button, HStack } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { CgCloseO } from "react-icons/cg";
 
-const CreatePostTab = () => {
-    const { isDarked } = useThemeStore();
-    const darkMode = isDarked ? "bg-[#242850]" : "bg-white";
+const CreatePostTab = ({ isDarked, componentsBg }) => {
     const inputImgRef = useRef(null);
     const [previewImage, setPreviewImage] = useState("");
 
@@ -32,7 +22,7 @@ const CreatePostTab = () => {
 
     return (
         <div
-            className={`${darkMode} relative w-full flex flex-col items-center p-4 rounded-xl shadow-md`}
+            className={`${componentsBg} relative w-full flex flex-col items-center p-4 rounded-xl shadow-md`}
         >
             <h1 className="font-bold text-xl mb-4">Make a Post</h1>
             <FormControl>

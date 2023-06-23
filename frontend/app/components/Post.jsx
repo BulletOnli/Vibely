@@ -19,17 +19,11 @@ import {
     BsTrash,
     BsBookmark,
 } from "react-icons/bs";
-import { useThemeStore } from "../store/themeStore";
 
-const Post = () => {
-    const { isDarked } = useThemeStore();
-    const darkMode = isDarked
-        ? "bg-[#242850] text-[#f5f5f5]"
-        : "bg-white text-black";
-
+const Post = ({ componentsBg, isDarked }) => {
     return (
         <div
-            className={`${darkMode} relative w-full h-full flex flex-col items-center p-6 bg-[#242850] rounded-xl shadow-md`}
+            className={`${componentsBg} relative w-full h-full flex flex-col items-center p-6 bg-[#242850] rounded-xl shadow-md`}
         >
             <div className="w-full flex items-center justify-between gap-4">
                 <HStack>
@@ -77,7 +71,7 @@ const Post = () => {
                     </MenuList>
                 </Menu>
             </div>
-            <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-center p-6 lg:p-10">
+            <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-center p-4 lg:p-6">
                 <img src="/tzuyu.jpg" alt="" />
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.

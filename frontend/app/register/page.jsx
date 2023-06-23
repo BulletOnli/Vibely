@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import {
     Button,
     FormControl,
@@ -8,7 +6,6 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
-    InputRightElement,
     VStack,
 } from "@chakra-ui/react";
 

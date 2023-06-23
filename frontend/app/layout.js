@@ -1,12 +1,10 @@
 "use client";
-
 import "./globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/navbar/Navbar";
 import NavbarBottom from "./components/navbar/NavbarBottom";
-import { useThemeStore } from "./store/themeStore";
 import { usePathname } from "next/navigation";
-import Head from "next/head";
+import { useThemeStore } from "./store/themeStore";
 
 // hindi nagana metadata pag may use client
 export const metadata = {
@@ -19,7 +17,7 @@ export default function RootLayout({ children }) {
     const hideComponents = pathname === "/login" || pathname === "/register";
 
     const { isDarked } = useThemeStore();
-    const darkMode = isDarked
+    const mainBg = isDarked
         ? "bg-[#1A1F40] text-[#f5f5f5]"
         : "bg-[#e9ecef] text-black";
 
@@ -36,9 +34,7 @@ export default function RootLayout({ children }) {
             </head>
             <body>
                 <ChakraProvider>
-                    <div
-                        className={`${darkMode} relative w-full flex flex-col `}
-                    >
+                    <div className={`${mainBg} relative w-full flex flex-col `}>
                         {!hideComponents && <Navbar />}
                         {children}
                         {!hideComponents && <NavbarBottom />}

@@ -1,14 +1,9 @@
 import { Avatar, HStack, VStack } from "@chakra-ui/react";
-import { useThemeStore } from "../store/themeStore";
 
-const Birthdays = () => {
-    const { isDarked } = useThemeStore();
-    const darkMode = isDarked ? "bg-[#242850] text-[#adb5bd]" : "bg-white";
-    const hoverColor = isDarked ? "hover:bg-[#282E54]" : "hover:bg-gray-100";
-
+const Birthdays = ({ isDarked, componentsBg }) => {
     return (
         <div
-            className={`${darkMode} w-full flex flex-col items-center p-4 rounded-xl shadow-custom`}
+            className={`${componentsBg} w-full flex flex-col items-center p-4 rounded-xl shadow-custom`}
         >
             <h1
                 className={`${

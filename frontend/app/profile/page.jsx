@@ -1,13 +1,6 @@
 "use client";
 
-import {
-    Avatar,
-    AvatarBadge,
-    Button,
-    HStack,
-    Text,
-    VStack,
-} from "@chakra-ui/react";
+import { Avatar, Button, HStack } from "@chakra-ui/react";
 import { FaShare, FaBirthdayCake } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { MdLocationOn } from "react-icons/md";
@@ -18,7 +11,7 @@ import Link from "next/link";
 
 const ProfilePage = () => {
     const { isDarked } = useThemeStore();
-    const bg = isDarked ? "bg-[#242850]" : "bg-white";
+    const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
 
     return (
         <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 p-6">
@@ -26,7 +19,7 @@ const ProfilePage = () => {
                 className={`relative lg:sticky lg:top-[6rem] w-[18rem] lg:w-[25rem] lg:h-fit lg:flex flex-col items-center lg:gap-4`}
             >
                 <div
-                    className={`relative ${bg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
+                    className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
                 >
                     <FiEdit className="absolute top-4 right-4 cursor-pointer" />
                     <Avatar size="2xl" src="/tzuyu.jpg" />
@@ -63,7 +56,7 @@ const ProfilePage = () => {
                 </div>
 
                 <div
-                    className={`${bg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
+                    className={`${componentsBg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
                 >
                     <p className="text-lg font-semibold">
                         Personal Information
@@ -83,7 +76,7 @@ const ProfilePage = () => {
                 </div>
 
                 <div
-                    className={`${bg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
+                    className={`${componentsBg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
                 >
                     <p className="text-lg font-semibold">
                         Other Social accounts
@@ -118,11 +111,11 @@ const ProfilePage = () => {
             <div className="w-[18rem] lg:w-[40rem] h-full flex flex-col items-center">
                 <h1 className="w-full text-2xl font-bold mb-4">Timeline</h1>
                 <div className="w-full flex flex-col items-center gap-4">
-                    <Post />
-                    <Post />
-                    <Post />
-                    <Post />
-                    <Post />
+                    <Post isDarked={isDarked} componentsBg={componentsBg} />
+                    <Post isDarked={isDarked} componentsBg={componentsBg} />
+                    <Post isDarked={isDarked} componentsBg={componentsBg} />
+                    <Post isDarked={isDarked} componentsBg={componentsBg} />
+                    <Post isDarked={isDarked} componentsBg={componentsBg} />
                 </div>
             </div>
         </div>

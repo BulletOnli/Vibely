@@ -25,9 +25,9 @@ const NewsFeedPage = () => {
     const hoverColor = isDarked ? "hover:bg-[#282E54]" : "hover:bg-gray-100";
 
     return (
-        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between gap-8 p-6">
+        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-center gap-8 p-6">
             {/* Left Side */}
-            <div className="sticky top-[6rem] z-50 w-[22rem] h-[85vh] hidden lg:flex flex-col gap-3">
+            {/* <div className="sticky top-[6rem] z-50 w-[22rem] h-[85vh] hidden lg:flex flex-col gap-3">
                 <Link href="/profile">
                     <div
                         className={`${componentsBg} w-full flex items-center justify-between p-4 rounded-xl shadow-custom`}
@@ -93,7 +93,7 @@ const NewsFeedPage = () => {
                         <Text fontWeight="semibold">Marketplace</Text>
                     </HStack>
                 </div>
-            </div>
+            </div> */}
 
             {/* Middle  */}
             <div className="w-[18rem] lg:w-[40rem] flex flex-col items-center ">

@@ -10,7 +10,7 @@ const Birthdays = ({ isDarked, componentsBg }) => {
                     isDarked ? "text-[#f5f5f5]" : "text-black"
                 } text-lg w-full text-start font-bold mb-2`}
             >
-                Today's Birthday
+                Birthday Celebrant's
             </h1>
 
             <VStack>

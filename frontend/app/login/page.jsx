@@ -1,23 +1,6 @@
 "use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import {
-    Button,
-    Checkbox,
-    Flex,
-    FormControl,
-    HStack,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    InputRightElement,
-    Spacer,
-    Text,
-    VStack,
-} from "@chakra-ui/react";
-
-import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
+import LoginForm from "../components/LoginForm";
 
 const RegisterPage = () => {
     return (
@@ -37,32 +20,7 @@ const RegisterPage = () => {
                         Please log in to access your account and connect with
                         our vibrant community.
                     </p>
-                    <FormControl as="form" mt={6}>
-                        <InputGroup mt={2}>
-                            <InputLeftElement pointerEvents="none">
-                                <BsFillPersonFill className="text-gray-500 text-lg" />
-                            </InputLeftElement>
-                            <Input placeholder="Username" autoComplete="off" />
-                        </InputGroup>
-
-                        <InputGroup mt={4}>
-                            <InputLeftElement pointerEvents="none">
-                                <BsShieldLockFill className="text-gray-500 text-lg" />
-                            </InputLeftElement>
-                            <Input type="password" placeholder="Password" />
-                        </InputGroup>
-
-                        <HStack w="full" my={4}>
-                            <Checkbox size="sm">Remember me</Checkbox>
-                            <Spacer />
-                            {/* <p className="text-[13px] text-blue-800">
-                                Forgot Password?
-                            </p> */}
-                        </HStack>
-                        <Button colorScheme="telegram" w="full">
-                            Log in
-                        </Button>
-                    </FormControl>
+                    <LoginForm />
                     <p className="w-full flex justify-center gap-1 mt-4 text-sm">
                         Don't have an account?
                         <Link href="/register" className="text-blue-800">

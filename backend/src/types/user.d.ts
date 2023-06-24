@@ -13,3 +13,12 @@ interface UserLoginDetails {
 	password: string;
 }
 */
+
+interface User {
+	username: string;
+	password: string;
+	firstName: string;
+	lastName: string;
+	birthday?: string;
+	gender: 'male' | 'female';
+}

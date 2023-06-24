@@ -1,39 +1,46 @@
-import { BadGatewayException, BadRequestException, Injectable } from "@nestjs/common";
-import * as fs from 'fs';
-import { join, relative } from 'path';
-import { UserRegistrationDetails } from "./dto";
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+import { Deta, Base } from 'deta';
+import { ObjectType } from 'deta/dist/types/types/basic';
+import { UserRegistrationDetails } from './dto';
+import * as argon2 from 'argon2';
 
-type User = {
-	id: number,
-	username: string;
-	password: string;
-}
-
-// temporary fs based db
 @Injectable()
 export class UserService {
-	fakeDB: User[];
-	jsonPath!: string;
-	constructor(){
-		this.jsonPath = join(__dirname, relative(__dirname, "src/users/data.json"));
-		this.fakeDB = JSON.parse(
-			fs.readFileSync(
-				this.jsonPath, 
-				"utf8"
-			)
-		);
+	deta: ReturnType<typeof Deta>;
+	userBase: ReturnType<typeof Base>;
+
+	constructor() {
+		this.deta = Deta();
+		this.userBase = this.deta.Base('users');
 	}
 
-	findOne(username: string): User {
-		return this.fakeDB.find(x => x.username === username);
+	private async getUsers(): Promise<ObjectType[]> {
+		return (await this.userBase.fetch()).items;
 	}
 
-	registerUser({ username, password }: Partial<UserRegistrationDetails>): void {
-		const lastId = this.fakeDB.at(this.fakeDB.length - 1).id;
-		if (this.fakeDB.find(x => x.username === username)) {
-			throw new BadRequestException("Username exists");
+	async findOne(username: string): Promise<ObjectType> {
+		const users = await this.getUsers();
+		return users.find(x => x.username === username);
+	}
+
+	async registerUser(user: UserRegistrationDetails): Promise<void> {
+		const users = await this.getUsers();
+		if (users.find(x => x.username === user.username)) {
+			throw new BadRequestException('Username exists');
 		}
-		this.fakeDB.push({ id: lastId + 1, username, password })
-		fs.writeFileSync(this.jsonPath, JSON.stringify(this.fakeDB, null, 2), "utf8");
+
+		const { firstName, lastName, username, password, birthday, gender } = user;
+		await this.userBase.put(
+			{
+				firstName,
+				lastName,
+				username,
+				password: await argon2.hash(password),
+				birthday,
+				gender
+			},
+			randomUUID()
+		);
 	}
 }

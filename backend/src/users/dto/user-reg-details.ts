@@ -1,4 +1,4 @@
-import { IsIn, IsNotEmpty } from 'class-validator';
+import { IsIn, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UserRegistrationDetails {
 	@IsNotEmpty()
@@ -15,9 +15,9 @@ export class UserRegistrationDetails {
 
 	confirmPassword: string;
 
-	@IsNotEmpty()
+	@IsOptional()
 	birthday?: string;
 
-	@IsIn(["male", "female"])
-	gender: "male" | "female";
+	@IsIn(['male', 'female'])
+	gender: 'male' | 'female';
 }

@@ -6,8 +6,7 @@ export class AppController {
 	constructor(private readonly appService: AppService) {}
 
 	@Get()
-	getHello(): string {
-		console.log(process.env.DETA_PROJECT_KEY);
+	getHello() {
 		return this.appService.getHello();
 	}
 }

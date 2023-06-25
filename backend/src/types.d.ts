@@ -14,6 +14,8 @@ interface UserLoginDetails {
 }
 */
 
+type Id = number | "me";
+
 interface User {
 	username: string;
 	password: string;
@@ -22,3 +24,11 @@ interface User {
 	birthday?: string;
 	gender: 'male' | 'female';
 }
+
+interface Like {
+	key: string;
+	isLiked: boolean;
+	isDisliked: boolean;
+	postId: number;
+	userId: string;
+} 

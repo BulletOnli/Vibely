@@ -1,17 +1,19 @@
 "use client";
-
 import { Avatar, Button, HStack } from "@chakra-ui/react";
 import { FaShare, FaBirthdayCake } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { MdLocationOn } from "react-icons/md";
 import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
-import { useThemeStore } from "../store/themeStore";
-import Post from "../components/Post";
+
+import { useThemeStore } from "@/app/store/themeStore";
+import Post from "@/app/components/Post";
 import Link from "next/link";
 
-const ProfilePage = () => {
+const ProfilePage = ({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
+
+    const isOtherProfile = params.username !== "gemmuel"; //my username
 
     return (
         <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6 p-6">
@@ -24,9 +26,9 @@ const ProfilePage = () => {
                     <FiEdit className="absolute top-4 right-4 cursor-pointer" />
                     <Avatar size="2xl" src="/tzuyu.jpg" />
                     <small className="tracking-wider text-gray-400 my-1">
-                        @gemmuel
+                        @{params.username}
                     </small>
-                    <h1 className="text-xl font-bold">Gemmuel Dela Pena</h1>
+                    <h1 className="text-xl font-bold">{params.username}</h1>
                     <HStack gap={7} mt={2}>
                         <div className="flex flex-col items-center">
                             <p className="text-lg font-bold">56</p>
@@ -43,12 +45,15 @@ const ProfilePage = () => {
                     </HStack>
 
                     <HStack mt={5}>
-                        {/* <Button size="sm" colorScheme="facebook">
-                            Edit Profile
-                        </Button> */}
-                        <Button w="36" size="sm" colorScheme="facebook">
-                            Follow
-                        </Button>
+                        {isOtherProfile ? (
+                            <Button w="36" size="sm" colorScheme="facebook">
+                                Follow
+                            </Button>
+                        ) : (
+                            <Button w="36" size="sm" colorScheme="facebook">
+                                Edit Profile
+                            </Button>
+                        )}
                         <Button size="sm" colorScheme="facebook">
                             <FaShare fontSize="16px" />
                         </Button>
@@ -85,7 +90,7 @@ const ProfilePage = () => {
                         <BsFacebook fontSize={18} />
                         <Link href="#">
                             <p className="text-blue-600 hover:underline">
-                                Gemmuel Dela Pena
+                                {params.username}
                             </p>
                         </Link>
                     </HStack>
@@ -93,7 +98,7 @@ const ProfilePage = () => {
                         <BsInstagram fontSize={18} />
                         <Link href="#">
                             <p className="text-blue-600 hover:underline">
-                                gem.muel
+                                {params.username}
                             </p>
                         </Link>
                     </HStack>
@@ -101,7 +106,7 @@ const ProfilePage = () => {
                         <BsGlobe fontSize={18} />
                         <Link href="#">
                             <p className="text-blue-600 hover:underline">
-                                gemmuel.com
+                                {params.username}
                             </p>
                         </Link>
                     </HStack>

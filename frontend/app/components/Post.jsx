@@ -2,8 +2,6 @@ import {
     Avatar,
     Button,
     HStack,
-    Icon,
-    IconButton,
     Menu,
     MenuButton,
     MenuItem,

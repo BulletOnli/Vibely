@@ -33,7 +33,7 @@ const Navbar = () => {
 
     return (
         <div
-            className={`${darkMode} sticky z-50 top-0 w-full flex items-center justify-between px-4 lg:px-8 py-2 shadow-md`}
+            className={`${darkMode} sticky z-50 top-0 w-full flex items-center justify-between px-4 lg:px-8 py-2 rounded-bl-[2rem] rounded-br-[2rem] shadow-md`}
         >
             <Link href="/">
                 <h1 className="text-xl lg:text-2xl font-bold mr-4">Logo</h1>

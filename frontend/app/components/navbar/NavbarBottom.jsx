@@ -28,7 +28,8 @@ const NavbarBottom = () => {
                     <Nav path="/" icon={<FaHome />} />
                     <Nav path="#" icon={<MdVideoLibrary />} />
                     <Nav path="#" icon={<BsFillChatFill />} />
-                    <Nav path="/profile" icon={<BsPersonCircle />} />
+                    {/* change the path to the username of the account owner/user */}
+                    <Nav path="/profile/gemmuel" icon={<BsPersonCircle />} />
                     <div className="flex lg:hidden " onClick={onOpen}>
                         <Nav path="#" icon={<BsFillBellFill />} />
                     </div>

@@ -5,6 +5,8 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
+    DrawerBody,
+    DrawerHeader,
 } from "@chakra-ui/react";
 import Birthdays from "./Birthdays";
 import Notifications from "./Notifcations";
@@ -28,38 +30,21 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
                 color={isDarked ? "#f5f5f5" : "black"}
                 p={4}
             >
-                <DrawerCloseButton />
-                <div className="z-50 sticky top-[6rem] w-[15rem] h-[85vh] flex flex-col gap-3">
-                    <Birthdays
-                        isDarked={isDarked}
-                        componentsBg={componentsBg}
-                    />
-                    <Notifications
-                        isDarked={isDarked}
-                        componentsBg={componentsBg}
-                    />
-                    <VStack gap={2}>
-                        <p
-                            className={`${componentsBg}  ${hoverColor} font-semibold w-full flex items-center justify-center gap-1 text-center p-2 rounded-lg shadow-custom cursor-pointer`}
-                        >
-                            <BsFillGearFill />
-                            Settings and Privacy
-                        </p>
-                        <p
-                            className={`${componentsBg} ${hoverColor} font-semibold w-full flex items-center justify-center gap-1 text-center p-2 rounded-lg shadow-custom cursor-pointer`}
-                        >
-                            <MdHelp />
-                            Help
-                        </p>
-                        <Button
-                            rightIcon={<FaSignOutAlt />}
-                            colorScheme="red"
-                            w="full"
-                        >
-                            Log out
-                        </Button>
+                <DrawerHeader>
+                    <DrawerCloseButton />
+                </DrawerHeader>
+                <DrawerBody>
+                    <VStack>
+                        <Birthdays
+                            isDarked={isDarked}
+                            componentsBg={componentsBg}
+                        />
+                        <Notifications
+                            isDarked={isDarked}
+                            componentsBg={componentsBg}
+                        />
                     </VStack>
-                </div>
+                </DrawerBody>
             </DrawerContent>
         </Drawer>
     );

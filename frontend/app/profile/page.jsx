@@ -14,9 +14,9 @@ const ProfilePage = () => {
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
 
     return (
-        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 p-6">
+        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6 p-6">
             <div
-                className={`relative lg:sticky lg:top-[6rem] w-[18rem] lg:w-[25rem] lg:h-fit lg:flex flex-col items-center lg:gap-4`}
+                className={`relative lg:sticky lg:top-[5rem] w-[18rem] lg:w-[25rem] lg:h-fit lg:flex flex-col items-center lg:gap-4`}
             >
                 <div
                     className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}

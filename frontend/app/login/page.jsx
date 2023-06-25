@@ -1,8 +1,11 @@
-"use client";
 import Link from "next/link";
 import LoginForm from "../components/LoginForm";
 
-const RegisterPage = () => {
+export const metadata = {
+    title: "Login",
+};
+
+const LoginPage = () => {
     return (
         <div className="w-full h-screen flex justify-center items-center">
             <div className="w-[60rem] h-[40rem] flex bg-white rounded-xl shadow-lg overflow-hidden">
@@ -33,4 +36,4 @@ const RegisterPage = () => {
     );
 };
 
-export default RegisterPage;
+export default LoginPage;

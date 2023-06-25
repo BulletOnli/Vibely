@@ -45,27 +45,31 @@ const Post = ({ componentsBg, isDarked }) => {
                     </MenuButton>
                     <MenuList
                         bg={isDarked ? "#242850" : "white"}
-                        fontWeight="semibold"
+                        // fontWeight="semibold"
+                        zIndex={20}
                     >
                         <MenuItem
+                            icon={<BsPersonFillAdd size={18} />}
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                            fontSize={14}
                         >
-                            <BsPersonFillAdd className="mr-2" />
                             Follow
                         </MenuItem>
                         <MenuItem
+                            icon={<BsBookmark size={18} />}
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                            fontSize={14}
                         >
-                            <BsBookmark className="mr-2" />
                             Save Post
                         </MenuItem>
                         <MenuItem
+                            icon={<BsTrash size={18} />}
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                            fontSize={14}
                         >
-                            <BsTrash className="mr-2" />
                             Remove Post
                         </MenuItem>
                     </MenuList>

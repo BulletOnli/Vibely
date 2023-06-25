@@ -15,15 +15,15 @@ import NotificationDrawer from "../NotificationDrawer";
 const NavbarBottom = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isDarked } = useThemeStore();
-    const darkMode = isDarked
+    const bg = isDarked
         ? "bg-[#282E54] text-[#f5f5f5]"
         : "bg-[#E9ECEF] text-black";
 
     return (
         <>
-            <div className="fixed bottom-5 z-20 w-full flex justify-center items-center">
+            <div className="fixed bottom-3 z-20 w-full flex justify-center items-center">
                 <div
-                    className={`${darkMode} flex items-center justify-center px-4 py-2 gap-4 lg:gap-10 rounded-full shadow-custom2`}
+                    className={`${bg} flex items-center justify-center px-4 py-2 gap-4 lg:gap-10 rounded-full shadow-custom2`}
                 >
                     <Nav path="/" icon={<FaHome />} />
                     <Nav path="#" icon={<MdVideoLibrary />} />

@@ -2,7 +2,7 @@ import Link from "next/link";
 import RegisterForm from "../components/RegisterForm";
 
 export const metadata = {
-    title: "Social App | Register",
+    title: "Register",
 };
 
 const RegisterPage = () => {

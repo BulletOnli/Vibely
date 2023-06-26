@@ -90,7 +90,7 @@ const Post = ({ componentsBg, isDarked }) => {
                         _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                     >
                         <AiOutlineHeart fontSize={20} />
-                        <Text mx={1}>13</Text>
+                        {/* <Text mx={1}>13</Text> */}
                     </Button>
 
                     <Button
@@ -100,7 +100,7 @@ const Post = ({ componentsBg, isDarked }) => {
                         _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                     >
                         <BsHandThumbsDown fontSize={18} />
-                        <Text mx={1}>1</Text>
+                        {/* <Text mx={1}>1</Text> */}
                     </Button>
                 </HStack>
                 <Button

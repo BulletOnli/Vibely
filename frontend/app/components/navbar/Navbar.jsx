@@ -18,6 +18,7 @@ import {
     BsFillMoonStarsFill,
     BsSunFill,
     BsFillPersonFill,
+    BsFillBellFill,
 } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
 import { FiHelpCircle } from "react-icons/fi";
@@ -58,6 +59,7 @@ const Navbar = () => {
             </FormControl>
 
             <HStack>
+                <Icon as={BsFillBellFill} boxSize={5} mx={3} cursor="pointer" />
                 <Icon
                     as={isDarked ? BsSunFill : BsFillMoonStarsFill}
                     boxSize={5}

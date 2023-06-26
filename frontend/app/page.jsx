@@ -8,6 +8,7 @@ import Post from "./components/Post";
 import Notifications from "./components/Notifcations";
 import Birthdays from "./components/Birthdays";
 import { useThemeStore } from "./store/themeStore";
+import Leaderboards from "./components/Leaderboards";
 
 const NewsFeedPage = () => {
     const { isDarked, toggleTheme } = useThemeStore();
@@ -25,7 +26,7 @@ const NewsFeedPage = () => {
                     <div
                         className={`${componentsBg} w-full flex items-center justify-between p-4 rounded-xl shadow-custom`}
                     >
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3">
                             <Avatar size="md" name="Gemmuel" src="/tzuyu.jpg" />
                             <div className="flex flex-col gap-0">
                                 <h1 className="font-bold text-lg">
@@ -97,7 +98,7 @@ const NewsFeedPage = () => {
                     isDarked={isDarked}
                     componentsBg={componentsBg}
                 />
-                <div className="w-full flex flex-col gap-6 mt-6">
+                <div className="w-full flex flex-col gap-4 mt-6">
                     <Post isDarked={isDarked} componentsBg={componentsBg} />
                     <Post isDarked={isDarked} componentsBg={componentsBg} />
                     <Post isDarked={isDarked} componentsBg={componentsBg} />
@@ -109,7 +110,8 @@ const NewsFeedPage = () => {
 
             {/* Right Side */}
             <div className="z-10 sticky top-[5rem] w-[20rem] h-[85vh] hidden lg:flex flex-col gap-3">
-                <Birthdays isDarked={isDarked} componentsBg={componentsBg} />
+                {/* <Birthdays isDarked={isDarked} componentsBg={componentsBg} /> */}
+                <Leaderboards isDarked={isDarked} componentsBg={componentsBg} />
                 <Notifications
                     isDarked={isDarked}
                     componentsBg={componentsBg}

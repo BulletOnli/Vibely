@@ -28,7 +28,7 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
             <FormControl>
                 <Textarea
                     placeholder="Share your thoughts..."
-                    mb={3}
+                    mb={2}
                     resize="none"
                 />
                 {previewImage && (

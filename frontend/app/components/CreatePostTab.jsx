@@ -24,11 +24,11 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
         <div
             className={`${componentsBg} relative w-full flex flex-col items-center p-4 rounded-xl shadow-md`}
         >
-            <h1 className="font-bold text-xl mb-4">Make a Post</h1>
+            <h1 className="font-bold text-xl mb-2">Make a Post</h1>
             <FormControl>
                 <Textarea
                     placeholder="Share your thoughts..."
-                    mb={3}
+                    mb={2}
                     resize="none"
                 />
                 {previewImage && (

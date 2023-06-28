@@ -11,9 +11,11 @@ export class PostService extends DetaClass {
 			return false;
 		}
 	}
+	
 	async findOne(id: number): Promise<Post | undefined> {
 		return (await this.postsBase.get(id.toString())) as Post;
 	}
+
 	limit(array: Post[], limit: number, offset: number) {
 		for (const _x of Array(offset)) {
 			array.shift();
@@ -22,6 +24,7 @@ export class PostService extends DetaClass {
 		array.splice(limit, array.length);
 		return array;
 	}
+
 	async autoIncKey() {
 		const fth = await this.postsBase.fetch();
 		const items = fth.items;

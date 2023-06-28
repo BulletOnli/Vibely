@@ -15,21 +15,6 @@ export class PostLikesService extends DetaClass {
 		super();
 	}
 
-	private updatePostLikes(post: Post, incOrDec: 'inc' | 'dec') {
-		return this.postsBase.update(
-			{
-				likes: post.likes + (incOrDec === 'inc' ? 1 : -1)
-			},
-			post.key
-		);
-	}
-
-	private getLikesAndPost(postId: number, req: Request) {
-		const getLike = this.getLike(postId, req);
-		const findOneProm = this.post.findOne(postId);
-		return Promise.all([getLike, findOneProm]);
-	}
-
 	async applyLikeDislike(postId: number, req: Request, isLike: boolean) {
 		const [[like, likes], post] = await this.getLikesAndPost(postId, req);
 
@@ -41,10 +26,10 @@ export class PostLikesService extends DetaClass {
 				postId,
 				userId: req['user'].sub
 			});
-			const prom2 = this.updatePostLikes(post, 'inc');
+			const prom2 = this.updatePostLikes(post, 'inc', isLike);
 
-			// https://medium.com/@dinesh_kumar/how-i-ran-two-tasks-in-parallel-using-node-js-5cf8307bddac
 			Promise.all([prom, prom2]);
+
 		} else if (isLike ? like.isLiked : !like.isLiked) {
 			throw new BadRequestException(
 				`Already ${isLike ? 'like' : 'dislike'}d this post.`
@@ -56,7 +41,7 @@ export class PostLikesService extends DetaClass {
 				},
 				like.key
 			);
-			const prom2 = this.updatePostLikes(post, 'inc');
+			const prom2 = this.updatePostLikes(post, 'inc', isLike);
 			Promise.all([prom1, prom2]);
 		}
 	}
@@ -74,7 +59,7 @@ export class PostLikesService extends DetaClass {
 					},
 					like.key
 				);
-				const prom2 = this.updatePostLikes(post, 'dec');
+				const prom2 = this.updatePostLikes(post, 'dec', isLike, true);
 				Promise.all([prom, prom2]);
 			} else {
 				throw new BadRequestException(
@@ -82,6 +67,41 @@ export class PostLikesService extends DetaClass {
 				);
 			}
 		}
+	}
+
+	private updatePostLikes(post: Post, incOrDec: 'inc' | 'dec', isLike: boolean, removeLike = false) {
+		let likes = post.likes;
+		let dislikes = post.dislikes;
+		const a = (dislikes === 0 ? 0 : 1);
+		const b = (likes === 0 ? 0 : 1)
+		if (!removeLike) {
+			if (isLike) {
+				likes += 1;
+				dislikes -= a;
+			} else {
+				dislikes += 1;
+				likes -= b;
+			}
+		} else {
+			if (isLike) {
+				likes -= b;
+			} else {
+				dislikes -= a;
+			}
+		}
+		return this.postsBase.update(
+			{
+				likes,
+				dislikes
+			},
+			post.key
+		);
+	}
+
+	private getLikesAndPost(postId: number, req: Request) {
+		const getLike = this.getLike(postId, req);
+		const findOneProm = this.post.findOne(postId);
+		return Promise.all([getLike, findOneProm]);
 	}
 
 	private async getLike(

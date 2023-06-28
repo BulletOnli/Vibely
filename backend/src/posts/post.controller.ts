@@ -26,6 +26,15 @@ export class PostController extends DetaClass {
 		super();
 	}
 
+	@Get()
+	async getPost(@Query('id') id: number) {
+		const post = await this.postsBase.get(id.toString());
+		if (!post) {
+			throw new NotFoundException('Post not found');
+		}
+		return post;
+	}
+
 	@Post('create')
 	async createPost(
 		@Body() postDetails: PostCreationDetails,
@@ -41,15 +50,6 @@ export class PostController extends DetaClass {
 			},
 			await this.post.autoIncKey()
 		);
-	}
-
-	@Get()
-	async getPost(@Query('id') id: number) {
-		const post = await this.postsBase.get(id.toString());
-		if (!post) {
-			throw new NotFoundException('Post not found');
-		}
-		return post;
 	}
 
 	@Put('update')

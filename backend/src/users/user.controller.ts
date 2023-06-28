@@ -12,17 +12,14 @@ import { JwtService } from '@nestjs/jwt';
 
 @Controller('user')
 export class UserController {
-	constructor(
-		private user: UserService,
-		private jwtService: JwtService
-	) {}
+	constructor(private user: UserService, private jwtService: JwtService) {}
 
 	@Post('login')
 	async loginUser(@Body() { password, username }: UserLoginDetails) {
 		const user = await this.user.findOne(username);
 		if (!user) {
 			throw new NotFoundException();
-		} else if (!(await argon2.verify((user.password as string), password))) {
+		} else if (!(await argon2.verify(user.password as string, password))) {
 			throw new BadRequestException('wrong password');
 		}
 		return {

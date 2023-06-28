@@ -15,7 +15,7 @@ export class UserService extends DetaClass {
 		const users = await this.getUsers();
 		return users.find(x => x.username === username);
 	}
-	
+
 	async findOneById(id: Id) {
 		const users = await this.getUsers();
 		return users.find(x => x.key === id);
@@ -26,7 +26,7 @@ export class UserService extends DetaClass {
 		if (users.find(x => x.username === user.username)) {
 			throw new BadRequestException('Username exists');
 		} else if (user.password !== user.confirmPassword) {
-			throw new BadRequestException('Passwords doesn\'t match.');
+			throw new BadRequestException("Passwords doesn't match.");
 		}
 
 		const { firstName, lastName, username, password, birthday, gender } = user;
@@ -44,6 +44,6 @@ export class UserService extends DetaClass {
 	}
 
 	async deleteOne() {
-		throw "Not implemented";
+		throw 'Not implemented';
 	}
 }

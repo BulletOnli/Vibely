@@ -6,16 +6,7 @@ import { UserService } from 'src/users/user.service';
 import { PostLikesService } from './post-likes.service';
 
 @Module({
-	controllers: [
-		PostController,
-		PostLikesController
-	],
-	providers: [
-		UserService, 
-		PostService,
-		PostLikesService
-	]
+	controllers: [PostController, PostLikesController],
+	providers: [UserService, PostService, PostLikesService]
 })
-export class PostModule {
-
-}
+export class PostModule {}

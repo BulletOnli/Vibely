@@ -1,4 +1,4 @@
-type Id = number | "me";
+type Id = number | 'me';
 
 interface User {
 	username: string;
@@ -7,11 +7,11 @@ interface User {
 	lastName: string;
 	birthday?: string;
 	gender: 'male' | 'female';
-};
+}
 
 interface Like {
 	key: string;
 	isLiked: boolean | null;
 	postId: number;
 	userId: string;
-};
+}

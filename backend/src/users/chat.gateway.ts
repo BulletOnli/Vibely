@@ -1,18 +1,18 @@
-import { 
+import {
 	WebSocketGateway,
-	SubscribeMessage, 
+	SubscribeMessage,
 	MessageBody,
 	WsResponse
-} from "@nestjs/websockets";
+} from '@nestjs/websockets';
 
 @WebSocketGateway(80, { cors: true })
 export class ChatGateway {
-	@SubscribeMessage("chat")
+	@SubscribeMessage('chat')
 	handleEvent(@MessageBody() body): WsResponse<string> {
 		console.log(body);
 		return {
-			event: "idk",
-			data: "Hello"
+			event: 'idk',
+			data: 'Hello'
 		};
 	}
 }

@@ -10,7 +10,7 @@ import { MdVideoLibrary } from "react-icons/md";
 import Nav from "./Nav";
 import { useThemeStore } from "@/app/store/themeStore";
 import { useDisclosure } from "@chakra-ui/react";
-import NotificationDrawer from "../NotificationDrawer";
+import NotificationDrawer from "../modal/NotificationDrawer";
 
 const NavbarBottom = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +26,7 @@ const NavbarBottom = () => {
                     className={`${bg} flex items-center justify-center px-4 py-2 gap-4 lg:gap-10 rounded-full shadow-custom2`}
                 >
                     <Nav path="/" icon={<FaHome />} />
-                    <Nav path="#" icon={<MdVideoLibrary />} />
+                    {/* <Nav path="#" icon={<MdVideoLibrary />} /> */}
                     <Nav path="#" icon={<BsFillChatFill />} />
                     {/* change the path to the username of the account owner/user */}
                     <Nav path="/profile/gemmuel" icon={<BsPersonCircle />} />

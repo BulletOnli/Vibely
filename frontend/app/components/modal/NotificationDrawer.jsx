@@ -10,10 +10,10 @@ import {
     HStack,
     Text,
 } from "@chakra-ui/react";
-import Birthdays from "./Birthdays";
-import Notifications from "./Notifcations";
+import Birthdays from "../Birthdays";
+import Notifications from "../Notifcations";
 
-import { useThemeStore } from "../store/themeStore";
+import { useThemeStore } from "../../store/themeStore";
 
 const NotificationDrawer = ({ isOpen, onClose }) => {
     const { isDarked } = useThemeStore();

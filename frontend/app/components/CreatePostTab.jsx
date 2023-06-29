@@ -24,7 +24,7 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
         <div
             className={`${componentsBg} relative w-full flex flex-col items-center p-4 rounded-xl shadow-md`}
         >
-            <h1 className="font-bold text-xl mb-2">Make a Post</h1>
+            <h1 className="font-bold text-xl mb-2">Make a Vibely Post</h1>
             <FormControl>
                 <Textarea
                     placeholder="Share your thoughts..."
@@ -46,7 +46,7 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
                 )}
                 <HStack w="full">
                     <Button colorScheme="messenger">
-                        <label htmlFor="file-upload">
+                        <label htmlFor="post-upload">
                             <BiImageAdd size={24} />
                         </label>
                     </Button>
@@ -55,7 +55,7 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
                         onChange={handleImgUpload}
                         type="file"
                         accept="image/*"
-                        id="file-upload"
+                        id="post-upload"
                         className="hidden"
                     />
                     <Button w="full" colorScheme="messenger">

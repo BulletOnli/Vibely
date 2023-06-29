@@ -74,7 +74,11 @@ const Post = ({ componentsBg, isDarked }) => {
                 </Menu>
             </div>
             <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-center p-4 lg:p-6">
-                <img src="/tzuyu.jpg" alt="" />
+                <img
+                    src="/pcbg.png"
+                    alt=""
+                    className="w-full h-[10rem] lg:h-[20rem] object-contain"
+                />
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     Iste suscipit officia corrupti quae praesentium quam

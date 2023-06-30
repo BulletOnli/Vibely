@@ -15,7 +15,7 @@ module.exports = {
                 custom: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
             },
             fontFamily: {
-                custom: ["Noto Sans", "sans-serif"],
+                custom: ["Inter", "sans-serif"],
             },
         },
     },

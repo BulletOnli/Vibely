@@ -8,7 +8,7 @@ const themeStore = (set, get) => ({
     },
 });
 
-export const useThemeStore = create(themeStore);
-// export const useThemeStore = create(
-//     persist(devtools(themeStore), { name: "darkTheme" })
-// );
+// export const useThemeStore = create(themeStore);
+export const useThemeStore = create(
+    persist(devtools(themeStore), { name: "darkTheme" })
+);

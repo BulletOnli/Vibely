@@ -11,9 +11,9 @@ const Nav = ({ path, icon }) => {
     if (pathname === path) {
         //current nav
         if (isDarked) {
-            bg = "bg-none shadow-none"; //dark mode
+            bg = "bg-none shadow-none text-blue-600"; //dark mode
         } else {
-            bg = "bg-none shadow-none"; //light mode
+            bg = "bg-none shadow-none text-blue-600"; //light mode
         }
     } else {
         //other nav

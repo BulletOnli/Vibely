@@ -29,7 +29,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
                         </div>
                     </div>
                     <Spacer />
-                    <Button size="xs" colorScheme="twitter">
+                    <Button size="xs" colorScheme="telegram">
                         Follow
                     </Button>
                 </HStack>
@@ -49,7 +49,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
                         </div>
                     </div>
                     <Spacer />
-                    <Button size="xs" colorScheme="twitter">
+                    <Button size="xs" colorScheme="telegram">
                         Follow
                     </Button>
                 </HStack>
@@ -69,7 +69,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
                         </div>
                     </div>
                     <Spacer />
-                    <Button size="xs" colorScheme="twitter">
+                    <Button size="xs" colorScheme="telegram">
                         Follow
                     </Button>
                 </HStack>

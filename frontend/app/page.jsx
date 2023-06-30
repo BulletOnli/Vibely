@@ -47,7 +47,7 @@ const NewsFeedPage = () => {
                     </div>
                 </Link>
                 <div
-                    className={`${componentsBg} text-lg w-full flex flex-col p-2 rounded-xl shadow-custom overflow-hidden`}
+                    className={`${componentsBg} w-full flex flex-col p-2 rounded-xl shadow-custom overflow-hidden`}
                 >
                     <HStack
                         p={2}

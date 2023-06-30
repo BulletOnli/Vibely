@@ -24,7 +24,9 @@ import { AppModule } from './app.module';
 
 	await app.listen(port, () => {
 		console.log(
-			'Server address to open: http://localhost:' + port + (isDev ? '/api' : '')
+			'Server address to open (browser): http://localhost:' +
+				port +
+				(isDev ? '/api' : '')
 		);
 	});
 })();

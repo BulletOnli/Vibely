@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { UserRegistrationDetails, UserLoginDetails } from './dto';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('user')
@@ -29,6 +29,9 @@ export class UserController {
 
 	@Post('register')
 	async registerUser(@Body() register: UserRegistrationDetails) {
-		await this.user.registerUser(register);
+		const { username, key } = await this.user.registerUser(register);
+		return {
+			accessToken: await this.jwtService.signAsync({ username, sub: key })
+		};
 	}
 }

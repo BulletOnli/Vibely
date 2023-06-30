@@ -11,7 +11,7 @@ export class PostService extends DetaClass {
 			return false;
 		}
 	}
-	
+
 	async findOne(id: number): Promise<Post | undefined> {
 		return (await this.postsBase.get(id.toString())) as Post;
 	}

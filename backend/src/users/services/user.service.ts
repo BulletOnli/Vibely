@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { ObjectType } from 'deta/dist/types/types/basic';
-import { UserRegistrationDetails } from './dto';
+import { UserRegistrationDetails } from '../dto';
 import * as argon2 from 'argon2';
 import { DetaClass } from 'src/deta.class';
 
@@ -21,8 +21,9 @@ export class UserService extends DetaClass {
 		return users.find(x => x.key === id);
 	}
 
-	async registerUser(user: UserRegistrationDetails): Promise<void> {
+	async registerUser(user: UserRegistrationDetails) {
 		const users = await this.getUsers();
+
 		if (users.find(x => x.username === user.username)) {
 			throw new BadRequestException('Username exists');
 		} else if (user.password !== user.confirmPassword) {
@@ -30,7 +31,7 @@ export class UserService extends DetaClass {
 		}
 
 		const { firstName, lastName, username, password, birthday, gender } = user;
-		await this.usersBase.put(
+		return await this.usersBase.put(
 			{
 				firstName,
 				lastName,

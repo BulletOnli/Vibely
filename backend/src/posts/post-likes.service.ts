@@ -26,10 +26,9 @@ export class PostLikesService extends DetaClass {
 				postId,
 				userId: req['user'].sub
 			});
-			const prom2 = this.updatePostLikes(post, 'inc', isLike);
+			const prom2 = this.updatePostLikes(post, isLike);
 
 			Promise.all([prom, prom2]);
-
 		} else if (isLike ? like.isLiked : !like.isLiked) {
 			throw new BadRequestException(
 				`Already ${isLike ? 'like' : 'dislike'}d this post.`
@@ -41,7 +40,7 @@ export class PostLikesService extends DetaClass {
 				},
 				like.key
 			);
-			const prom2 = this.updatePostLikes(post, 'inc', isLike);
+			const prom2 = this.updatePostLikes(post, isLike);
 			Promise.all([prom1, prom2]);
 		}
 	}
@@ -59,7 +58,7 @@ export class PostLikesService extends DetaClass {
 					},
 					like.key
 				);
-				const prom2 = this.updatePostLikes(post, 'dec', isLike, true);
+				const prom2 = this.updatePostLikes(post, isLike, true);
 				Promise.all([prom, prom2]);
 			} else {
 				throw new BadRequestException(
@@ -69,11 +68,11 @@ export class PostLikesService extends DetaClass {
 		}
 	}
 
-	private updatePostLikes(post: Post, incOrDec: 'inc' | 'dec', isLike: boolean, removeLike = false) {
+	private updatePostLikes(post: Post, isLike: boolean, removeLike = false) {
 		let likes = post.likes;
 		let dislikes = post.dislikes;
-		const a = (dislikes === 0 ? 0 : 1);
-		const b = (likes === 0 ? 0 : 1)
+		const a = dislikes === 0 ? 0 : 1;
+		const b = likes === 0 ? 0 : 1;
 		if (!removeLike) {
 			if (isLike) {
 				likes += 1;

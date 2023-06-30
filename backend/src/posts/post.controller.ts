@@ -13,7 +13,7 @@ import {
 import { Request } from 'express';
 import { DetaClass } from 'src/deta.class';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { UserService } from 'src/users/user.service';
+import { UserService } from 'src/users/services/user.service';
 import { PostService } from './post.service';
 import { GetAllDto, PostCreationDetails } from './dto';
 import { ObjectType } from 'deta/dist/types/types/basic';
@@ -64,7 +64,7 @@ export class PostController extends DetaClass {
 
 	@Get('all')
 	async getAllFromUserId(
-		@Query() { id, limit = '10', offset = '0' }: GetAllDto
+		@Query() { id, limit = '15', offset = '0' }: GetAllDto
 	) {
 		const user = await this.user.findOneById(id);
 		if (!user) {

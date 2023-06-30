@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PostController } from './post.controller';
 import { PostLikesController } from './post-likes.controller';
 import { PostService } from './post.service';
-import { UserService } from 'src/users/user.service';
+import { UserService } from 'src/users/services/user.service';
 import { PostLikesService } from './post-likes.service';
 
 @Module({

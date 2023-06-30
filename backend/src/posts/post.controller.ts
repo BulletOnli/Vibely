@@ -8,13 +8,20 @@ import {
 	Req,
 	NotFoundException,
 	Query,
-	Put
+	Put,
+	UseInterceptors,
+	UploadedFile
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { DetaClass } from 'src/deta.class';
+
 import { AuthGuard } from 'src/guards/auth.guard';
 import { UserService } from 'src/users/services/user.service';
 import { PostService } from './post.service';
+import { PostPhotoService } from './post-photo.service';
+
 import { GetAllDto, PostCreationDetails } from './dto';
 import { ObjectType } from 'deta/dist/types/types/basic';
 import { Post as PostType } from './types';
@@ -22,34 +29,49 @@ import { Post as PostType } from './types';
 @UseGuards(AuthGuard)
 @Controller('post')
 export class PostController extends DetaClass {
-	constructor(private user: UserService, private post: PostService) {
+	constructor(
+		private user: UserService, 
+		private post: PostService, 
+		private postPhoto: PostPhotoService,
+		private config: ConfigService
+	) {
 		super();
 	}
 
-	@Get()
-	async getPost(@Query('id') id: number) {
-		const post = await this.postsBase.get(id.toString());
-		if (!post) {
-			throw new NotFoundException('Post not found');
-		}
-		return post;
-	}
-
 	@Post('create')
+	@UseInterceptors(FileInterceptor("photo"))
 	async createPost(
 		@Body() postDetails: PostCreationDetails,
-		@Req() req: Request
+		@Req() req: Request,
+		@UploadedFile() file: Express.Multer.File
 	) {
 		const id = req['user'].sub;
-		await this.postsBase.put(
+		const postId = await this.post.autoIncKey();
+		const uploadPostProm = this.postsBase.put(
 			{
 				caption: postDetails.caption,
 				userId: id,
 				likes: 0,
-				dislikes: 0
+				dislikes: 0,
+				hasPhoto: file !== undefined
 			},
-			await this.post.autoIncKey()
+			postId
 		);
+		const uploadPhotoProm = this.postPhoto.uploadPhoto(postId, req, file);
+		await Promise.all([uploadPostProm, uploadPhotoProm]);
+	}
+
+	@Get()
+	async getPost(@Query('id') id: number, @Req() req: Request) {
+		let post = await this.postsBase.get(id.toString());
+		if (!post) {
+			throw new NotFoundException('Post not found');
+		}
+		const host = this.config.get("HOST");
+		if (post.hasPhoto) {
+			post = Object.assign(post, { photo: `${req.protocol}://${host}/post/photo?id=${id}` });
+		}
+		return post;
 	}
 
 	@Put('update')
@@ -58,8 +80,10 @@ export class PostController extends DetaClass {
 	}
 
 	@Delete('delete')
-	async deletePost(@Query('id') id: number) {
-		await this.postsBase.delete(id.toString());
+	async deletePost(@Query('id') id, @Req() req: Request) {
+		const prom1 = this.postsBase.delete(id);
+		const prom2 = this.postPhoto.deletePhoto(id, req);
+		await Promise.all([prom1, prom2]);
 	}
 
 	@Get('all')
@@ -76,5 +100,10 @@ export class PostController extends DetaClass {
 		) as PostType[];
 
 		return this.post.limit(filtered, parseInt(limit), parseInt(offset));
+	}
+
+	@Get("photo")
+	async getPhoto(@Query('id') id, @Req() req: Request){
+		return await this.postPhoto.getPhoto(id, req);
 	}
 }

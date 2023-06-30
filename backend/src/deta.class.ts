@@ -9,13 +9,13 @@ export class DetaClass {
 	postsBase: BaseType;
 	likesBase: BaseType;
 	profileDrive: DriveType;
-	coverDrive: DriveType;
+	postPhotos: DriveType;
 	constructor() {
 		this.deta = Deta();
 		this.usersBase = this.deta.Base('users');
 		this.postsBase = this.deta.Base('posts');
 		this.likesBase = this.deta.Base('likes');
 		this.profileDrive = this.deta.Drive('profile');
-		this.coverDrive = this.deta.Drive('profile');
+		this.postPhotos = this.deta.Drive('postPhotos');
 	}
 }

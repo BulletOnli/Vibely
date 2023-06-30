@@ -8,7 +8,7 @@ import Banner from "@/app/components/profile/Banner";
 const ProfilePage = ({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
-    const isOtherProfile = params.username !== "gemmuel"; //my username
+    const isOtherProfile = params.id !== "gemmuel"; //my username
 
     return (
         <div className="w-full flex flex-col items-center justify-center p-6">

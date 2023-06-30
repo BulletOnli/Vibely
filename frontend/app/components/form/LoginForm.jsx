@@ -1,5 +1,4 @@
 "use client";
-import { useAuthStore } from "@/app/store/authStore";
 import {
     Button,
     Checkbox,
@@ -9,20 +8,44 @@ import {
     InputGroup,
     InputLeftElement,
     Spacer,
+    useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
 
 const LoginForm = () => {
+    const toast = useToast();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { loginUser } = useAuthStore();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        loginUser({ username, password });
-        setUsername("");
-        setPassword("");
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/user/register",
+                { username, password }
+            );
+            localStorage.setItem("vibelyToken", response.data.token);
+
+            setUsername("");
+            setPassword("");
+            toast({
+                title: "Login Success!",
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            toast({
+                title: "Oops! Something went wrong.",
+                status: "error",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
     };
 
     return (

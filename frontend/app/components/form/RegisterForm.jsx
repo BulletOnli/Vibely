@@ -3,23 +3,21 @@ import {
     Button,
     Flex,
     FormControl,
-    FormHelperText,
     FormLabel,
     HStack,
     Input,
     InputGroup,
     InputLeftElement,
     Select,
-    Spacer,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
-import { useAuthStore } from "@/app/store/authStore";
 
 const RegisterForm = () => {
+    const toast = useToast();
     const [personalDetails, setPersonalDetails] = useState({});
-    const { registerUser } = useAuthStore();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,8 +29,32 @@ const RegisterForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        registerUser(personalDetails);
-        setPersonalDetails({});
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/user/login",
+                personalDetails
+            );
+            localStorage.setItem("vibelyToken", response.data.token);
+            console.log(response.data);
+
+            setPersonalDetails({});
+            toast({
+                title: "Account Created successfuly!",
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            toast({
+                title: "Oops! Something went wrong.",
+                status: "error",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
     };
 
     return (

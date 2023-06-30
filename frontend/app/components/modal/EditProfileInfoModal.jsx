@@ -1,5 +1,5 @@
+import { useThemeStore } from "@/app/store/themeStore";
 import {
-    useDisclosure,
     Modal,
     ModalOverlay,
     ModalHeader,
@@ -11,18 +11,21 @@ import {
     Input,
     ModalFooter,
     Button,
-    VStack,
     Flex,
     HStack,
     Select,
-    Avatar,
 } from "@chakra-ui/react";
 
-const EditProfileModal = ({ isOpen, onClose }) => {
+const EditProfileInfoModal = ({ isOpen, onClose }) => {
+    const { isDarked } = useThemeStore();
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent
+                color={isDarked ? "white" : "black"}
+                bg={isDarked ? "#242850" : "white"}
+            >
                 <ModalHeader>Edit Profile</ModalHeader>
                 <ModalCloseButton />
 
@@ -38,7 +41,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                                     size="sm"
                                     placeholder="First name"
                                     autoComplete="off"
-                                    mb={2}
+                                    mb={3}
                                 />
                             </Flex>
                             <Flex w="full" direction="column">
@@ -47,7 +50,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                                     size="sm"
                                     placeholder="Last name"
                                     autoComplete="off"
-                                    mb={2}
+                                    mb={3}
                                 />
                             </Flex>
                         </HStack>
@@ -58,7 +61,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                                     size="sm"
                                     placeholder="Location"
                                     autoComplete="off"
-                                    mb={2}
+                                    mb={3}
                                 />
                             </Flex>
                             <Flex w="full" direction="column">
@@ -67,7 +70,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                                     size="sm"
                                     placeholder="Birthday"
                                     autoComplete="off"
-                                    mb={2}
+                                    mb={3}
                                     type="date"
                                 />
                             </Flex>
@@ -78,7 +81,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                             <option value="female">Female</option>
                         </Select>
 
-                        <h1 className="w-full mt-4 mb-2 text-lg font-bold">
+                        <h1 className="w-full mt-4 mb-3 text-lg font-bold">
                             Social accounts
                         </h1>
                         <FormLabel mb={1}>Facebook</FormLabel>
@@ -86,34 +89,34 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                             size="sm"
                             placeholder="Facebook"
                             autoComplete="off"
-                            mb={2}
+                            mb={3}
                         />
                         <FormLabel mb={1}>Instagram</FormLabel>
                         <Input
                             size="sm"
                             placeholder="Instagram"
                             autoComplete="off"
-                            mb={2}
+                            mb={3}
                         />
                         <FormLabel mb={1}>Website</FormLabel>
                         <Input
                             size="sm"
                             placeholder="Website"
                             autoComplete="off"
-                            mb={2}
+                            mb={3}
                         />
                     </FormControl>
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button colorScheme="blue" mr={3}>
-                        Save
+                    <Button onClick={onClose} mr={3}>
+                        Cancel
                     </Button>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button colorScheme="blue">Save</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
     );
 };
 
-export default EditProfileModal;
+export default EditProfileInfoModal;

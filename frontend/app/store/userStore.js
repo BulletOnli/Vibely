@@ -1,7 +1,5 @@
 import { create } from "zustand";
 
-const userStore = () => ({
-    userDetails: [],
-});
+const userStore = () => ({});
 
 export const useUserStore = create(userStore);

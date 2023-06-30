@@ -8,7 +8,7 @@ const Footer = () => {
                     <h2 className="text-2xl font-extrabold text-blue-700">
                         Vibely
                     </h2>
-                    <small>©2023 Vibely | Collaboration Project</small>
+                    <small>©2023 Vibely | Social Media</small>
                 </div>
                 <div className="flex flex-col gap-2">
                     <h2 className="text-lg font-bold text-black">Resources</h2>

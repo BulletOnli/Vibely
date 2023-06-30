@@ -5,7 +5,7 @@ import { FiEdit, FiCamera } from "react-icons/fi";
 import { MdLocationOn } from "react-icons/md";
 import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
 import Link from "next/link";
-import EditProfileModal from "../modal/EditProfileModal";
+import EditProfileInfoModal from "../modal/EditProfileInfoModal";
 import ProfilePic from "./ProfilePic";
 
 const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
@@ -20,11 +20,10 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                     className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
                 >
                     <ProfilePic />
-                    {/* <Avatar size="2xl" src="/tzuyu.jpg" mt="-20" border="2px" /> */}
                     <small className="tracking-wider text-gray-400 my-1">
-                        @{params.username}
+                        @{params.id}
                     </small>
-                    <h1 className="text-xl font-bold">{params.username}</h1>
+                    <h1 className="text-xl font-bold">{params.id}</h1>
                     <HStack gap={7} mt={2}>
                         <div className="flex flex-col items-center">
                             <p className="text-lg font-bold">56</p>
@@ -107,7 +106,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsFacebook fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.username}
+                                {params.id}
                             </p>
                         </Link>
                     </HStack>
@@ -115,7 +114,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsInstagram fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.username}
+                                {params.id}
                             </p>
                         </Link>
                     </HStack>
@@ -123,14 +122,14 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsGlobe fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.username}
+                                {params.id}
                             </p>
                         </Link>
                     </HStack>
                 </div>
             </div>
 
-            <EditProfileModal isOpen={isOpen} onClose={onClose} />
+            <EditProfileInfoModal isOpen={isOpen} onClose={onClose} />
         </>
     );
 };

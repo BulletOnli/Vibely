@@ -31,71 +31,10 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
                 p={4}
             >
                 <DrawerHeader>
-                    <DrawerCloseButton />
+                    <DrawerCloseButton size={12} m={4} />
                 </DrawerHeader>
                 <DrawerBody>
                     <VStack>
-                        <div
-                            className={`${componentsBg} text-lg w-full flex flex-col p-2 rounded-xl shadow-custom overflow-hidden`}
-                        >
-                            <HStack
-                                p={2}
-                                gap={3}
-                                rounded="md"
-                                _hover={{
-                                    bg: isDarked ? "#383d69" : "gray.200",
-                                }}
-                                cursor="pointer"
-                            >
-                                <img src="/friends-icon.png" className="w-8" />
-                                <Text fontWeight="semibold" fontSize="sm">
-                                    Friends
-                                </Text>
-                            </HStack>
-                            <HStack
-                                p={2}
-                                gap={3}
-                                rounded="md"
-                                _hover={{
-                                    bg: isDarked ? "#383d69" : "gray.200",
-                                }}
-                                cursor="pointer"
-                            >
-                                <img src="/group-icon.png" className="w-8" />
-                                <Text fontWeight="semibold" fontSize="sm">
-                                    Community
-                                </Text>
-                            </HStack>
-                            <HStack
-                                p={2}
-                                gap={3}
-                                rounded="md"
-                                _hover={{
-                                    bg: isDarked ? "#383d69" : "gray.200",
-                                }}
-                                cursor="pointer"
-                            >
-                                <img src="/bookmark-icon.png" className="w-8" />
-                                <Text fontWeight="semibold" fontSize="sm">
-                                    Saved
-                                </Text>
-                            </HStack>
-                            <HStack
-                                p={2}
-                                gap={3}
-                                rounded="md"
-                                _hover={{
-                                    bg: isDarked ? "#383d69" : "gray.200",
-                                }}
-                                cursor="pointer"
-                            >
-                                <img src="/store-icon.png" className="w-8" />
-                                <Text fontWeight="semibold" fontSize="sm">
-                                    Marketplace
-                                </Text>
-                            </HStack>
-                        </div>
-
                         <Birthdays
                             isDarked={isDarked}
                             componentsBg={componentsBg}

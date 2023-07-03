@@ -22,7 +22,7 @@ const ProfilePage = ({ params }) => {
                 />
 
                 <div className="w-[18rem] lg:w-[40rem] h-full flex flex-col items-center lg:mt-5">
-                    <h1 className="w-full text-2xl font-bold mb-4">
+                    <h1 className="w-full text-2xl font-bold mb-4 ">
                         Vibely Timeline
                     </h1>
                     <div className="w-full flex flex-col items-center gap-4">

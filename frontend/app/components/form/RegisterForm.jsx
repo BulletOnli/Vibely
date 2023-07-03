@@ -1,4 +1,5 @@
 "use client";
+import { registerUser } from "@/app/api/userApi";
 import {
     Button,
     Flex,
@@ -31,7 +32,7 @@ const RegisterForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:8080/user/login",
+                "http://localhost:8080/user/register",
                 personalDetails
             );
             localStorage.setItem("vibelyToken", response.data.token);

@@ -108,7 +108,6 @@ const NewsFeedPage = () => {
 
             {/* Right Side */}
             <div className="z-10 sticky top-[5rem] w-[20rem] h-[85vh] hidden lg:flex flex-col gap-3">
-                {/* <Birthdays isDarked={isDarked} componentsBg={componentsBg} /> */}
                 <Leaderboards isDarked={isDarked} componentsBg={componentsBg} />
                 <Notifications
                     isDarked={isDarked}

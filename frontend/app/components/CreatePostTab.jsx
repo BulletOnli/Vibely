@@ -6,7 +6,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { CgCloseO } from "react-icons/cg";
 

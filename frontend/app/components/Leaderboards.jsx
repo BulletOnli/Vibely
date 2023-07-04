@@ -1,4 +1,12 @@
-import { HStack, Avatar, VStack, Button, Spacer, Flex } from "@chakra-ui/react";
+import {
+    HStack,
+    Avatar,
+    VStack,
+    Button,
+    Spacer,
+    Flex,
+    Image,
+} from "@chakra-ui/react";
 
 const Leaderboards = ({ isDarked, componentsBg }) => {
     return (
@@ -16,7 +24,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
             <Flex direction="column" gap={3}>
                 <HStack w="full">
                     <div className="flex items-center gap-2">
-                        <Avatar size="md" name="Gemmuel" src="/tzuyu.jpg" />
+                        <img src="/top1.png" className="w-10" />
                         <div className="flex flex-col gap-0">
                             <h1 className="font-semibold">Gemmuel Dela Pena</h1>
                             <small
@@ -24,7 +32,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
                                     isDarked ? "text-gray-300" : "text-black"
                                 } text-xs`}
                             >
-                                69,143 Followers
+                                100 Followers
                             </small>
                         </div>
                     </div>
@@ -36,7 +44,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
 
                 <HStack w="full">
                     <div className="flex items-center gap-2">
-                        <Avatar size="md" name="Gemmuel" src="/tzuyu.jpg" />
+                        <img src="/top2.png" className="w-10" />
                         <div className="flex flex-col gap-0">
                             <h1 className="font-semibold">Gemmuel Dela Pena</h1>
                             <small
@@ -44,7 +52,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
                                     isDarked ? "text-gray-300" : "text-black"
                                 } text-xs`}
                             >
-                                69,143 Followers
+                                200 Followers
                             </small>
                         </div>
                     </div>
@@ -56,7 +64,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
 
                 <HStack w="full">
                     <div className="flex items-center gap-2">
-                        <Avatar size="md" name="Gemmuel" src="/tzuyu.jpg" />
+                        <img src="/top3.png" className="w-10" />
                         <div className="flex flex-col gap-0">
                             <h1 className="font-semibold">Gemmuel Dela Pena</h1>
                             <small
@@ -64,7 +72,7 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
                                     isDarked ? "text-gray-300" : "text-black"
                                 } text-xs`}
                             >
-                                69,143 Followers
+                                300 Followers
                             </small>
                         </div>
                     </div>

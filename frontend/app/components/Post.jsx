@@ -2,6 +2,7 @@ import {
     Avatar,
     Button,
     HStack,
+    Image,
     Menu,
     MenuButton,
     MenuItem,
@@ -91,9 +92,9 @@ const Post = ({ componentsBg, isDarked }) => {
                         elit. Iste suscipit officia corrupti quae praesentium
                         quam quibusdam doloremque facilis laborum
                     </p>
-                    <img
+                    <Image
                         src="/pcbg.png"
-                        alt=""
+                        fallbackSrc="https://via.placeholder.com/150"
                         className="w-full h-[10rem] lg:h-[20rem] object-contain"
                     />
                 </div>

@@ -1,3 +1,4 @@
+"use client";
 import {
     Button,
     VStack,
@@ -10,9 +11,9 @@ import {
     HStack,
     Text,
 } from "@chakra-ui/react";
-import Birthdays from "../Birthdays";
-import Notifications from "../Notifcations";
 
+import Notifications from "../Notifcations";
+import Leaderboards from "../Leaderboards";
 import { useThemeStore } from "../../store/themeStore";
 
 const NotificationDrawer = ({ isOpen, onClose }) => {
@@ -28,14 +29,13 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
             <DrawerContent
                 bg={isDarked ? "#1A1F40" : "#E9ECEF"}
                 color={isDarked ? "#f5f5f5" : "black"}
-                p={4}
             >
                 <DrawerHeader>
-                    <DrawerCloseButton size={12} m={4} />
+                    <DrawerCloseButton />
                 </DrawerHeader>
                 <DrawerBody>
                     <VStack>
-                        <Birthdays
+                        <Leaderboards
                             isDarked={isDarked}
                             componentsBg={componentsBg}
                         />

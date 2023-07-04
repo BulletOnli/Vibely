@@ -32,6 +32,7 @@ const CommentsModal = ({ onClose, isOpen }) => {
                 color={isDarked ? "white" : "black"}
                 bg={isDarked ? "#242850" : "white"}
                 h="2xl"
+                rounded="xl"
             >
                 <ModalHeader textAlign="center">Comments</ModalHeader>
                 <ModalCloseButton />

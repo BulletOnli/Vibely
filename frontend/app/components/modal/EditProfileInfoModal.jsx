@@ -1,3 +1,4 @@
+"use client";
 import { useThemeStore } from "@/app/store/themeStore";
 import {
     Modal,

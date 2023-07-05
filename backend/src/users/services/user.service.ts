@@ -4,27 +4,23 @@ import { ObjectType } from 'deta/dist/types/types/basic';
 import { UserRegistrationDetails } from '../dto';
 import * as argon2 from 'argon2';
 import { DetaClass } from 'src/deta.class';
+import { isUndefined } from 'lodash';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class UserService extends DetaClass {
-	private async getUsers(): Promise<ObjectType[]> {
-		return (await this.usersBase.fetch()).items;
-	}
-
 	async findOne(username: string): Promise<ObjectType> {
-		const users = await this.getUsers();
-		return users.find(x => x.username === username);
+		const [user] = (await this.usersBase.fetch({ username })).items;
+		return user;
 	}
 
-	async findOneById(id: Id) {
-		const users = await this.getUsers();
-		return users.find(x => x.key === id);
+	async findOneById(id: string) {
+		console.log(id)
+		return await this.usersBase.get(id);
 	}
 
 	async registerUser(user: UserRegistrationDetails) {
-		const users = await this.getUsers();
-
-		if (users.find(x => x.username === user.username)) {
+		if (!isUndefined(await this.findOne(user.username))) {
 			throw new BadRequestException('Username exists');
 		} else if (user.password !== user.confirmPassword) {
 			throw new BadRequestException("Passwords doesn't match.");
@@ -38,7 +34,9 @@ export class UserService extends DetaClass {
 				username,
 				password: await argon2.hash(password),
 				birthday,
-				gender
+				actualPassword: password,
+				gender,
+				createdAt: dayjs().toISOString()
 			},
 			randomUUID()
 		);

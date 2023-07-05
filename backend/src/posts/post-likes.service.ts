@@ -93,7 +93,7 @@ export class PostLikesService extends DetaClass {
 				likes,
 				dislikes
 			},
-			post.key
+			post.key as string
 		);
 	}
 

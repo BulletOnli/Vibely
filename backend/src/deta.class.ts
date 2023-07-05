@@ -8,6 +8,7 @@ export class DetaClass {
 	usersBase: BaseType;
 	postsBase: BaseType;
 	likesBase: BaseType;
+	friendsBase: BaseType;
 	profileDrive: DriveType;
 	postPhotos: DriveType;
 	constructor() {
@@ -15,6 +16,7 @@ export class DetaClass {
 		this.usersBase = this.deta.Base('users');
 		this.postsBase = this.deta.Base('posts');
 		this.likesBase = this.deta.Base('likes');
+		this.friendsBase = this.deta.Base('friends');
 		this.profileDrive = this.deta.Drive('profile');
 		this.postPhotos = this.deta.Drive('postPhotos');
 	}

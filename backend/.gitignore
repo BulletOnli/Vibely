@@ -1,5 +1,4 @@
 .space
-Spacefile
 node_modules
 .env
 yarn.lock

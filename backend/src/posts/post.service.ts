@@ -16,15 +16,6 @@ export class PostService extends DetaClass {
 		return (await this.postsBase.get(id.toString())) as Post;
 	}
 
-	limit(array: Post[], limit: number, offset: number) {
-		for (const _x of Array(offset)) {
-			array.shift();
-		}
-		console.log(array);
-		array.splice(limit, array.length);
-		return array;
-	}
-
 	async autoIncKey() {
 		const fth = await this.postsBase.fetch();
 		const items = fth.items;

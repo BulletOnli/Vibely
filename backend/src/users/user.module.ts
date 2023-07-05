@@ -8,8 +8,8 @@ import { CoverController } from './cover.contoller';
 
 import { UserService } from './services/user.service';
 import { PhotoService } from './services/photo.service';
+import { FriendsService } from './services/friends.service';
 import { AuthGuard } from '../guards/auth.guard';
-import { ChatGateway } from './chat.gateway';
 
 @Module({
 	imports: [MulterModule],
@@ -19,7 +19,7 @@ import { ChatGateway } from './chat.gateway';
 		UserFriendsController,
 		CoverController
 	],
-	providers: [UserService, AuthGuard, ChatGateway, PhotoService]
+	providers: [UserService, AuthGuard, PhotoService, FriendsService]
 })
 export class UserModule {}
 

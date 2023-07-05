@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, StreamableFile } from '@nestjs/common';
+import {
+	BadRequestException,
+	Injectable,
+	StreamableFile
+} from '@nestjs/common';
 import { basename } from 'path';
 import { Request } from 'express';
 import { lookup } from 'mime-types';
@@ -6,14 +10,12 @@ import { DetaClass } from 'src/deta.class';
 
 @Injectable()
 export class PostPhotoService extends DetaClass {
-	
-	async getPhoto(id: string, req: Request){
+	async getPhoto(id: string, req: Request) {
 		const userId = req['user'].sub;
 		const list = (await this.postPhotos.list()).names;
 		const postPhoto = list.find(x => {
-			return x.startsWith(userId) && id === x.split("/")[1];
+			return x.startsWith(userId) && id === x.split('/')[1];
 		});
-		console.log(postPhoto)
 		if (postPhoto) {
 			const file = basename(postPhoto);
 			const data = await this.postPhotos.get(postPhoto);
@@ -21,24 +23,23 @@ export class PostPhotoService extends DetaClass {
 				type: lookup(file) || ''
 			});
 		}
-		throw new BadRequestException("Photo not found");
+		throw new BadRequestException('Photo not found');
 	}
 
-	async uploadPhoto(postId: string, req: Request, file: Express.Multer.File){
+	async uploadPhoto(postId: string, userId: string, file: Express.Multer.File) {
 		if (file) {
-			await this.postPhotos.put(
-				`${req['user'].sub}/${postId}/${file.originalname}`, 
-				{
-					data: file.buffer
-				}
-			);
+			await this.postPhotos.put(`${userId}/${postId}/${file.originalname}`, {
+				data: file.buffer
+			});
 		}
 	}
 
-	async deletePhoto(id: string, req: Request){
+	async deletePhoto(id: string, req: Request) {
 		const userId = req['user'].sub;
-		this.postPhotos.deleteMany((await this.postPhotos.list()).names.filter(file => {
-			return file.startsWith(userId) && file.split('/')[1] === id;
-		}));
+		this.postPhotos.deleteMany(
+			(await this.postPhotos.list()).names.filter(file => {
+				return file.startsWith(userId) && file.split('/')[1] === id;
+			})
+		);
 	}
 }

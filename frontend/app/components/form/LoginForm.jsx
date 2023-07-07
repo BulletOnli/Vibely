@@ -22,7 +22,7 @@ const LoginForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:8080/user/register",
+                "http://localhost:8080/user/login",
                 { username, password }
             );
             localStorage.setItem("vibelyToken", response.data.token);

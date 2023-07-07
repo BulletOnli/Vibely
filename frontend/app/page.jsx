@@ -6,7 +6,6 @@ import { BsGear } from "react-icons/bs";
 import CreatePostTab from "./components/CreatePostTab";
 import Post from "./components/Post";
 import Notifications from "./components/Notifcations";
-import Birthdays from "./components/Birthdays";
 import { useThemeStore } from "./store/themeStore";
 import Leaderboards from "./components/Leaderboards";
 
@@ -15,7 +14,6 @@ const NewsFeedPage = () => {
     const componentsBg = isDarked
         ? "bg-[#242850] text-[#f5f5f5]"
         : "bg-white text-black";
-    const hoverColor = isDarked ? "hover:bg-[#282E54]" : "hover:bg-gray-100";
 
     return (
         <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between gap-6 p-6">
@@ -110,7 +108,6 @@ const NewsFeedPage = () => {
 
             {/* Right Side */}
             <div className="z-10 sticky top-[5rem] w-[20rem] h-[85vh] hidden lg:flex flex-col gap-3">
-                {/* <Birthdays isDarked={isDarked} componentsBg={componentsBg} /> */}
                 <Leaderboards isDarked={isDarked} componentsBg={componentsBg} />
                 <Notifications
                     isDarked={isDarked}

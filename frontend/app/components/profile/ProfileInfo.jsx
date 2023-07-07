@@ -1,4 +1,3 @@
-"use client";
 import { Avatar, Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { FaShare, FaBirthdayCake } from "react-icons/fa";
 import { FiEdit, FiCamera } from "react-icons/fi";
@@ -19,7 +18,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                 <div
                     className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
                 >
-                    <ProfilePic />
+                    <ProfilePic isOtherProfile={isOtherProfile} />
                     <small className="tracking-wider text-gray-400 my-1">
                         @{params.id}
                     </small>
@@ -53,6 +52,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                                     w="6rem"
                                     size="sm"
                                     colorScheme="telegram"
+                                    isDisabled
                                 >
                                     Message
                                 </Button>

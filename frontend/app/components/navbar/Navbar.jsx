@@ -1,3 +1,4 @@
+"use client";
 import {
     FormControl,
     HStack,
@@ -5,7 +6,6 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
-    Spacer,
     Menu,
     MenuButton,
     MenuList,
@@ -18,7 +18,6 @@ import {
     BsFillMoonStarsFill,
     BsSunFill,
     BsFillPersonFill,
-    BsFillBellFill,
 } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
 import { FiHelpCircle } from "react-icons/fi";
@@ -107,9 +106,11 @@ const Navbar = () => {
                         <MenuItem
                             icon={<FiHelpCircle size={18} />}
                             bg={isDarked ? "#242850" : "white"}
-                            _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                            _hover={{
+                                bg: isDarked ? "#1A1F40" : "#E9ECEF",
+                            }}
                         >
-                            Help Center
+                            About us
                         </MenuItem>
                         <MenuItem
                             icon={<MdOutlineLogout size={18} />}

@@ -17,7 +17,7 @@ const Notifications = ({ isDarked, componentsBg }) => {
 
             <Flex direction="column">
                 <div
-                    className={`${hoverColor} w-full flex items-center gap-2 p-1 rounded-md cursor-pointer`}
+                    className={`w-full flex items-center gap-2 p-1 rounded-md`}
                 >
                     <Avatar size="sm" />
                     <p className="text-sm ">
@@ -25,7 +25,7 @@ const Notifications = ({ isDarked, componentsBg }) => {
                     </p>
                 </div>
                 <div
-                    className={`${hoverColor} w-full flex items-center gap-2 p-1 rounded-md cursor-pointer`}
+                    className={`w-full flex items-center gap-2 p-1 rounded-md`}
                 >
                     <Avatar size="sm" />
                     <h1 className="text-sm ">Clark post an update.</h1>

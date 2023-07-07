@@ -33,7 +33,9 @@ const LoginPage = () => {
                         </p>
                     </div>
                     <div className="w-[55%] flex flex-col items-center justify-center p-8">
-                        <h1 className="text-3xl font-bold mb-4">Welcome!</h1>
+                        <h1 className="text-3xl font-bold mb-4">
+                            Welcome to Vibely!
+                        </h1>
                         <p className="text-center px-4">
                             Please log in to access your account and connect
                             with our vibrant community.

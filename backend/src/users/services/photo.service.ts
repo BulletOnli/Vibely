@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
 import { parse } from 'path';
-import { Request } from 'express';
 import { lookup } from 'mime-types';
 import { Deta, Drive } from 'deta';
 
@@ -9,9 +8,8 @@ export class PhotoService {
 	deta = Deta();
 	drive: ReturnType<typeof Drive>;
 
-	async uploadPhoto(file: Express.Multer.File, req: Request, base: string) {
+	async uploadPhoto(file: Express.Multer.File, id: string, base: string) {
 		this.drive = this.deta.Drive(base);
-		const id = req['user'].sub;
 		await this.drive.put(`${id}/${file.originalname}`, {
 			data: file.buffer
 		});

@@ -2,19 +2,21 @@ import {
 	IsNotEmpty,
 	IsNumberString,
 	IsOptional,
-	IsString
+	IsString,
+	IsUUID
 } from 'class-validator';
 
 export class GetAllDto {
 	@IsNotEmpty()
+	@IsUUID(4)
 	@IsString()
-	id: Id;
+	id: string;
 
-	// @IsNumberString()
+	@IsNumberString()
 	@IsOptional()
-	limit: string;
+	limit: number;
 
-	// @IsNumberString()
+	@IsNumberString()
 	@IsOptional()
-	offset: string;
+	offset: number;
 }

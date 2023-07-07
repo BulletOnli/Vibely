@@ -1,4 +1,4 @@
-import { IsIn, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsIn, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
 
 export class UserRegistrationDetails {
 	@IsNotEmpty()
@@ -11,6 +11,7 @@ export class UserRegistrationDetails {
 	username: string;
 
 	@IsNotEmpty()
+	@MinLength(8)
 	password: string;
 
 	confirmPassword: string;

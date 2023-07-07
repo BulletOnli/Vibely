@@ -9,9 +9,9 @@ import {
 	UploadedFile
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
 import { AuthGuard } from '../guards/auth.guard';
 import { PhotoService } from './services/photo.service';
+import { CurrentUserId } from './user.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('user/cover')
@@ -27,8 +27,8 @@ export class CoverController {
 	@UseInterceptors(FileInterceptor('cover'))
 	async uploadPicture(
 		@UploadedFile() file: Express.Multer.File,
-		@Req() req: Request
+		@CurrentUserId() id: string
 	) {
-		await this.photo.uploadPhoto(file, req, 'cover');
+		await this.photo.uploadPhoto(file, id, 'cover');
 	}
 }

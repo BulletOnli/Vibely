@@ -7,7 +7,7 @@ import { Base } from 'deta';
 import { Request } from 'express';
 import { DetaClass } from 'src/deta.class';
 import { PostService } from './post.service';
-import { Post } from './types';
+import { Post } from '../types';
 
 @Injectable()
 export class PostLikesService extends DetaClass {

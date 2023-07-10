@@ -4,7 +4,7 @@ import {
 	NotFoundException,
 	PipeTransform
 } from '@nestjs/common';
-import { PostService } from './post.service';
+import { PostService } from './services/post.service';
 
 @Injectable()
 export class PostExistsPipe implements PipeTransform {

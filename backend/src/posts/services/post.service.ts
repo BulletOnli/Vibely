@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DetaClass } from 'src/deta.class';
-import { Post } from './types';
+import { Post } from '../types';
 
 @Injectable()
 export class PostService extends DetaClass {

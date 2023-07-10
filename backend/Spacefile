@@ -1,0 +1,21 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+  - name: vibely-backend
+    src: ./
+    engine: nodejs16
+    primary: true
+    commands:
+      - npm run build
+    run: node dist/main
+    public: true
+    presets:
+      env:
+        - name: JWT_SECRET
+          description: jwt secret
+        - name: BACKEND_HOST
+          description: host name
+    #     - name: PUSHER_KEY
+    #     - name: PUSHER_SECRET
+    #     - name: PUSHER_APP_ID
+    dev: npm run dev

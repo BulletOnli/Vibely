@@ -4,20 +4,23 @@ type BaseType = ReturnType<typeof Base>;
 type DriveType = ReturnType<typeof Drive>;
 
 export class DetaClass {
-	deta: ReturnType<typeof Deta>;
 	usersBase: BaseType;
 	postsBase: BaseType;
 	likesBase: BaseType;
+	commentsBase: BaseType;
+	commentLikesBase: BaseType;
 	friendsBase: BaseType;
 	profileDrive: DriveType;
 	postPhotos: DriveType;
 	constructor() {
-		this.deta = Deta();
-		this.usersBase = this.deta.Base('users');
-		this.postsBase = this.deta.Base('posts');
-		this.likesBase = this.deta.Base('likes');
-		this.friendsBase = this.deta.Base('friends');
-		this.profileDrive = this.deta.Drive('profile');
-		this.postPhotos = this.deta.Drive('postPhotos');
+		const deta = Deta();
+		this.usersBase = deta.Base('users');
+		this.postsBase = deta.Base('posts');
+		this.likesBase = deta.Base('likes');
+		this.commentsBase = deta.Base('comments');
+		this.commentLikesBase = deta.Base('commentLikes');
+		this.friendsBase = deta.Base('friends');
+		this.profileDrive = deta.Drive('profile');
+		this.postPhotos = deta.Drive('postPhotos');
 	}
 }

@@ -4,9 +4,9 @@ import {
 	Body,
 	BadRequestException,
 	NotFoundException,
-  Get,
-  UseGuards,
-  Query
+	Get,
+	UseGuards,
+	Query
 } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { omit } from 'lodash';
@@ -42,25 +42,25 @@ export class UserController {
 	}
 
 	@UseGuards(AuthGuard)
-	@Get("current")
-	async getCurrentUserInfo(@CurrentUserId() id: string){
+	@Get('current')
+	async getCurrentUserInfo(@CurrentUserId() id: string) {
 		return await this._getUserInfo(id);
 	}
 
 	@UseGuards(AuthGuard)
 	@Get()
-	async getUserInfo(@Query('username') un: string){
+	async getUserInfo(@Query('username') un: string) {
 		return await this._getUserInfoByUsername(un);
 	}
 
-	private async _getUserInfo(id: string){
+	private async _getUserInfo(id: string) {
 		return this.omitSensitiveAndKey(await this.user.findOneById(id));
 	}
-	private async _getUserInfoByUsername(username: string){
-		return this.omitSensitiveAndKey(await this.user.findOne(username))
+	private async _getUserInfoByUsername(username: string) {
+		return this.omitSensitiveAndKey(await this.user.findOne(username));
 	}
 
-	private omitSensitiveAndKey(obj: object){
+	private omitSensitiveAndKey(obj: object) {
 		return omit(obj, ['actualPassword', 'password', 'key']);
 	}
 }

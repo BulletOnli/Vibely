@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Post, Query, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { PostLikesService } from './post-likes.service';
+import { PostLikesService } from './services/post-likes.service';
 
 @UseGuards(AuthGuard)
 @Controller('post/likes')

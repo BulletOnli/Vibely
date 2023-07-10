@@ -21,8 +21,8 @@ import { DetaClass } from 'src/deta.class';
 import { AuthGuard } from 'src/guards/auth.guard';
 
 import { UserService } from 'src/users/services/user.service';
-import { PostService } from './post.service';
-import { PostPhotoService } from './post-photo.service';
+import { PostService } from './services/post.service';
+import { PostPhotoService } from './services/post-photo.service';
 
 import { GetAllDto, PostCreationDetails } from './dto';
 import { limitArray as limitPosts } from 'src/utils';
@@ -74,7 +74,7 @@ export class PostController extends DetaClass {
 		if (!post) {
 			throw new NotFoundException('Post not found');
 		}
-		const host = this.config.get('HOST');
+		const host = this.config.get('BACKEND_HOST');
 		if (post.hasPhoto) {
 			post = Object.assign(post, {
 				photo: `${req.protocol}://${host}/post/photo?id=${id}`
@@ -84,12 +84,18 @@ export class PostController extends DetaClass {
 	}
 
 	@Put('update')
-	async updatePost(@Query('id', PostExistsPipe) id: string, @Body() body: PostCreationDetails) {
+	async updatePost(
+		@Query('id', PostExistsPipe) id: string,
+		@Body() body: PostCreationDetails
+	) {
 		await this.postsBase.update(body as unknown as ObjectType, id);
 	}
 
 	@Delete('delete')
-	async deletePost(@Query('id', PostExistsPipe) id: string, @Req() req: Request) {
+	async deletePost(
+		@Query('id', PostExistsPipe) id: string,
+		@Req() req: Request
+	) {
 		const prom1 = this.postsBase.delete(id);
 		const prom2 = this.postPhoto.deletePhoto(id, req);
 		await Promise.all([prom1, prom2]);

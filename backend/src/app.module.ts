@@ -20,7 +20,7 @@ import { CommentsModule } from './comments/comments.module';
 			global: true
 		}),
 		UserModule,
-		PostModule
+		PostModule,
 		CommentsModule
 	],
 	controllers: [AppController],

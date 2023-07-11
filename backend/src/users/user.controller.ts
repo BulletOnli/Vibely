@@ -49,18 +49,26 @@ export class UserController {
 
 	@UseGuards(AuthGuard)
 	@Get()
-	async getUserInfo(@Query('username') un: string) {
-		return await this._getUserInfoByUsername(un);
+	async getUserInfo(@Query('username') un: string, @Query('id') id: string) {
+		if (un && id) {
+			throw new BadRequestException('Cannot use both username and id');
+		} else if (un) {
+			return await this._getUserInfoByUsername(un);
+		} else if (id) {
+			return await this._getUserInfo(un);
+		} else {
+			throw new BadRequestException('Id or username is required');
+		}
 	}
 
 	private async _getUserInfo(id: string) {
-		return this.omitSensitiveAndKey(await this.user.findOneById(id));
+		return this.omitSensitive(await this.user.findOneById(id));
 	}
 	private async _getUserInfoByUsername(username: string) {
-		return this.omitSensitiveAndKey(await this.user.findOne(username));
+		return this.omitSensitive(await this.user.findOne(username));
 	}
 
-	private omitSensitiveAndKey(obj: object) {
-		return omit(obj, ['actualPassword', 'password', 'key']);
+	private omitSensitive(obj: object) {
+		return omit(obj, ['actualPassword', 'password']);
 	}
 }

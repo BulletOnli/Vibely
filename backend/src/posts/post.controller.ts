@@ -33,6 +33,7 @@ import { ParseLimOffPipe } from './get-all-dto.pipe';
 import { PostExistsPipe } from './post-exists.pipe';
 
 import { CurrentUserId } from 'src/users/user.decorator';
+import * as dayjs from 'dayjs';
 
 @UseGuards(AuthGuard)
 @Controller('post')
@@ -60,12 +61,14 @@ export class PostController extends DetaClass {
 				userId: id,
 				likes: 0,
 				dislikes: 0,
-				hasPhoto: !isUndefined(file)
+				hasPhoto: !isUndefined(file),
+				createdAt: dayjs().toISOString()
 			},
 			postId
 		);
 		const uploadPhotoProm = this.postPhoto.uploadPhoto(postId, id, file);
-		await Promise.all([uploadPostProm, uploadPhotoProm]);
+		const [post, _b] = await Promise.all([uploadPostProm, uploadPhotoProm]);
+		return post;
 	}
 
 	@Get()
@@ -88,7 +91,7 @@ export class PostController extends DetaClass {
 		@Query('id', PostExistsPipe) id: string,
 		@Body() body: PostCreationDetails
 	) {
-		await this.postsBase.update(body as unknown as ObjectType, id);
+		return await this.postsBase.update(body as unknown as ObjectType, id);
 	}
 
 	@Delete('delete')
@@ -113,6 +116,14 @@ export class PostController extends DetaClass {
 
 		return limitPosts(posts.items, limit, offset);
 	}
+
+	@Get('fetch')
+	async fetchPosts(){
+		return (await this.postsBase.fetch(null, { limit: 15 })).items.sort((a, b) => {
+			return dayjs(a.createdAt as string).isAfter(b.createdAt as string) ? -1 : 1;
+		});
+	}
+
 
 	@Get('photo')
 	async getPhoto(@Query('id') id: string, @Req() req: Request) {

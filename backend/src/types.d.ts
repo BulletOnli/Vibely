@@ -15,3 +15,8 @@ interface Like {
 	postId: number;
 	userId: string;
 }
+
+interface Comment {
+	text: string;
+	likes: number;
+}

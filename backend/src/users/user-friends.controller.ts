@@ -25,9 +25,7 @@ const uuidPipe = new ParseUUIDPipe({ version: '4' });
 @UseGuards(AuthGuard)
 @Controller('user/friends')
 export class UserFriendsController extends DetaClass {
-	constructor(
-		private friend: FriendsService
-	){
+	constructor(private friend: FriendsService) {
 		super();
 	}
 
@@ -53,20 +51,20 @@ export class UserFriendsController extends DetaClass {
 				}
 			]);
 			return {
-				toastNotify: "Request sent"
+				toastNotify: 'Request sent'
 			};
 		} else {
 			let exception: string;
 			switch (status) {
-				case "requestSent":
+				case 'requestSent':
 					exception = 'You already sent a request to that user.';
 					break;
-				case "response":
+				case 'response':
 					exception = 'That user had sent you a request.';
-					break
-				case "friends":
+					break;
+				case 'friends':
 					exception = 'You are already friends with that user.';
-					break;					
+					break;
 			}
 			throw new BadRequestException(exception);
 		}
@@ -80,7 +78,7 @@ export class UserFriendsController extends DetaClass {
 	) {
 		return (
 			await this.friendsBase.fetch(
-				{ firstUser: id, isAccepted: true }, 
+				{ firstUser: id, isAccepted: true },
 				{ limit }
 			)
 		).items;
@@ -106,23 +104,31 @@ export class UserFriendsController extends DetaClass {
 
 	@Post('accept')
 	async acceptFriendRequest(
-		@CurrentUserId() currentId: string, 
-		@Query("id", uuidPipe, UserExistsPipe) id: string
-	){
+		@CurrentUserId() currentId: string,
+		@Query('id', uuidPipe, UserExistsPipe) id: string
+	) {
 		if (currentId === id) {
 			throw new BadRequestException("You can't accept yourself.");
 		}
 		const items = await this.friend.getFriendItems(currentId, id);
 		if (isEmpty(items)) {
-			throw new BadRequestException("This user doesn't send you a friend request.");
+			throw new BadRequestException(
+				"This user doesn't send you a friend request."
+			);
 		}
 		const [a, b] = items;
-		if (!a.isAccepted && !b.isAccepted) {		
-			const prom1 = this.friendsBase.update({ isAccepted: true } as Friend, a.key);
-			const prom2 = this.friendsBase.update({ isAccepted: true } as Friend, b.key);
+		if (!a.isAccepted && !b.isAccepted) {
+			const prom1 = this.friendsBase.update(
+				{ isAccepted: true } as Friend,
+				a.key
+			);
+			const prom2 = this.friendsBase.update(
+				{ isAccepted: true } as Friend,
+				b.key
+			);
 			Promise.all([prom1, prom2]);
 		} else {
-			throw new BadRequestException("You already accepted this user.");
+			throw new BadRequestException('You already accepted this user.');
 		}
 	}
 }

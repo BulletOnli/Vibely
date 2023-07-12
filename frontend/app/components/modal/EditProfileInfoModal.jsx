@@ -1,5 +1,5 @@
 "use client";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 import {
     Modal,
     ModalOverlay,

@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import axios from "axios";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 
 const EditProfilePicModal = ({ isOpen, onClose }) => {
     const [previewImage, setPreviewImage] = useState("");

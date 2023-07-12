@@ -14,7 +14,7 @@ import {
 
 import Notifications from "../Notifcations";
 import Leaderboards from "../Leaderboards";
-import { useThemeStore } from "../../store/themeStore";
+import { useThemeStore } from "../../zustandStore/themeStore";
 
 const NotificationDrawer = ({ isOpen, onClose }) => {
     const { isDarked } = useThemeStore();

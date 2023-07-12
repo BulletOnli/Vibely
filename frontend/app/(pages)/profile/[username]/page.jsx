@@ -1,21 +1,35 @@
 "use client";
 import { Button, Flex, HStack } from "@chakra-ui/react";
-import { useThemeStore } from "@/app/store/themeStore";
-import Post from "@/app/components/Post";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
+import Post from "@/app/components/post/Post";
 import ProfileInfo from "@/app/components/profile/ProfileInfo";
 import Banner from "@/app/components/profile/Banner";
+
+import useSWR from "swr";
+import { getRequest } from "@/app/api/fetcher";
 
 const ProfilePage = ({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
-    const isOtherProfile = params.id !== "gemmuel"; //my username
+
+    const userProfileSWR = useSWR(
+        `/user?username=${params.username}`,
+        getRequest
+    );
+    const allPostSWR = useSWR(
+        `/post/all?id=${userProfileSWR?.data?.key}`,
+        getRequest
+    );
+
+    const isOtherProfile = params.username !== "gemmuel"; //account username
 
     return (
-        <div className="w-full flex flex-col items-center justify-center p-6">
+        <div className="w-full min-h-screen flex flex-col items-center p-6">
             {/* Banner */}
             <Banner isOtherProfile={isOtherProfile} />
             <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center gap-6">
                 <ProfileInfo
+                    data={userProfileSWR?.data}
                     componentsBg={componentsBg}
                     params={params}
                     isOtherProfile={isOtherProfile}
@@ -26,11 +40,17 @@ const ProfilePage = ({ params }) => {
                         Vibely Timeline
                     </h1>
                     <div className="w-full flex flex-col items-center gap-4">
-                        <Post isDarked={isDarked} componentsBg={componentsBg} />
-                        <Post isDarked={isDarked} componentsBg={componentsBg} />
-                        <Post isDarked={isDarked} componentsBg={componentsBg} />
-                        <Post isDarked={isDarked} componentsBg={componentsBg} />
-                        <Post isDarked={isDarked} componentsBg={componentsBg} />
+                        {allPostSWR?.data
+                            ?.map((post) => (
+                                <Post
+                                    post={post}
+                                    isDarked={isDarked}
+                                    componentsBg={componentsBg}
+                                    key={post?.key}
+                                    mutate={allPostSWR?.mutate}
+                                />
+                            ))
+                            .reverse()}
                     </div>
                 </div>
             </div>

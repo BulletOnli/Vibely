@@ -6,9 +6,12 @@ import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
 import Link from "next/link";
 import EditProfileInfoModal from "../modal/EditProfileInfoModal";
 import ProfilePic from "./ProfilePic";
+import { getRequest } from "@/app/api/fetcher";
 
-const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
+const ProfileInfo = ({ data, componentsBg, params, isOtherProfile }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    // const profilePic = useSWR(`/user/profile/pic/${username}`, getRequest);
 
     return (
         <>
@@ -18,22 +21,27 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                 <div
                     className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
                 >
-                    <ProfilePic isOtherProfile={isOtherProfile} />
+                    <ProfilePic
+                        firstName={data?.firstName}
+                        isOtherProfile={isOtherProfile}
+                    />
                     <small className="tracking-wider text-gray-400 my-1">
-                        @{params.id}
+                        @{data?.username}
                     </small>
-                    <h1 className="text-xl font-bold">{params.id}</h1>
+                    <h1 className="text-xl font-bold">
+                        {data?.firstName} {data?.lastName}
+                    </h1>
                     <HStack gap={7} mt={2}>
                         <div className="flex flex-col items-center">
-                            <p className="text-lg font-bold">56</p>
+                            <p className="text-lg font-bold">0</p>
                             <p className="text-sm text-gray-400">Following</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-lg font-bold">5183</p>
+                            <p className="text-lg font-bold">0</p>
                             <p className="text-sm text-gray-400">Followers</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-lg font-bold">84.7K</p>
+                            <p className="text-lg font-bold">0</p>
                             <p className="text-sm text-gray-400">Likes</p>
                         </div>
                     </HStack>
@@ -83,20 +91,16 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         Personal Information
                     </p>
                     <HStack>
-                        <MdLocationOn fontSize={18} />
-                        <p className="text-sm">Nueva Ecija, Philippines</p>
-                    </HStack>
-                    <HStack>
                         <BsPersonFill fontSize={18} />
-                        <p className="text-sm">Male</p>
+                        <p className="text-sm">{data?.gender}</p>
                     </HStack>
                     <HStack>
                         <FaBirthdayCake fontSize={18} />
-                        <p className="text-sm">June 20, 2023</p>
+                        <p className="text-sm">{data?.birthday}</p>
                     </HStack>
                 </div>
 
-                <div
+                {/* <div
                     className={`${componentsBg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
                 >
                     <p className="text-lg font-semibold">
@@ -106,7 +110,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsFacebook fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.id}
+                                {username}
                             </p>
                         </Link>
                     </HStack>
@@ -114,7 +118,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsInstagram fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.id}
+                                {username}
                             </p>
                         </Link>
                     </HStack>
@@ -122,11 +126,11 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsGlobe fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.id}
+                                {username}
                             </p>
                         </Link>
                     </HStack>
-                </div>
+                </div> */}
             </div>
 
             <EditProfileInfoModal isOpen={isOpen} onClose={onClose} />

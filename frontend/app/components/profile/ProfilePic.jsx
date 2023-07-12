@@ -2,7 +2,7 @@ import { Avatar, useDisclosure } from "@chakra-ui/react";
 import { FiCamera } from "react-icons/fi";
 import UploadProfileModal from "../modal/UploadProfileModal";
 
-const ProfilePic = ({ isOtherProfile }) => {
+const ProfilePic = ({ isOtherProfile, firstName }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -12,7 +12,8 @@ const ProfilePic = ({ isOtherProfile }) => {
                 size="2xl"
                 mt="-20"
                 border="2px"
-                src="/tzuyu.jpg"
+                name={firstName}
+                // src="/tzuyu.jpg"
             >
                 {!isOtherProfile && (
                     <div className="absolute bottom-0 right-2 w-7 h-7 flex items-center justify-center  border-2 bg-[#DAE0E6] border-white rounded-full cursor-pointer">

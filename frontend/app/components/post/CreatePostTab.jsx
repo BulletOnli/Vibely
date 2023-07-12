@@ -5,17 +5,21 @@ import {
     HStack,
     useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { CgCloseO } from "react-icons/cg";
+import { postRequest } from "@/app/api/fetcher";
 
-const CreatePostTab = ({ isDarked, componentsBg }) => {
+const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
     const toast = useToast();
+    const postPhotoRef = useRef(null);
     const [previewImage, setPreviewImage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [inputCaption, setInputCaption] = useState("");
 
     const handleImgUpload = (e) => {
         const file = e.target.files[0];
+
         const reader = new FileReader();
         reader.onload = () => {
             setPreviewImage(reader.result);
@@ -26,22 +30,23 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
         }
     };
 
+    const handleRemoveImg = () => {
+        setPreviewImage("");
+        postPhotoRef.current.value = "";
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData(e.target);
 
         try {
-            const response = await axios.post(
-                "http://localhost:8080/user/create/post",
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "vibelyToken"
-                        )}`,
-                    },
-                }
-            );
+            setIsLoading(true);
+            await postRequest("/post/create", data);
+            mutate();
+            setIsLoading(false);
+            setInputCaption("");
+            setPreviewImage("");
+            postPhotoRef.current.value = "";
             toast({
                 title: "You've created a post",
                 status: "success",
@@ -51,6 +56,7 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
             });
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
             toast({
                 title: "Oops! Something went wrong.",
                 status: "error",
@@ -72,6 +78,8 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
                     mb={2}
                     resize="none"
                     name="caption"
+                    onChange={(e) => setInputCaption(e.target.value)}
+                    value={inputCaption}
                 />
                 {previewImage && (
                     <div className="relative flex justify-center items-center p-2 gap-2 border border-gray-200 rounded-md mb-3">
@@ -82,25 +90,32 @@ const CreatePostTab = ({ isDarked, componentsBg }) => {
                         />
                         <CgCloseO
                             className="absolute top-2 right-2 text-xl text-gray-500 cursor-pointer"
-                            onClick={() => setPreviewImage("")}
+                            onClick={handleRemoveImg}
                         />
                     </div>
                 )}
                 <HStack w="full">
                     <Button colorScheme="messenger">
-                        <label htmlFor="uploadPhoto">
+                        <label htmlFor="photo">
                             <BiImageAdd size={24} />
                         </label>
                         <input
+                            ref={postPhotoRef}
                             onChange={handleImgUpload}
-                            name="uploadPhoto"
+                            name="photo"
                             type="file"
                             accept="image/*"
-                            id="uploadPhoto"
+                            id="photo"
                             className="hidden"
                         />
                     </Button>
-                    <Button type="submit" w="full" colorScheme="messenger">
+                    <Button
+                        type="submit"
+                        w="full"
+                        colorScheme="messenger"
+                        isLoading={isLoading}
+                        spinnerPlacement="start"
+                    >
                         Post
                     </Button>
                 </HStack>

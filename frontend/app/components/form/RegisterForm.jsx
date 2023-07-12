@@ -1,9 +1,9 @@
 "use client";
-import { registerUser } from "@/app/api/userApi";
 import {
     Button,
     Flex,
     FormControl,
+    FormErrorMessage,
     FormLabel,
     HStack,
     Input,
@@ -15,10 +15,18 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
+import { MdWarningAmber } from "react-icons/md";
+import { mutate } from "swr";
+import { useRouter } from "next/navigation";
+import { postRequest, registerUser } from "@/app/api/fetcher";
 
 const RegisterForm = () => {
+    const router = useRouter();
     const toast = useToast();
     const [personalDetails, setPersonalDetails] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,14 +39,15 @@ const RegisterForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(
-                "http://localhost:8080/user/register",
-                personalDetails
-            );
-            localStorage.setItem("vibelyToken", response.data.token);
-            console.log(response.data);
+            setIsError(false);
+            setIsLoading(true);
 
+            await registerUser("/user/register", personalDetails);
+            mutate("/user/register");
+
+            setIsLoading(false);
             setPersonalDetails({});
+            router.push("/");
             toast({
                 title: "Account Created successfuly!",
                 status: "success",
@@ -48,6 +57,9 @@ const RegisterForm = () => {
             });
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
+            setIsError(true);
+            setErrorMessage(error.response.data.message);
             toast({
                 title: "Oops! Something went wrong.",
                 status: "error",
@@ -59,7 +71,12 @@ const RegisterForm = () => {
     };
 
     return (
-        <FormControl as="form" mt={4} onSubmit={handleSubmit}>
+        <FormControl
+            as="form"
+            mt={4}
+            onSubmit={handleSubmit}
+            isInvalid={isError}
+        >
             <HStack mt={2}>
                 <Input
                     id="firstName"
@@ -125,6 +142,7 @@ const RegisterForm = () => {
                         Gender
                     </FormLabel>
                     <Select id="gender" name="gender" onChange={handleChange}>
+                        <option value="">---</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </Select>
@@ -144,7 +162,26 @@ const RegisterForm = () => {
                     />
                 </Flex>
             </HStack>
-            <Button type="submit" colorScheme="telegram" w="full" mt={4}>
+            {isError &&
+                errorMessage?.map((message, index) => (
+                    <FormErrorMessage
+                        key={index}
+                        fontWeight="medium"
+                        mb={-2}
+                        gap={1}
+                    >
+                        <MdWarningAmber size={18} />
+                        {message}
+                    </FormErrorMessage>
+                ))}
+            <Button
+                type="submit"
+                colorScheme="telegram"
+                w="full"
+                mt={4}
+                isLoading={isLoading}
+                spinnerPlacement="start"
+            >
                 Register
             </Button>
         </FormControl>

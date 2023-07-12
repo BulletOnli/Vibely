@@ -9,26 +9,36 @@ import {
     InputLeftElement,
     Spacer,
     useToast,
+    FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
+import { mutate } from "swr";
+import { MdWarningAmber } from "react-icons/md";
+import { useRouter } from "next/navigation";
+import { loginUser, postRequest } from "@/app/api/fetcher";
 
 const LoginForm = () => {
+    const router = useRouter();
     const toast = useToast();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(
-                "http://localhost:8080/user/login",
-                { username, password }
-            );
-            localStorage.setItem("vibelyToken", response.data.token);
+            setIsError(false);
+            setIsLoading(true);
 
+            await loginUser("/user/login", { username, password });
+            mutate("/user/login");
+
+            setIsLoading(false);
             setUsername("");
             setPassword("");
+            router.push("/");
             toast({
                 title: "Login Success!",
                 status: "success",
@@ -37,9 +47,11 @@ const LoginForm = () => {
                 duration: 2000,
             });
         } catch (error) {
-            console.log(error);
+            console.log(error.response.data.message);
+            setIsLoading(false);
+            setIsError(true);
             toast({
-                title: "Oops! Something went wrong.",
+                title: `Oops! ${error.response.data.message}.`,
                 status: "error",
                 isClosable: true,
                 position: "top",
@@ -49,7 +61,12 @@ const LoginForm = () => {
     };
 
     return (
-        <FormControl as="form" mt={6} onSubmit={handleSubmit}>
+        <FormControl
+            as="form"
+            mt={6}
+            onSubmit={handleSubmit}
+            isInvalid={isError}
+        >
             <InputGroup mt={2}>
                 <InputLeftElement pointerEvents="none">
                     <BsFillPersonFill className="text-gray-500 text-lg" />
@@ -83,7 +100,13 @@ const LoginForm = () => {
                 <Spacer />
                 <p className="text-[13px] text-blue-800">Forgot Password?</p>
             </HStack>
-            <Button type="submit" colorScheme="telegram" w="full">
+            <Button
+                type="submit"
+                colorScheme="telegram"
+                w="full"
+                isLoading={isLoading}
+                spinnerPlacement="start"
+            >
                 Log in
             </Button>
         </FormControl>

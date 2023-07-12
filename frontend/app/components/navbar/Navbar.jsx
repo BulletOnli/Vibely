@@ -11,6 +11,8 @@ import {
     MenuList,
     MenuItem,
     Button,
+    Text,
+    useToast,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -27,13 +29,36 @@ import {
     MdOutlineEmail,
 } from "react-icons/md";
 
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useUserStore } from "@/app/zustandStore/userStore";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+    const toast = useToast();
+    const router = useRouter();
     const { toggleTheme, isDarked } = useThemeStore();
     const darkMode = isDarked
         ? "bg-[#242850] text-[#f5f5f5]"
         : "bg-white text-black";
+
+    const { getCurrentAccount } = useUserStore();
+
+    const handleLogout = () => {
+        localStorage.removeItem("vibelyToken");
+        router.push("/login");
+        toast({
+            title: "Successfully logout!",
+            status: "success",
+            isClosable: true,
+            position: "top",
+            duration: 2000,
+        });
+    };
+
+    useEffect(() => {
+        getCurrentAccount();
+    }, []);
 
     return (
         <div
@@ -113,9 +138,11 @@ const Navbar = () => {
                             About us
                         </MenuItem>
                         <MenuItem
+                            as={Text}
                             icon={<MdOutlineLogout size={18} />}
                             bg={isDarked ? "#242850" : "white"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                            onClick={handleLogout}
                         >
                             Log Out
                         </MenuItem>

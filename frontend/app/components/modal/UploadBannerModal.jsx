@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 
 const EditBannerModal = ({ isOpen, onClose }) => {
     const [previewImage, setPreviewImage] = useState("");

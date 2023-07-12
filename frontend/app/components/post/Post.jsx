@@ -9,6 +9,7 @@ import {
     MenuList,
     Text,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { FaShare } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -20,10 +21,50 @@ import {
     BsBookmark,
     BsChatSquareQuote,
 } from "react-icons/bs";
-import CommentsModal from "./modal/CommentsModal";
+import CommentsModal from "../modal/CommentsModal";
+import useSWR from "swr";
+import { useUserStore } from "@/app/zustandStore/userStore";
+import Link from "next/link";
+import { deleteRequest, getRequest } from "@/app/api/fetcher";
 
-const Post = ({ componentsBg, isDarked }) => {
+const Post = ({ componentsBg, isDarked, post, mutate }) => {
+    const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { currentAccount } = useUserStore();
+
+    const postCreator = useSWR(`/user?id=${post?.userId}`, getRequest);
+    // const photoSWR = useSWR(`/post/photo?id=${post?.key}`, getRequest);
+    // const postPhoto = photoSWR?.data
+    //     ? Buffer.from(photoSWR?.data).toString("base64")
+    //     : null;
+
+    const isOtherPost =
+        currentAccount?.username !== postCreator?.data?.username;
+
+    const handleDelete = async () => {
+        try {
+            //todo MAY CORS ERROR KAPAG NAG DEDELETE
+            await deleteRequest(`/post/delete?id=${post?.key}`);
+            mutate();
+
+            toast({
+                title: "You've deleted a post",
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            toast({
+                title: "Oops! Something went wrong.",
+                status: "error",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
+    };
 
     return (
         <>
@@ -32,11 +73,19 @@ const Post = ({ componentsBg, isDarked }) => {
             >
                 <div className="w-full flex items-center justify-between gap-4">
                     <HStack>
-                        <Avatar size="sm" name="Gemmuel" />
+                        <Avatar size="sm" name={postCreator?.data?.firstName} />
                         <div className="flex flex-col">
-                            <h1 className="font-semibold">Gemmuel Dela Pena</h1>
+                            <Link
+                                href={`/profile/${postCreator?.data?.username}`}
+                                className="hover:underline"
+                            >
+                                <h1 className="font-semibold">
+                                    {postCreator?.data?.firstName}{" "}
+                                    {postCreator?.data?.lastName}
+                                </h1>
+                            </Link>
                             <small className="text-xs text-[#5F6892]">
-                                3:14 PM • 5/17/23
+                                Created at {post?.createdAt?.slice(0, 10)}
                             </small>
                         </div>
                     </HStack>
@@ -73,65 +122,69 @@ const Post = ({ componentsBg, isDarked }) => {
                             >
                                 Save Post
                             </MenuItem>
-                            <MenuItem
-                                icon={<BsTrash size={18} />}
-                                bg={isDarked ? "#242850" : "white"}
-                                _hover={{
-                                    bg: isDarked ? "#1A1F40" : "#E9ECEF",
-                                }}
-                                fontSize={14}
-                            >
-                                Remove Post
-                            </MenuItem>
+                            {!isOtherPost && (
+                                <MenuItem
+                                    as={Button}
+                                    icon={<BsTrash size={18} />}
+                                    bg={isDarked ? "#242850" : "white"}
+                                    _hover={{
+                                        bg: isDarked ? "#1A1F40" : "#E9ECEF",
+                                    }}
+                                    fontSize={14}
+                                    onClick={handleDelete}
+                                >
+                                    Remove Post
+                                </MenuItem>
+                            )}
                         </MenuList>
                     </Menu>
                 </div>
                 <div className="w-full h-full flex flex-col justify-center items-center lg:gap-4 text-center p-3 lg:p-6">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Iste suscipit officia corrupti quae praesentium
-                        quam quibusdam doloremque facilis laborum
-                    </p>
-                    <Image
-                        src="/pcbg.png"
-                        fallbackSrc="https://via.placeholder.com/150"
-                        className="w-full h-[10rem] lg:h-[20rem] object-contain"
-                    />
+                    <p>{post?.caption}</p>
+
+                    {/* {post?.hasPhoto && (
+                        <Image
+                            // src="/pcbg.png"
+                            src={`data:image/jpg;base64,${postPhoto}`}
+                            fallbackSrc="https://via.placeholder.com/150"
+                            className="w-full h-[10rem] lg:h-[20rem] object-contain"
+                        />
+                    )} */}
                 </div>
                 <div className="w-full flex items-center justify-between">
                     <HStack>
                         <Button
-                            size="sm"
+                            size="xs"
                             variant="outline"
                             color={isDarked ? "white" : "black"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                         >
-                            <AiOutlineHeart fontSize={20} />
-                            <Text ml="5px">13</Text>
+                            <AiOutlineHeart fontSize={18} />
+                            <Text ml="5px">{post?.likes}</Text>
                         </Button>
                         <Button
-                            size="sm"
+                            size="xs"
                             variant="outline"
                             color={isDarked ? "white" : "black"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                         >
-                            <BsHandThumbsDown fontSize={18} />
-                            <Text ml="5px">1</Text>
+                            <BsHandThumbsDown fontSize={16} />
+                            <Text ml="5px">{post?.dislikes}</Text>
                         </Button>
                         <Button
-                            size="sm"
+                            size="xs"
                             variant="outline"
                             color={isDarked ? "white" : "black"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
                             onClick={onOpen}
                         >
-                            <BsChatSquareQuote fontSize={18} />
+                            <BsChatSquareQuote fontSize={15} />
                             <Text ml="7px">0</Text>
                         </Button>
                     </HStack>
 
                     <Button
-                        size="sm"
+                        size="xs"
                         leftIcon={<FaShare />}
                         colorScheme="gray"
                         variant="outline"

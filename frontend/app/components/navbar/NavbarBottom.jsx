@@ -6,7 +6,7 @@ import {
     BsFillChatFill,
 } from "react-icons/bs";
 import Nav from "./Nav";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 import { useDisclosure } from "@chakra-ui/react";
 import NotificationDrawer from "../modal/NotificationDrawer";
 

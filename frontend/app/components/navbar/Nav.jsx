@@ -1,4 +1,4 @@
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

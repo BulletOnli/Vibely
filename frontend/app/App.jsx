@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/navbar/Navbar";
 import NavbarBottom from "./components/navbar/NavbarBottom";
-import { useThemeStore } from "./store/themeStore";
+import { useThemeStore } from "./zustandStore/themeStore";
 
 const App = ({ children }) => {
     const pathname = usePathname();
@@ -17,7 +17,7 @@ const App = ({ children }) => {
 
     return (
         <ChakraProvider>
-            <div className={`${mainBg} relative w-full flex flex-col`}>
+            <div className={`${mainBg} relative w-full  flex flex-col`}>
                 {!hideComponents && <Navbar />}
                 {children}
                 {!hideComponents && <NavbarBottom />}

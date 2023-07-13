@@ -55,7 +55,7 @@ export class UserController {
 		} else if (un) {
 			return await this._getUserInfoByUsername(un);
 		} else if (id) {
-			return await this._getUserInfo(un);
+			return await this._getUserInfo(id);
 		} else {
 			throw new BadRequestException('Id or username is required');
 		}

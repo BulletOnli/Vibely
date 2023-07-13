@@ -15,7 +15,6 @@ export class UserService extends DetaClass {
 	}
 
 	async findOneById(id: string) {
-		console.log(id);
 		return await this.usersBase.get(id);
 	}
 

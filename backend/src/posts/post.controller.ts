@@ -21,7 +21,6 @@ import { DetaClass } from 'src/deta.class';
 import { AuthGuard } from 'src/guards/auth.guard';
 
 import { UserService } from 'src/users/services/user.service';
-import { PostService } from './services/post.service';
 import { PostPhotoService } from './services/post-photo.service';
 
 import { GetAllDto, PostCreationDetails } from './dto';
@@ -34,13 +33,14 @@ import { PostExistsPipe } from './post-exists.pipe';
 
 import { CurrentUserId } from 'src/users/user.decorator';
 import * as dayjs from 'dayjs';
+import { randomUUID } from 'crypto';
+import { OptionalParseIntPipe } from 'src/users/pipes/optional-parse-int.pipe';
 
 @UseGuards(AuthGuard)
 @Controller('post')
 export class PostController extends DetaClass {
 	constructor(
 		private user: UserService,
-		private post: PostService,
 		private postPhoto: PostPhotoService,
 		private config: ConfigService
 	) {
@@ -54,7 +54,7 @@ export class PostController extends DetaClass {
 		@CurrentUserId() id: string,
 		@UploadedFile() file: Express.Multer.File
 	) {
-		const postId = await this.post.autoIncKey();
+		const postId = randomUUID();
 		const uploadPostProm = this.postsBase.put(
 			{
 				caption: postDetails.caption,
@@ -118,12 +118,14 @@ export class PostController extends DetaClass {
 	}
 
 	@Get('fetch')
-	async fetchPosts(){
-		return (await this.postsBase.fetch(null, { limit: 15 })).items.sort((a, b) => {
+	async fetchPosts(
+		@Query('limit', new OptionalParseIntPipe({ defaultValue: 15 })) limit: number,
+		@Query('offset', new OptionalParseIntPipe({ defaultValue: 0 })) offset: number
+	){
+		return limitPosts((await this.postsBase.fetch()).items.sort((a, b) => {
 			return dayjs(a.createdAt as string).isAfter(b.createdAt as string) ? -1 : 1;
-		});
+		}), limit, offset);
 	}
-
 
 	@Get('photo')
 	async getPhoto(@Query('id') id: string, @Req() req: Request) {

@@ -5,7 +5,6 @@ import {
 	BadRequestException,
 	NotFoundException,
 	Get,
-	UseGuards,
 	Query
 } from '@nestjs/common';
 import * as argon2 from 'argon2';
@@ -14,7 +13,6 @@ import { UserRegistrationDetails, UserLoginDetails } from './dto';
 import { UserService } from './services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CurrentUserId } from './user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -41,13 +39,11 @@ export class UserController {
 		};
 	}
 
-	@UseGuards(AuthGuard)
 	@Get('current')
 	async getCurrentUserInfo(@CurrentUserId() id: string) {
 		return await this._getUserInfo(id);
 	}
 
-	@UseGuards(AuthGuard)
 	@Get()
 	async getUserInfo(@Query('username') un: string, @Query('id') id: string) {
 		if (un && id) {

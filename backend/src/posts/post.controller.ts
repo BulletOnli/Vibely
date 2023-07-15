@@ -3,7 +3,6 @@ import {
 	Controller,
 	Get,
 	Post,
-	UseGuards,
 	Delete,
 	Req,
 	NotFoundException,
@@ -18,7 +17,6 @@ import { Request } from 'express';
 import { isUndefined } from 'lodash';
 
 import { DetaClass } from 'src/deta.class';
-import { AuthGuard } from 'src/guards/auth.guard';
 
 import { UserService } from 'src/users/services/user.service';
 import { PostPhotoService } from './services/post-photo.service';
@@ -36,7 +34,6 @@ import * as dayjs from 'dayjs';
 import { randomUUID } from 'crypto';
 import { OptionalParseIntPipe } from 'src/users/pipes/optional-parse-int.pipe';
 
-@UseGuards(AuthGuard)
 @Controller('post')
 export class PostController extends DetaClass {
 	constructor(
@@ -128,7 +125,7 @@ export class PostController extends DetaClass {
 	}
 
 	@Get('photo')
-	async getPhoto(@Query('id') id: string, @Req() req: Request) {
-		return await this.postPhoto.getPhoto(id, req);
+	async getPhoto(@Query('id') id: string) {
+		return await this.postPhoto.getPhoto(id);
 	}
 }

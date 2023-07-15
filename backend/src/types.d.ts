@@ -12,7 +12,7 @@ interface User {
 interface Like {
 	key: string;
 	isLiked: boolean | null;
-	postId: number;
+	postId: string;
 	userId: string;
 }
 

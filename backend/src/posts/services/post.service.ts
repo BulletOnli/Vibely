@@ -4,15 +4,15 @@ import { Post } from '../types';
 
 @Injectable()
 export class PostService extends DetaClass {
-	async exists(id: number): Promise<boolean> {
-		if (await this.postsBase.get(id.toString())) {
+	async exists(id: string): Promise<boolean> {
+		if (await this.postsBase.get(id)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	async findOne(id: number): Promise<Post | undefined> {
-		return (await this.postsBase.get(id.toString())) as Post;
+	async findOne(id: string): Promise<Post | undefined> {
+		return (await this.postsBase.get(id)) as Post;
 	}
 }

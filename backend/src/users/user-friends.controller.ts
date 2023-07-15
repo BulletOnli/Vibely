@@ -1,6 +1,5 @@
 import {
 	Controller,
-	UseGuards,
 	Post,
 	Get,
 	Query,
@@ -12,7 +11,6 @@ import { isEmpty, isNull } from 'lodash';
 import { Friend } from './types';
 
 import { DetaClass } from 'src/deta.class';
-import { AuthGuard } from 'src/guards/auth.guard';
 
 import { CurrentUserId } from './user.decorator';
 
@@ -22,7 +20,6 @@ import { FriendsService } from './services/friends.service';
 
 const uuidPipe = new ParseUUIDPipe({ version: '4' });
 
-@UseGuards(AuthGuard)
 @Controller('user/friends')
 export class UserFriendsController extends DetaClass {
 	constructor(private friend: FriendsService) {

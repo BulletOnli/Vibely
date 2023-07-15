@@ -5,13 +5,11 @@ import {
 	Delete,
 	Get,
 	Post,
-	Query,
-	UseGuards
+	Query
 } from '@nestjs/common';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { isEmpty } from 'lodash';
 import { DetaClass } from 'src/deta.class';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { PostExistsPipe } from 'src/posts/post-exists.pipe';
 import { CurrentUserId } from 'src/users/user.decorator';
 import { CommentLikesService } from './comment-likes.service';
@@ -23,7 +21,6 @@ class TextDto {
 	text: string;
 }
 
-@UseGuards(AuthGuard)
 @Controller('comment')
 export class CommentsController extends DetaClass {
 	constructor(private likes: CommentLikesService) {

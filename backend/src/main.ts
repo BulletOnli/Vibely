@@ -7,7 +7,9 @@ import { AppModule } from './app.module';
 	const port = 8080;
 	const app = await NestFactory.create(AppModule);
 
-	app.enableCors();
+	app.enableCors({
+		methods: ['POST', 'GET', 'PUT', 'DELETE']
+	});
 	app.useGlobalPipes(new ValidationPipe());
 
 	const isDev = process.env.NODE_ENV === 'development';

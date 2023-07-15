@@ -15,7 +15,7 @@ export class PostLikesService extends DetaClass {
 		super();
 	}
 
-	async applyLikeDislike(postId: number, req: Request, isLike: boolean) {
+	async applyLikeDislike(postId: string, req: Request, isLike: boolean) {
 		const [[like, likes], post] = await this.getLikesAndPost(postId, req);
 
 		if (!post) {
@@ -45,7 +45,7 @@ export class PostLikesService extends DetaClass {
 		}
 	}
 
-	async removeLikeDislike(postId: number, req: Request, isLike: boolean) {
+	async removeLikeDislike(postId: string, req: Request, isLike: boolean) {
 		const [[like, likes], post] = await this.getLikesAndPost(postId, req);
 
 		if (!(await this.post.exists(postId))) {
@@ -97,14 +97,14 @@ export class PostLikesService extends DetaClass {
 		);
 	}
 
-	private getLikesAndPost(postId: number, req: Request) {
+	private getLikesAndPost(postId: string, req: Request) {
 		const getLike = this.getLike(postId, req);
 		const findOneProm = this.post.findOne(postId);
 		return Promise.all([getLike, findOneProm]);
 	}
 
 	private async getLike(
-		postId: number,
+		postId: string,
 		req: Request
 	): Promise<[Like | undefined, ReturnType<typeof Base>]> {
 		const userId = req['user'].sub;

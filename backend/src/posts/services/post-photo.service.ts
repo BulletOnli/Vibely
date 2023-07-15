@@ -10,11 +10,11 @@ import { DetaClass } from 'src/deta.class';
 
 @Injectable()
 export class PostPhotoService extends DetaClass {
-	async getPhoto(id: string, req: Request) {
-		const userId = req['user'].sub;
+	async getPhoto(id: string) {
 		const list = (await this.postPhotos.list()).names;
+		console.log(list)
 		const postPhoto = list.find(x => {
-			return x.startsWith(userId) && id === x.split('/')[1];
+			return id === x.split('/')[1];
 		});
 		if (postPhoto) {
 			const file = basename(postPhoto);

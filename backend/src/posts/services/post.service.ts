@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { DetaClass } from 'src/deta.class';
 import { Post } from '../types';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 @Injectable()
-export class PostService extends DetaClass {
+export class PostService {
+	postsBase: Base;
+	constructor(
+		private deta: DetaService
+	){
+		this.postsBase = this.deta.createBase("posts");
+	}
+
 	async exists(id: string): Promise<boolean> {
 		if (await this.postsBase.get(id)) {
 			return true;

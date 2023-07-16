@@ -10,20 +10,23 @@ import { isEmpty, isNull } from 'lodash';
 
 import { Friend } from './types';
 
-import { DetaClass } from 'src/deta.class';
-
 import { CurrentUserId } from './user.decorator';
 
 import { UserExistsPipe } from './pipes/user-exists.pipe';
 import { OptionalParseIntPipe } from './pipes/optional-parse-int.pipe';
 import { FriendsService } from './services/friends.service';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 const uuidPipe = new ParseUUIDPipe({ version: '4' });
 
 @Controller('user/friends')
-export class UserFriendsController extends DetaClass {
-	constructor(private friend: FriendsService) {
-		super();
+export class UserFriendsController {
+	friendsBase: Base;
+	constructor(
+		private friend: FriendsService,
+		private deta: DetaService
+	){
+		this.friendsBase = this.deta.createBase("friends");
 	}
 
 	@Post('add')

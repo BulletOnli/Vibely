@@ -3,16 +3,23 @@ import {
 	BadRequestException,
 	NotFoundException
 } from '@nestjs/common';
-import { Base } from 'deta';
 import { Request } from 'express';
-import { DetaClass } from 'src/deta.class';
+import { Base as DetaBase } from 'deta';
 import { PostService } from './post.service';
 import { Post } from '../types';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 @Injectable()
-export class PostLikesService extends DetaClass {
-	constructor(private post: PostService) {
-		super();
+export class PostLikesService {
+	postsBase: Base;
+	likesBase: Base;
+	constructor(
+		private post: PostService,
+		private deta: DetaService
+	){
+		const d = this.deta;
+		this.postsBase = d.createBase("posts");
+		this.likesBase = d.createBase("likes");
 	}
 
 	async applyLikeDislike(postId: string, req: Request, isLike: boolean) {
@@ -106,7 +113,7 @@ export class PostLikesService extends DetaClass {
 	private async getLike(
 		postId: string,
 		req: Request
-	): Promise<[Like | undefined, ReturnType<typeof Base>]> {
+	): Promise<[Like | undefined, ReturnType<typeof DetaBase>]> {
 		const userId = req['user'].sub;
 		const likes = this.likesBase;
 		const items = (await likes.fetch()).items as unknown as Like[];

@@ -10,7 +10,13 @@ import { IncomingHttpHeaders } from 'http';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	excludedMethods = ['login', 'register', 'getPhoto', 'getHello'];
+	excludedMethods = [
+		'loginUser', 
+		'registerUser', 
+		'getPhoto', 
+		'getHello', 
+		'getProfilePicFromId'
+	];
 
 	constructor(private jwt: JwtService) {}
 	async canActivate(context: ExecutionContext): Promise<boolean> {

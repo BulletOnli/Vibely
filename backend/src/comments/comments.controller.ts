@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { isEmpty } from 'lodash';
-import { DetaClass } from 'src/deta.class';
 import { PostExistsPipe } from 'src/posts/post-exists.pipe';
 import { CurrentUserId } from 'src/users/user.decorator';
 import { CommentLikesService } from './comment-likes.service';
 import { CommentExistsPipe } from './comment-exists.pipe';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 class TextDto {
 	@IsNotEmpty()
@@ -22,9 +22,16 @@ class TextDto {
 }
 
 @Controller('comment')
-export class CommentsController extends DetaClass {
-	constructor(private likes: CommentLikesService) {
-		super();
+export class CommentsController {
+	commentsBase: Base;
+	commentLikesBase: Base;
+	constructor(
+		private likes: CommentLikesService,
+		private deta: DetaService
+	) {
+		const d = this.deta;
+		this.commentsBase = d.createBase("comments");
+		this.commentLikesBase = d.createBase("commentLikes");
 	}
 
 	@Post('add')

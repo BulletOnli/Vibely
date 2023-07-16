@@ -8,6 +8,7 @@ import { PostModule } from './posts/post.module';
 import { CommentsModule } from './comments/comments.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
+import { DetaModule } from './deta/deta.module';
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { AuthGuard } from './guards/auth.guard';
 			},
 			global: true
 		}),
+		DetaModule.forRoot(),
 		UserModule,
 		PostModule,
 		CommentsModule

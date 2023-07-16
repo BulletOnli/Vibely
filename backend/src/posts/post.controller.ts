@@ -16,10 +16,9 @@ import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { isUndefined } from 'lodash';
 
-import { DetaClass } from 'src/deta.class';
-
 import { UserService } from 'src/users/services/user.service';
 import { PostPhotoService } from './services/post-photo.service';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 import { GetAllDto, PostCreationDetails } from './dto';
 import { limitArray as limitPosts } from 'src/utils';
@@ -35,13 +34,16 @@ import { randomUUID } from 'crypto';
 import { OptionalParseIntPipe } from 'src/users/pipes/optional-parse-int.pipe';
 
 @Controller('post')
-export class PostController extends DetaClass {
+export class PostController {
+	postsBase: Base;
 	constructor(
 		private user: UserService,
 		private postPhoto: PostPhotoService,
-		private config: ConfigService
+		private config: ConfigService,
+		private deta: DetaService
 	) {
-		super();
+		const d = this.deta;
+		this.postsBase = d.createBase("posts"); 
 	}
 
 	@Post('create')

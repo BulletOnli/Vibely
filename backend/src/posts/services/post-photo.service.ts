@@ -6,10 +6,16 @@ import {
 import { basename } from 'path';
 import { Request } from 'express';
 import { lookup } from 'mime-types';
-import { DetaClass } from 'src/deta.class';
+import { DetaService, Drive } from 'src/deta/deta.service';
 
 @Injectable()
-export class PostPhotoService extends DetaClass {
+export class PostPhotoService {
+	postPhotos: Drive;
+	constructor(
+		private deta: DetaService
+	){
+		this.postPhotos = this.deta.createDrive("postPhotos");
+	}
 	async getPhoto(id: string) {
 		const list = (await this.postPhotos.list()).names;
 		console.log(list)

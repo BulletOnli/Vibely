@@ -1,26 +1,17 @@
 "use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Button } from "@chakra-ui/react";
+import Link from "next/link";
 
 export default function Error({ error }) {
-    const router = useRouter();
-
-    useEffect(() => {
-        console.error(error);
-    }, [error]);
-
     return (
-        <div className="w-full h-screen flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-bold">
-                Something went wrong! Go back and refresh the page!
+        <div className="w-full h-screen flex flex-col items-center">
+            <h1 className="text-7xl mt-[10rem] font-bold">500</h1>
+            <h2 className="mt-4 text-2xl font-semibold text-[#00CCCC]">
+                Ooops, Internal Server Error
             </h2>
-            <button
-                className="p-4 border border-white"
-                onClick={() => router.push("/")}
-            >
-                Try again
-            </button>
+            <Link href="/" className="mt-10">
+                <Button colorScheme="teal">Go to Homepage</Button>
+            </Link>
         </div>
     );
 }

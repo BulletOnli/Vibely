@@ -11,17 +11,26 @@ import {
     Button,
     useToast,
     Flex,
+    FormLabel,
+    Input,
+    Textarea,
+    Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
-import { mutate } from "swr";
+import { putRequest } from "@/app/utils/fetcher";
 
-const EditBannerModal = ({ isOpen, onClose }) => {
-    const [previewImage, setPreviewImage] = useState("");
+const EditPostModal = ({ isOpen, onClose, postData, mutate }) => {
     const toast = useToast();
     const { isDarked } = useThemeStore();
+    const [previewImage, setPreviewImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [caption, setCaption] = useState(postData?.caption);
+
+    const postPhoto = postData?.hasPhoto
+        ? `https://vibelybackend-1-a9532540.deta.app/post/photo?id=${postData?.key}`
+        : "https://via.placeholder.com/400";
 
     const handleImgUpload = (e) => {
         const file = e.target.files[0];
@@ -38,14 +47,18 @@ const EditBannerModal = ({ isOpen, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData(e.target);
+        const photo = data.get("photo");
 
+        //todo hindi gumagana update photo
         try {
             setIsLoading(true);
-            await postRequest("/user/cover/upload", data);
+            await putRequest(`/post/update?id=${postData?.key}`, {
+                caption,
+            });
             mutate();
             setIsLoading(false);
             toast({
-                title: "Profile Banner successfully changed",
+                title: "Post updated!",
                 status: "success",
                 isClosable: true,
                 position: "top",
@@ -66,29 +79,44 @@ const EditBannerModal = ({ isOpen, onClose }) => {
         }
     };
 
+    const handleClose = () => {
+        setPreviewImage("");
+        setCaption(postData?.caption);
+        onClose();
+    };
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <Modal isOpen={isOpen} onClose={handleClose} size="lg">
             <form onSubmit={handleSubmit}>
                 <ModalOverlay />
                 <ModalContent
                     color={isDarked ? "white" : "black"}
                     bg={isDarked ? "#242850" : "white"}
                 >
-                    <ModalHeader>Edit Profile Banner</ModalHeader>
+                    <ModalHeader>Edit Post</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Flex direction="column" align="center" gap={4}>
+                        <FormLabel>Caption:</FormLabel>
+                        <Textarea
+                            placeholder="Share your thoughts..."
+                            mb={2}
+                            resize="none"
+                            name="caption"
+                            onChange={(e) => setCaption(e.target.value)}
+                            value={caption}
+                        />
+                        <Flex direction="column" align="center" gap={2}>
                             <div
                                 style={{
                                     backgroundImage: `url(${
-                                        previewImage || "/pcbg.png"
+                                        previewImage || postPhoto
                                     })`,
                                 }}
                                 className={`relative w-full h-[10rem] lg:h-[15rem] bg-cover bg-center bg-no-repeat border-2 rounded-2xl shadow-custom`}
                             ></div>
                             <Button w="full" colorScheme="telegram">
                                 <label
-                                    htmlFor="banner-upload"
+                                    htmlFor="photo-upload"
                                     className="w-full"
                                 >
                                     Upload image
@@ -97,10 +125,9 @@ const EditBannerModal = ({ isOpen, onClose }) => {
                                     onChange={handleImgUpload}
                                     type="file"
                                     accept="image/*"
-                                    id="banner-upload"
+                                    id="photo-upload"
                                     className="hidden"
-                                    name="banner"
-                                    required
+                                    name="photo"
                                 />
                             </Button>
                         </Flex>
@@ -111,7 +138,6 @@ const EditBannerModal = ({ isOpen, onClose }) => {
                             Close
                         </Button>
                         <Button
-                            isDisabled={!previewImage}
                             type="submit"
                             colorScheme="blue"
                             isLoading={isLoading}
@@ -126,4 +152,4 @@ const EditBannerModal = ({ isOpen, onClose }) => {
     );
 };
 
-export default EditBannerModal;
+export default EditPostModal;

@@ -9,6 +9,7 @@ import Nav from "./Nav";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import { useDisclosure } from "@chakra-ui/react";
 import NotificationDrawer from "../modal/NotificationDrawer";
+import { useUserStore } from "@/app/zustandStore/userStore";
 
 const NavbarBottom = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -16,6 +17,8 @@ const NavbarBottom = () => {
     const bg = isDarked
         ? "bg-[#282E54] text-[#f5f5f5]"
         : "bg-[#E9ECEF] text-black";
+
+    const { currentAccount } = useUserStore();
 
     return (
         <>
@@ -25,7 +28,10 @@ const NavbarBottom = () => {
                 >
                     <Nav path="/" icon={<FaHome />} />
                     <Nav path="/chat" icon={<BsFillChatFill />} />
-                    <Nav path="/profile/gemmuel" icon={<BsPersonCircle />} />
+                    <Nav
+                        path={`/${currentAccount?.username}`}
+                        icon={<BsPersonCircle />}
+                    />
                     <div className="flex lg:hidden " onClick={onOpen}>
                         <Nav path="#" icon={<BsFillBellFill />} />
                     </div>

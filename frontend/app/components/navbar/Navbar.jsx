@@ -32,7 +32,8 @@ import {
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import { useUserStore } from "@/app/zustandStore/userStore";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { checkAccessToken } from "@/app/utils/accessToken";
 
 const Navbar = () => {
     const toast = useToast();
@@ -58,6 +59,9 @@ const Navbar = () => {
 
     useEffect(() => {
         getCurrentAccount();
+        if (!checkAccessToken()) {
+            redirect("/login");
+        }
     }, []);
 
     return (
@@ -98,7 +102,7 @@ const Navbar = () => {
                     as={isDarked ? BsSunFill : BsFillMoonStarsFill}
                     boxSize={5}
                     mx={3}
-                    onClick={toggleTheme}
+                    // onClick={toggleTheme}
                     cursor="pointer"
                 />
                 <Menu>

@@ -5,15 +5,16 @@ import { BsGear } from "react-icons/bs";
 
 import CreatePostTab from "./components/post/CreatePostTab";
 import Post from "./components/post/Post";
-import Notifications from "./components/Notifcations";
+import Notifications from "./components/homepage/Notifcations";
 import { useThemeStore } from "./zustandStore/themeStore";
-import Leaderboards from "./components/Leaderboards";
+import Leaderboards from "./components/homepage/Leaderboards";
 
 import useSWR from "swr";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { useUserStore } from "./zustandStore/userStore";
-import { getRequest } from "./api/fetcher";
+import { getRequest } from "./utils/fetcher";
+import { checkAccessToken } from "./utils/accessToken";
 
 const NewsFeedPage = () => {
     const router = useRouter();
@@ -21,25 +22,23 @@ const NewsFeedPage = () => {
     const componentsBg = isDarked
         ? "bg-[#242850] text-[#f5f5f5]"
         : "bg-white text-black";
-
-    const allPostSWR = useSWR("/post/fetch", getRequest);
-
     const { currentAccount, getCurrentAccount } = useUserStore();
 
+    const allPostSWR = useSWR("/post/fetch", getRequest);
+    console.log(allPostSWR?.data);
+
     useEffect(() => {
-        getCurrentAccount();
-        const token = localStorage.getItem("vibelyToken");
-        if (!token) {
-            router.push("/login");
+        if (!checkAccessToken()) {
+            redirect("/login");
         }
-    }, []);
+    }, [currentAccount]);
 
     return (
-        <div className="relative w-full min-h-screen h-[150rem] flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between gap-6 p-6">
+        <div className="relative w-full min-h-screen h-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between gap-6 p-6">
             {/* Left Side */}
             <div className="sticky top-[5rem] z-50 w-[22rem] h-[85vh] hidden lg:flex flex-col gap-3">
                 {/* change this into dynamic username */}
-                <Link href={`/profile/${currentAccount?.username}`}>
+                <Link href={`/${currentAccount?.username}`}>
                     <div
                         className={`${componentsBg} w-full flex items-center justify-between p-4 rounded-xl shadow-custom`}
                     >
@@ -47,7 +46,7 @@ const NewsFeedPage = () => {
                             <Avatar
                                 size="md"
                                 name={currentAccount?.firstName}
-                                // src="/tzuyu.jpg"
+                                src={`https://vibelybackend-1-a9532540.deta.app/user/profile/pic/${currentAccount?.key}`}
                             />
                             <div className="flex flex-col gap-0">
                                 <h1 className="font-bold text-lg">

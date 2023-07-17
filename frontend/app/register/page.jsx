@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import RegisterForm from "../../components/form/RegisterForm";
-import Footer from "../../components/Footer";
+import RegisterForm from "../components/form/RegisterForm";
+import Footer from "../components/Footer";
 import { Button, HStack } from "@chakra-ui/react";
 
 const RegisterPage = () => {

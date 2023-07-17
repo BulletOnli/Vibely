@@ -16,7 +16,8 @@ import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
 import { mutate } from "swr";
 import { MdWarningAmber } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import { loginUser, postRequest } from "@/app/api/fetcher";
+import { loginUser, postRequest } from "@/app/utils/fetcher";
+import { useUserStore } from "@/app/zustandStore/userStore";
 
 const LoginForm = () => {
     const router = useRouter();
@@ -25,6 +26,7 @@ const LoginForm = () => {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    const getCurrentAccount = useUserStore((state) => state.getCurrentAccount);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,7 +36,7 @@ const LoginForm = () => {
 
             await loginUser("/user/login", { username, password });
             mutate("/user/login");
-
+            getCurrentAccount();
             setIsLoading(false);
             setUsername("");
             setPassword("");

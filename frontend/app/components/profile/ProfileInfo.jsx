@@ -3,15 +3,11 @@ import { FaShare, FaBirthdayCake } from "react-icons/fa";
 import { FiEdit, FiCamera } from "react-icons/fi";
 import { MdLocationOn } from "react-icons/md";
 import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
-import Link from "next/link";
 import EditProfileInfoModal from "../modal/EditProfileInfoModal";
 import ProfilePic from "./ProfilePic";
-import { getRequest } from "@/app/api/fetcher";
 
-const ProfileInfo = ({ data, componentsBg, params, isOtherProfile }) => {
+const ProfileInfo = ({ userData, componentsBg, params, isOtherProfile }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    // const profilePic = useSWR(`/user/profile/pic/${username}`, getRequest);
 
     return (
         <>
@@ -22,14 +18,14 @@ const ProfileInfo = ({ data, componentsBg, params, isOtherProfile }) => {
                     className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
                 >
                     <ProfilePic
-                        firstName={data?.firstName}
+                        userData={userData}
                         isOtherProfile={isOtherProfile}
                     />
                     <small className="tracking-wider text-gray-400 my-1">
-                        @{data?.username}
+                        @{userData?.username}
                     </small>
                     <h1 className="text-xl font-bold">
-                        {data?.firstName} {data?.lastName}
+                        {userData?.firstName} {userData?.lastName}
                     </h1>
                     <HStack gap={7} mt={2}>
                         <div className="flex flex-col items-center">
@@ -92,11 +88,11 @@ const ProfileInfo = ({ data, componentsBg, params, isOtherProfile }) => {
                     </p>
                     <HStack>
                         <BsPersonFill fontSize={18} />
-                        <p className="text-sm">{data?.gender}</p>
+                        <p className="text-sm">{userData?.gender}</p>
                     </HStack>
                     <HStack>
                         <FaBirthdayCake fontSize={18} />
-                        <p className="text-sm">{data?.birthday}</p>
+                        <p className="text-sm">{userData?.birthday}</p>
                     </HStack>
                 </div>
 

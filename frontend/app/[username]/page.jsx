@@ -6,30 +6,49 @@ import ProfileInfo from "@/app/components/profile/ProfileInfo";
 import Banner from "@/app/components/profile/Banner";
 
 import useSWR from "swr";
-import { getRequest } from "@/app/api/fetcher";
+import { getRequest } from "@/app/utils/fetcher";
+import ErrorPage from "../components/ErrorPage";
+import { useUserStore } from "../zustandStore/userStore";
+import LoadingPage from "../components/LoadingPage";
 
 const ProfilePage = ({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
+    const { currentAccount } = useUserStore();
 
     const userProfileSWR = useSWR(
         `/user?username=${params.username}`,
         getRequest
     );
+    console.log(userProfileSWR?.data);
+
     const allPostSWR = useSWR(
         `/post/all?id=${userProfileSWR?.data?.key}`,
         getRequest
     );
 
-    const isOtherProfile = params.username !== "gemmuel"; //account username
+    const isOtherProfile = params.username !== currentAccount?.username; //account username
+
+    if (
+        !userProfileSWR?.data ||
+        (Object.keys(userProfileSWR?.data).length === 0 && isOtherProfile)
+    ) {
+        if (userProfileSWR?.isLoading) {
+            return <LoadingPage />;
+        }
+        return <ErrorPage />;
+    }
 
     return (
         <div className="w-full min-h-screen flex flex-col items-center p-6">
             {/* Banner */}
-            <Banner isOtherProfile={isOtherProfile} />
+            <Banner
+                userData={userProfileSWR?.data}
+                isOtherProfile={isOtherProfile}
+            />
             <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center gap-6">
                 <ProfileInfo
-                    data={userProfileSWR?.data}
+                    userData={userProfileSWR?.data}
                     componentsBg={componentsBg}
                     params={params}
                     isOtherProfile={isOtherProfile}
@@ -40,6 +59,7 @@ const ProfilePage = ({ params }) => {
                         Vibely Timeline
                     </h1>
                     <div className="w-full flex flex-col items-center gap-4">
+                        {allPostSWR?.isLoading && <h1>Loading posts...</h1>}
                         {allPostSWR?.data
                             ?.map((post) => (
                                 <Post

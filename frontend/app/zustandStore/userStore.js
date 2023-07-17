@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getRequest } from "../api/fetcher";
+import { getRequest } from "../utils/fetcher";
 
 const userStore = (set, get) => ({
     currentAccount: [],

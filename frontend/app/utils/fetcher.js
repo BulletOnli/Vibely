@@ -39,7 +39,7 @@ export const postRequest = async (url, data) => {
 };
 
 export const putRequest = async (url, data) => {
-    const response = await apiBaseUrl.post(url, data, {
+    const response = await apiBaseUrl.put(url, data, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("vibelyToken")}`,
         },

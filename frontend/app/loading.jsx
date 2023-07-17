@@ -1,15 +1,8 @@
+import LoadingPage from "./components/LoadingPage";
 import "./globals.css";
 
 const loading = () => {
-    return (
-        <div className="loader">
-            <div className="spinner">
-                <div className="dot1"></div>
-                <div className="dot2"></div>
-                <div className="dot3"></div>
-            </div>
-        </div>
-    );
+    return <LoadingPage />;
 };
 
 export default loading;

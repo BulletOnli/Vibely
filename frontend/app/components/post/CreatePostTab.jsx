@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { CgCloseO } from "react-icons/cg";
-import { postRequest } from "@/app/api/fetcher";
+import { postRequest } from "@/app/utils/fetcher";
 
 const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
     const toast = useToast();

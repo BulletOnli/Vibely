@@ -1,10 +1,19 @@
 "use client";
 import Link from "next/link";
-import LoginForm from "../../components/form/LoginForm";
-import Footer from "../../components/Footer";
+import LoginForm from "../components/form/LoginForm";
+import Footer from "../components/Footer";
 import { HStack, Button } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { checkAccessToken } from "../utils/accessToken";
+import { redirect } from "next/navigation";
 
 const LoginPage = () => {
+    useEffect(() => {
+        if (checkAccessToken()) {
+            redirect("/");
+        }
+    }, []);
+
     return (
         <>
             <div className="w-full h-screen flex justify-center items-center">

@@ -12,8 +12,8 @@ import {
     Text,
 } from "@chakra-ui/react";
 
-import Notifications from "../Notifcations";
-import Leaderboards from "../Leaderboards";
+import Notifications from "../homepage/Notifcations";
+import Leaderboards from "../homepage/Leaderboards";
 import { useThemeStore } from "../../zustandStore/themeStore";
 
 const NotificationDrawer = ({ isOpen, onClose }) => {

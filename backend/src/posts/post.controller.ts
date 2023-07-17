@@ -61,7 +61,7 @@ export class PostController {
 				likes: 0,
 				dislikes: 0,
 				hasPhoto: !isUndefined(file),
-				createdAt: dayjs().toISOString()
+				createdAt: new Date().toISOString()
 			},
 			postId
 		);
@@ -96,10 +96,10 @@ export class PostController {
 	@Delete('delete')
 	async deletePost(
 		@Query('id', PostExistsPipe) id: string,
-		@Req() req: Request
+		@CurrentUserId() currentId: string
 	) {
 		const prom1 = this.postsBase.delete(id);
-		const prom2 = this.postPhoto.deletePhoto(id, req);
+		const prom2 = this.postPhoto.deletePhoto(id, currentId);
 		await Promise.all([prom1, prom2]);
 	}
 

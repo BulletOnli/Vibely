@@ -20,7 +20,7 @@ export class CoverController {
 
 	@Get(':id')
 	async getCoverPicFromId(@Param() { id }) {
-		await this.photo.getPhoto(id, 'cover');
+		return await this.photo.getPhoto(id, 'cover');
 	}
 
 	@Post('upload')

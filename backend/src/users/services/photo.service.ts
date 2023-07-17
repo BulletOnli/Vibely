@@ -31,7 +31,7 @@ export class PhotoService {
 				type: lookup(val) || ''
 			});
 		} else {
-			throw new NotFoundException('Profile picture not found');
+			throw new NotFoundException(driveName === 'cover' ? 'Cover picture not found' : 'Profile picture not found');
 		}
 	}
 }

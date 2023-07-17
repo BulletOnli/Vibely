@@ -40,12 +40,12 @@ export class PostPhotoService {
 		}
 	}
 
-	async deletePhoto(id: string, req: Request) {
-		const userId = req['user'].sub;
-		this.postPhotos.deleteMany(
-			(await this.postPhotos.list()).names.filter(file => {
-				return file.startsWith(userId) && file.split('/')[1] === id;
-			})
-		);
+	async deletePhoto(id: string, userId: string) {
+		const photos = (await this.postPhotos.list()).names.filter(file => {
+			return file.startsWith(userId) && file.split('/')[1] === id;
+		});
+		if (photos.length) {
+			await this.postPhotos.deleteMany(photos);
+		}
 	}
 }

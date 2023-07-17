@@ -15,7 +15,8 @@ export class AuthGuard implements CanActivate {
 		'registerUser', 
 		'getPhoto', 
 		'getHello', 
-		'getProfilePicFromId'
+		'getProfilePicFromId',
+		'getCoverPicFromId'
 	];
 
 	constructor(private jwt: JwtService) {}

@@ -28,7 +28,7 @@ import { Post as PostType } from './types';
 import { ParseLimOffPipe } from './get-all-dto.pipe';
 import { PostExistsPipe } from './post-exists.pipe';
 
-import { CurrentUserId } from 'src/users/user.decorator';
+import { CurrentUserId, QueryId } from 'src/decorators';
 import * as dayjs from 'dayjs';
 import { randomUUID } from 'crypto';
 import { OptionalParseIntPipe } from 'src/users/pipes/optional-parse-int.pipe';
@@ -71,7 +71,7 @@ export class PostController {
 	}
 
 	@Get()
-	async getPost(@Query('id') id: string, @Req() req: Request) {
+	async getPost(@QueryId() id: string, @Req() req: Request) {
 		let post = await this.postsBase.get(id);
 		if (!post) {
 			throw new NotFoundException('Post not found');
@@ -87,7 +87,7 @@ export class PostController {
 
 	@Put('update')
 	async updatePost(
-		@Query('id', PostExistsPipe) id: string,
+		@QueryId(PostExistsPipe) id: string,
 		@Body() body: PostCreationDetails
 	) {
 		return await this.postsBase.update(body as unknown as ObjectType, id);
@@ -95,7 +95,7 @@ export class PostController {
 
 	@Delete('delete')
 	async deletePost(
-		@Query('id', PostExistsPipe) id: string,
+		@QueryId(PostExistsPipe) id: string,
 		@CurrentUserId() currentId: string
 	) {
 		const prom1 = this.postsBase.delete(id);
@@ -127,7 +127,7 @@ export class PostController {
 	}
 
 	@Get('photo')
-	async getPhoto(@Query('id') id: string) {
+	async getPhoto(@QueryId() id: string) {
 		return await this.postPhoto.getPhoto(id);
 	}
 }

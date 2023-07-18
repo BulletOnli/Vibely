@@ -11,7 +11,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../guards/auth.guard';
 import { PhotoService } from './services/photo.service';
-import { CurrentUserId } from './user.decorator';
+import { CurrentUserId } from 'src/decorators';
 
 @UseGuards(AuthGuard)
 @Controller('user/cover')

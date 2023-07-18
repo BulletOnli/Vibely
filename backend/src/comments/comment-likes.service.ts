@@ -13,7 +13,6 @@ export class CommentLikesService {
 	}
 	async deleteMany({ items }: FetchResponse) {
 		const proms = [];
-		console.log('ssss');
 		items.forEach(x => {
 			proms.push(this.commentLikesBase.delete(x.key.toString()));
 		});

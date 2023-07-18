@@ -4,7 +4,6 @@ import {
 	StreamableFile
 } from '@nestjs/common';
 import { basename } from 'path';
-import { Request } from 'express';
 import { lookup } from 'mime-types';
 import { DetaService, Drive } from 'src/deta/deta.service';
 

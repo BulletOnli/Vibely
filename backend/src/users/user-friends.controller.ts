@@ -10,7 +10,7 @@ import { isEmpty, isNull } from 'lodash';
 
 import { Friend } from './types';
 
-import { CurrentUserId } from './user.decorator';
+import { CurrentUserId, QueryId } from 'src/decorators';
 
 import { UserExistsPipe } from './pipes/user-exists.pipe';
 import { OptionalParseIntPipe } from './pipes/optional-parse-int.pipe';
@@ -32,7 +32,7 @@ export class UserFriendsController {
 	@Post('add')
 	async addFriend(
 		@CurrentUserId() userSender: string,
-		@Query('id', uuidPipe, UserExistsPipe) id: string
+		@QueryId(uuidPipe, UserExistsPipe) id: string
 	) {
 		const status = await this.friend.isRequestSentOrResponse(userSender, id);
 		if (isNull(status)) {
@@ -72,7 +72,7 @@ export class UserFriendsController {
 
 	@Get()
 	async getFriendsById(
-		@Query('id', uuidPipe, UserExistsPipe) id: string,
+		@QueryId(uuidPipe, UserExistsPipe) id: string,
 		@Query('limit', new OptionalParseIntPipe({ defaultValue: 15 }))
 		limit: number
 	) {
@@ -87,7 +87,7 @@ export class UserFriendsController {
 	@Post('unfriend')
 	async unfriend(
 		@CurrentUserId() currentId: string,
-		@Query('id', uuidPipe, UserExistsPipe) id: string
+		@QueryId(uuidPipe, UserExistsPipe) id: string
 	) {
 		const userToUnfriend = await this.friend.getFriendItems(currentId, id);
 		const [a, b] = userToUnfriend;
@@ -105,7 +105,7 @@ export class UserFriendsController {
 	@Post('accept')
 	async acceptFriendRequest(
 		@CurrentUserId() currentId: string,
-		@Query('id', uuidPipe, UserExistsPipe) id: string
+		@QueryId(uuidPipe, UserExistsPipe) id: string
 	) {
 		if (currentId === id) {
 			throw new BadRequestException("You can't accept yourself.");

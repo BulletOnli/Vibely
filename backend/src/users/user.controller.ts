@@ -12,7 +12,7 @@ import { omit } from 'lodash';
 import { UserRegistrationDetails, UserLoginDetails } from './dto';
 import { UserService } from './services/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { CurrentUserId } from './user.decorator';
+import { CurrentUserId, QueryId } from 'src/decorators';
 
 @Controller('user')
 export class UserController {
@@ -45,7 +45,7 @@ export class UserController {
 	}
 
 	@Get()
-	async getUserInfo(@Query('username') un: string, @Query('id') id: string) {
+	async getUserInfo(@Query('username') un: string, @QueryId() id: string) {
 		if (un && id) {
 			throw new BadRequestException('Cannot use both username and id');
 		} else if (un) {

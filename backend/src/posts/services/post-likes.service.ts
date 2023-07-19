@@ -3,19 +3,26 @@ import {
 	BadRequestException,
 	NotFoundException
 } from '@nestjs/common';
-import { Base } from 'deta';
 import { Request } from 'express';
-import { DetaClass } from 'src/deta.class';
+import { Base as DetaBase } from 'deta';
 import { PostService } from './post.service';
 import { Post } from '../types';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 @Injectable()
-export class PostLikesService extends DetaClass {
-	constructor(private post: PostService) {
-		super();
+export class PostLikesService {
+	postsBase: Base;
+	likesBase: Base;
+	constructor(
+		private post: PostService,
+		private deta: DetaService
+	){
+		const d = this.deta;
+		this.postsBase = d.createBase("posts");
+		this.likesBase = d.createBase("likes");
 	}
 
-	async applyLikeDislike(postId: number, req: Request, isLike: boolean) {
+	async applyLikeDislike(postId: string, req: Request, isLike: boolean) {
 		const [[like, likes], post] = await this.getLikesAndPost(postId, req);
 
 		if (!post) {
@@ -45,7 +52,7 @@ export class PostLikesService extends DetaClass {
 		}
 	}
 
-	async removeLikeDislike(postId: number, req: Request, isLike: boolean) {
+	async removeLikeDislike(postId: string, req: Request, isLike: boolean) {
 		const [[like, likes], post] = await this.getLikesAndPost(postId, req);
 
 		if (!(await this.post.exists(postId))) {
@@ -97,16 +104,16 @@ export class PostLikesService extends DetaClass {
 		);
 	}
 
-	private getLikesAndPost(postId: number, req: Request) {
+	private getLikesAndPost(postId: string, req: Request) {
 		const getLike = this.getLike(postId, req);
 		const findOneProm = this.post.findOne(postId);
 		return Promise.all([getLike, findOneProm]);
 	}
 
 	private async getLike(
-		postId: number,
+		postId: string,
 		req: Request
-	): Promise<[Like | undefined, ReturnType<typeof Base>]> {
+	): Promise<[Like | undefined, ReturnType<typeof DetaBase>]> {
 		const userId = req['user'].sub;
 		const likes = this.likesBase;
 		const items = (await likes.fetch()).items as unknown as Like[];

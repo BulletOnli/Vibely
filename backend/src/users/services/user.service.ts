@@ -3,19 +3,23 @@ import { randomUUID } from 'crypto';
 import { ObjectType } from 'deta/dist/types/types/basic';
 import { UserRegistrationDetails } from '../dto';
 import * as argon2 from 'argon2';
-import { DetaClass } from 'src/deta.class';
 import { isUndefined } from 'lodash';
 import * as dayjs from 'dayjs';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 @Injectable()
-export class UserService extends DetaClass {
+export class UserService {
+	usersBase: Base;
+	constructor(private deta: DetaService){
+		this.usersBase = this.deta.createBase("users");
+	}
+
 	async findOne(username: string): Promise<ObjectType> {
 		const [user] = (await this.usersBase.fetch({ username })).items;
 		return user;
 	}
 
 	async findOneById(id: string) {
-		console.log(id);
 		return await this.usersBase.get(id);
 	}
 

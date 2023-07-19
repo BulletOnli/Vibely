@@ -4,17 +4,22 @@ import {
 	StreamableFile
 } from '@nestjs/common';
 import { basename } from 'path';
-import { Request } from 'express';
 import { lookup } from 'mime-types';
-import { DetaClass } from 'src/deta.class';
+import { DetaService, Drive } from 'src/deta/deta.service';
 
 @Injectable()
-export class PostPhotoService extends DetaClass {
-	async getPhoto(id: string, req: Request) {
-		const userId = req['user'].sub;
+export class PostPhotoService {
+	postPhotos: Drive;
+	constructor(
+		private deta: DetaService
+	){
+		this.postPhotos = this.deta.createDrive("postPhotos");
+	}
+	async getPhoto(id: string) {
 		const list = (await this.postPhotos.list()).names;
+		console.log(list)
 		const postPhoto = list.find(x => {
-			return x.startsWith(userId) && id === x.split('/')[1];
+			return id === x.split('/')[1];
 		});
 		if (postPhoto) {
 			const file = basename(postPhoto);
@@ -34,12 +39,12 @@ export class PostPhotoService extends DetaClass {
 		}
 	}
 
-	async deletePhoto(id: string, req: Request) {
-		const userId = req['user'].sub;
-		this.postPhotos.deleteMany(
-			(await this.postPhotos.list()).names.filter(file => {
-				return file.startsWith(userId) && file.split('/')[1] === id;
-			})
-		);
+	async deletePhoto(id: string, userId: string) {
+		const photos = (await this.postPhotos.list()).names.filter(file => {
+			return file.startsWith(userId) && file.split('/')[1] === id;
+		});
+		if (photos.length) {
+			await this.postPhotos.deleteMany(photos);
+		}
 	}
 }

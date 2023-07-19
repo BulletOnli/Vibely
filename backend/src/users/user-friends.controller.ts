@@ -1,6 +1,5 @@
 import {
 	Controller,
-	UseGuards,
 	Post,
 	Get,
 	Query,
@@ -11,28 +10,29 @@ import { isEmpty, isNull } from 'lodash';
 
 import { Friend } from './types';
 
-import { DetaClass } from 'src/deta.class';
-import { AuthGuard } from 'src/guards/auth.guard';
-
-import { CurrentUserId } from './user.decorator';
+import { CurrentUserId, QueryId } from 'src/decorators';
 
 import { UserExistsPipe } from './pipes/user-exists.pipe';
 import { OptionalParseIntPipe } from './pipes/optional-parse-int.pipe';
 import { FriendsService } from './services/friends.service';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 const uuidPipe = new ParseUUIDPipe({ version: '4' });
 
-@UseGuards(AuthGuard)
 @Controller('user/friends')
-export class UserFriendsController extends DetaClass {
-	constructor(private friend: FriendsService) {
-		super();
+export class UserFriendsController {
+	friendsBase: Base;
+	constructor(
+		private friend: FriendsService,
+		private deta: DetaService
+	){
+		this.friendsBase = this.deta.createBase("friends");
 	}
 
 	@Post('add')
 	async addFriend(
 		@CurrentUserId() userSender: string,
-		@Query('id', uuidPipe, UserExistsPipe) id: string
+		@QueryId(uuidPipe, UserExistsPipe) id: string
 	) {
 		const status = await this.friend.isRequestSentOrResponse(userSender, id);
 		if (isNull(status)) {
@@ -72,7 +72,7 @@ export class UserFriendsController extends DetaClass {
 
 	@Get()
 	async getFriendsById(
-		@Query('id', uuidPipe, UserExistsPipe) id: string,
+		@QueryId(uuidPipe, UserExistsPipe) id: string,
 		@Query('limit', new OptionalParseIntPipe({ defaultValue: 15 }))
 		limit: number
 	) {
@@ -87,7 +87,7 @@ export class UserFriendsController extends DetaClass {
 	@Post('unfriend')
 	async unfriend(
 		@CurrentUserId() currentId: string,
-		@Query('id', uuidPipe, UserExistsPipe) id: string
+		@QueryId(uuidPipe, UserExistsPipe) id: string
 	) {
 		const userToUnfriend = await this.friend.getFriendItems(currentId, id);
 		const [a, b] = userToUnfriend;
@@ -105,7 +105,7 @@ export class UserFriendsController extends DetaClass {
 	@Post('accept')
 	async acceptFriendRequest(
 		@CurrentUserId() currentId: string,
-		@Query('id', uuidPipe, UserExistsPipe) id: string
+		@QueryId(uuidPipe, UserExistsPipe) id: string
 	) {
 		if (currentId === id) {
 			throw new BadRequestException("You can't accept yourself.");

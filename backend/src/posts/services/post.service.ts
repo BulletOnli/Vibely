@@ -1,29 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { DetaClass } from 'src/deta.class';
 import { Post } from '../types';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 @Injectable()
-export class PostService extends DetaClass {
-	async exists(id: number): Promise<boolean> {
-		if (await this.postsBase.get(id.toString())) {
+export class PostService {
+	postsBase: Base;
+	constructor(
+		private deta: DetaService
+	){
+		this.postsBase = this.deta.createBase("posts");
+	}
+
+	async exists(id: string): Promise<boolean> {
+		if (await this.postsBase.get(id)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	async findOne(id: number): Promise<Post | undefined> {
-		return (await this.postsBase.get(id.toString())) as Post;
-	}
-
-	async autoIncKey() {
-		const fth = await this.postsBase.fetch();
-		const items = fth.items;
-		if (items.length === 0) {
-			return '1';
-		}
-		const lastIndex = fth.count - 1;
-		const final = parseInt(items[lastIndex].key as unknown as string) + 1;
-		return final.toString();
+	async findOne(id: string): Promise<Post | undefined> {
+		return (await this.postsBase.get(id)) as Post;
 	}
 }

@@ -1,12 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { isEmpty, isUndefined } from 'lodash';
 import { Friend } from '../types';
-import { DetaClass } from 'src/deta.class';
+import { Base, DetaService } from 'src/deta/deta.service';
 
 type FriendRequestStatus = 'response' | 'requestSent' | 'friends' | null;
 
 @Injectable()
-export class FriendsService extends DetaClass {
+export class FriendsService {
+	friendsBase: Base;
+	constructor(private deta: DetaService){
+		this.friendsBase = this.deta.createBase("friends");
+	}
+
 	async getFriendItems(currentId: string, id: string): Promise<Friend[]> {
 		return (
 			await this.friendsBase.fetch([

@@ -10,15 +10,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../guards/auth.guard';
-import { DetaClass } from 'src/deta.class';
 import { PhotoService } from './services/photo.service';
-import { CurrentUserId } from './user.decorator';
+import { CurrentUserId } from 'src/decorators';
 
 @UseGuards(AuthGuard)
 @Controller('user/profile')
-export class ProfileController extends DetaClass {
+export class ProfileController {
 	constructor(private photo: PhotoService) {
-		super();
 	}
 
 	@Get('pic/:id')

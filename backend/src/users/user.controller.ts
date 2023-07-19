@@ -5,7 +5,6 @@ import {
 	BadRequestException,
 	NotFoundException,
 	Get,
-	UseGuards,
 	Query
 } from '@nestjs/common';
 import * as argon2 from 'argon2';
@@ -13,8 +12,7 @@ import { omit } from 'lodash';
 import { UserRegistrationDetails, UserLoginDetails } from './dto';
 import { UserService } from './services/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { CurrentUserId } from './user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { CurrentUserId, QueryId } from 'src/decorators';
 
 @Controller('user')
 export class UserController {
@@ -41,21 +39,19 @@ export class UserController {
 		};
 	}
 
-	@UseGuards(AuthGuard)
 	@Get('current')
 	async getCurrentUserInfo(@CurrentUserId() id: string) {
 		return await this._getUserInfo(id);
 	}
 
-	@UseGuards(AuthGuard)
 	@Get()
-	async getUserInfo(@Query('username') un: string, @Query('id') id: string) {
+	async getUserInfo(@Query('username') un: string, @QueryId() id: string) {
 		if (un && id) {
 			throw new BadRequestException('Cannot use both username and id');
 		} else if (un) {
 			return await this._getUserInfoByUsername(un);
 		} else if (id) {
-			return await this._getUserInfo(un);
+			return await this._getUserInfo(id);
 		} else {
 			throw new BadRequestException('Id or username is required');
 		}

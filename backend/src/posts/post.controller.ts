@@ -10,7 +10,7 @@ import {
 	Put,
 	UseInterceptors,
 	UploadedFile,
-    StreamableFile
+	StreamableFile
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';

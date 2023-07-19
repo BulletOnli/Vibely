@@ -16,23 +16,23 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 
+import { isUndefined } from 'lodash';
+
 import { UserService } from 'src/users/services/user.service';
 import { Base, DetaService } from 'src/deta/deta.service';
 
 import { GetAllDto, PostCreationDetails } from './dto';
 
 import { ParseLimOffPipe } from './get-all-dto.pipe';
-import { PostExistsPipe } from './post-exists.pipe';
+import { OptionalParseIntPipe } from 'src/users/pipes/optional-parse-int.pipe';
 
 import { CurrentUserId, QueryId } from 'src/decorators';
 import * as dayjs from 'dayjs';
-import { OptionalParseIntPipe } from 'src/users/pipes/optional-parse-int.pipe';
 import { Model } from 'src/deta/model';
 import { Post } from 'src/models';
 import { Observable, catchError, tap, toArray } from 'rxjs';
 import { getItems, limitOffset, sort } from 'src/operators';
 import { Storage } from 'src/deta';
-import { isUndefined } from 'lodash';
 
 @Controller('post')
 export class PostController {
@@ -106,7 +106,7 @@ export class PostController {
 
 	@Delete('delete')
 	deletePost(
-		@QueryId(PostExistsPipe) id: string,
+		@QueryId() id: string,
 		@CurrentUserId() currentId: string
 	) {
 		return this.post.delete({ key: id, userId: currentId }).pipe(
@@ -158,7 +158,6 @@ export class PostController {
 		return new Observable<StreamableFile>(subscriber => {
 			fileObs.subscribe(({ data, contentType }) => {
 				subscriber.next(new StreamableFile(data, { type: contentType }));
-
 				subscriber.complete();
 			});
 		});

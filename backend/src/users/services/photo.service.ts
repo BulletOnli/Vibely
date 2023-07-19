@@ -2,7 +2,8 @@ import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
 import { parse } from 'path';
 import { lookup } from 'mime-types';
 import * as dayjs from 'dayjs';
-import { DetaService, VibelyDrive } from 'src/deta/deta.service';
+import { DetaService } from 'src/deta/deta.service';
+import { VibelyDrive } from 'src/deta/types';
 
 @Injectable()
 export class PhotoService {

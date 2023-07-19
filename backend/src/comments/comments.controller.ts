@@ -14,7 +14,6 @@ import { CurrentUserId, QueryId } from 'src/decorators';
 import { CommentLikesService } from './comment-likes.service';
 import { CommentExistsPipe } from './comment-exists.pipe';
 import { Base, DetaService } from 'src/deta/deta.service';
-import { RequiredPipe } from 'src/utils/required.pipe';
 
 class TextDto {
 	@IsNotEmpty()
@@ -130,8 +129,9 @@ export class CommentsController {
 	@Get("getlikestate")
 	async getLikeState(
 		@CurrentUserId() id: string, 
-		@QueryId(new RequiredPipe({ name: 'Comment id' })) cid: string
+		@QueryId() cid: string
 	){
+		this.cidOrError(cid);
 		const like = (await this.commentLikesBase.fetch({ userId: id, commentId: cid })).items;
 		if (!like.length) {
 			return {
@@ -145,8 +145,15 @@ export class CommentsController {
 	}
 
 	@Get("getlikescount")
-	async getLikesCount(@QueryId(new RequiredPipe({ name: 'Comment id' })) cid: string){
+	async getLikesCount(@QueryId() cid: string){
+		this.cidOrError(cid);
 		const { likes } = await this.commentsBase.get(cid);
 		return { likes };
+	}
+
+	private cidOrError(cid: string){
+		if (!cid) {
+			throw new BadRequestException("Comment id is required");
+		}
 	}
 }

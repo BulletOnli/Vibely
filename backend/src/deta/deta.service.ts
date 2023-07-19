@@ -1,16 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Deta, Base as DetaBase, Drive as DetaDrive } from 'deta';
-
-export type VibelyBase = "posts" 
-	| "users" 
-	| "likes" 
-	| "comments" 
-	| "commentLikes" 
-	| "friends";
-
-export type VibelyDrive = "profile"
-	| "postPhotos"
-	| "cover";
+import { Model } from './model';
+import { VibelyBase, VibelyDrive } from './types';
+import { BaseModel } from 'src/models/BaseModel';
+import { Storage } from './storage';
 
 export type Base = ReturnType<typeof DetaBase>;
 export type Drive = ReturnType<typeof DetaDrive>;
@@ -26,5 +19,21 @@ export class DetaService {
 	}
 	createBase(base: VibelyBase){
 		return this.deta.Base(base);
+	}
+
+	// a replacement for createBase
+	createModel<T extends BaseModel>(base: VibelyBase){
+		return new Model<T>(
+			this.deta,
+			base
+		);
+	}
+
+	// replacement for createDrive
+	createStorage(drive: VibelyDrive){
+		return new Storage(
+			this.deta, 
+			drive
+		);
 	}
 }

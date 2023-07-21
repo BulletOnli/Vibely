@@ -1,5 +1,5 @@
 "use client";
-import { Button, Flex, HStack } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import Post from "@/app/components/post/Post";
 import ProfileInfo from "@/app/components/profile/ProfileInfo";
@@ -10,17 +10,18 @@ import { getRequest } from "@/app/utils/fetcher";
 import ErrorPage from "../components/ErrorPage";
 import { useUserStore } from "../zustandStore/userStore";
 import LoadingPage from "../components/LoadingPage";
+import { useState } from "react";
 
 const ProfilePage = ({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
     const { currentAccount } = useUserStore();
+    const [postLimit, setPostLimit] = useState(5);
 
     const userProfileSWR = useSWR(
         `/user?username=${params.username}`,
         getRequest
     );
-    console.log(userProfileSWR?.data);
 
     const allPostSWR = useSWR(
         `/post/all?id=${userProfileSWR?.data?.key}`,
@@ -58,19 +59,26 @@ const ProfilePage = ({ params }) => {
                     <h1 className="w-full text-2xl font-bold mb-4 ">
                         Vibely Timeline
                     </h1>
-                    <div className="w-full flex flex-col items-center gap-4">
+                    <div className="w-full flex flex-col items-center gap-4 mb-[5rem]">
                         {allPostSWR?.isLoading && <h1>Loading posts...</h1>}
-                        {allPostSWR?.data
-                            ?.map((post) => (
-                                <Post
-                                    post={post}
-                                    isDarked={isDarked}
-                                    componentsBg={componentsBg}
-                                    key={post?.key}
-                                    mutate={allPostSWR?.mutate}
-                                />
-                            ))
-                            .reverse()}
+                        {allPostSWR?.data?.slice(0, postLimit).map((post) => (
+                            <Post
+                                post={post}
+                                isDarked={isDarked}
+                                componentsBg={componentsBg}
+                                key={post?.key}
+                                mutate={allPostSWR?.mutate}
+                            />
+                        ))}
+                        {postLimit <= allPostSWR?.data?.length ? (
+                            <Button
+                                onClick={() => setPostLimit((prev) => prev + 5)}
+                            >
+                                Load more...
+                            </Button>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
             </div>

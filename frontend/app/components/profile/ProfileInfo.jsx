@@ -1,13 +1,43 @@
-import { Avatar, Button, HStack, useDisclosure } from "@chakra-ui/react";
+import { Button, HStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { FaShare, FaBirthdayCake } from "react-icons/fa";
-import { FiEdit, FiCamera } from "react-icons/fi";
-import { MdLocationOn } from "react-icons/md";
-import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
+import { FiEdit } from "react-icons/fi";
+import { BsPersonFill } from "react-icons/bs";
 import EditProfileInfoModal from "../modal/EditProfileInfoModal";
 import ProfilePic from "./ProfilePic";
+import { useState } from "react";
+import { postRequest } from "@/app/utils/fetcher";
 
 const ProfileInfo = ({ userData, componentsBg, params, isOtherProfile }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const addFriend = async (userId) => {
+        try {
+            setIsLoading(true);
+            const res = await postRequest(`/user/friends/add?id=${userId}`);
+            mutate("/user/friends");
+            setIsLoading(false);
+
+            toast({
+                title: res.toastNotify,
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+            toast({
+                title: error?.response?.data?.message?.replace(/that/g, "this"),
+                status: "warning",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
+    };
 
     return (
         <>
@@ -49,8 +79,11 @@ const ProfileInfo = ({ userData, componentsBg, params, isOtherProfile }) => {
                                     w="6rem"
                                     size="sm"
                                     colorScheme="telegram"
+                                    isLoading={isLoading}
+                                    spinnerPlacement="start"
+                                    onClick={() => addFriend(userData.key)}
                                 >
-                                    Follow
+                                    Add Friend
                                 </Button>
                                 <Button
                                     w="6rem"

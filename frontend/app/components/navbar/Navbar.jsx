@@ -20,6 +20,7 @@ import {
     BsFillMoonStarsFill,
     BsSunFill,
     BsFillPersonFill,
+    BsFillBellFill,
 } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
 import { FiHelpCircle } from "react-icons/fi";

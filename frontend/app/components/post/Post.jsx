@@ -20,6 +20,7 @@ import {
     BsTrash,
     BsBookmark,
     BsChatSquareQuote,
+    BsHandThumbsDownFill,
 } from "react-icons/bs";
 import CommentsModal from "../modal/CommentsModal";
 import useSWR, { useSWRConfig } from "swr";
@@ -27,27 +28,68 @@ import { useUserStore } from "@/app/zustandStore/userStore";
 import Link from "next/link";
 import { deleteRequest, getRequest, postRequest } from "@/app/utils/fetcher";
 import EditPostModal from "../modal/EditPostModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import axios from "axios";
 
 const Post = ({ componentsBg, isDarked, post, mutate }) => {
     const toast = useToast();
     const editPostDisclosure = useDisclosure();
     const commentsDisclosure = useDisclosure();
     const { currentAccount } = useUserStore();
+    const [likeState, setLikeState] = useState(null);
+    const [isLoadingLike, setIsLoadingLike] = useState(false);
+    const [isLoadingDislike, setIsLoadingDislike] = useState(false);
 
     const postCreator = useSWR(`/user?id=${post?.userId}`, getRequest);
     const commentsData = useSWR(
         `/comment/fetch?postId=${post?.key}`,
         getRequest
     );
+
     const isOtherPost =
         currentAccount?.username !== postCreator?.data?.username;
 
+    const renderCount = async () => {
+        const response = await axios.get(
+            `https://vibelybackend-1-a9532540.deta.app/post/likes/getcount?id=${post?.key}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        "vibelyToken"
+                    )}`,
+                },
+            }
+        );
+    };
+
+    const getLikeState = async () => {
+        const response = await axios.get(
+            `https://vibelybackend-1-a9532540.deta.app/post/likes/getstate?id=${post?.key}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        "vibelyToken"
+                    )}`,
+                },
+            }
+        );
+
+        if (response.data?.isLiked) {
+            return setLikeState(true);
+        } else {
+            return setLikeState(response.data?.isLiked);
+        }
+    };
+
     const likePost = async () => {
         try {
+            setIsLoadingLike(true);
             await postRequest(`/post/likes/like?id=${post?.key}`);
             mutate();
+            renderCount();
+            getLikeState();
+            setIsLoadingLike(false);
             toast({
                 title: "You've liked a Post",
                 status: "success",
@@ -56,9 +98,13 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                 duration: 2000,
             });
         } catch (error) {
+            renderCount();
+            getLikeState();
+            mutate();
+            setIsLoadingLike(false);
             console.log(error);
             toast({
-                title: `Oops! ${error.response.data.message}`,
+                title: "Oops! Something went wrong.",
                 status: "error",
                 isClosable: true,
                 position: "top",
@@ -69,19 +115,27 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
 
     const unlikePost = async () => {
         try {
+            setIsLoadingLike(true);
             await postRequest(`/post/likes/unlike?id=${post?.key}`);
             mutate();
+            renderCount();
+            getLikeState();
+            setIsLoadingLike(false);
             toast({
                 title: "You've unliked a Post",
-                status: "success",
+                status: "warning",
                 isClosable: true,
                 position: "top",
                 duration: 2000,
             });
         } catch (error) {
+            renderCount();
+            getLikeState();
+            mutate();
+            setIsLoadingLike(false);
             console.log(error);
             toast({
-                title: `Oops! ${error.response.data.message}`,
+                title: "Oops! Something went wrong.",
                 status: "error",
                 isClosable: true,
                 position: "top",
@@ -92,8 +146,12 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
 
     const dislikePost = async () => {
         try {
+            setIsLoadingDislike(true);
             await postRequest(`/post/likes/dislike?id=${post?.key}`);
+            renderCount();
+            getLikeState();
             mutate();
+            setIsLoadingDislike(false);
             toast({
                 title: "You've disliked a Post",
                 status: "success",
@@ -102,9 +160,13 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                 duration: 2000,
             });
         } catch (error) {
+            renderCount();
+            getLikeState();
+            mutate();
+            setIsLoadingDislike(false);
             console.log(error);
             toast({
-                title: `Oops! ${error.response.data.message}`,
+                title: "Oops! Something went wrong.",
                 status: "error",
                 isClosable: true,
                 position: "top",
@@ -115,19 +177,27 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
 
     const undislikePost = async () => {
         try {
+            setIsLoadingDislike(true);
             await postRequest(`/post/likes/undislike?id=${post?.key}`);
             mutate();
+            renderCount();
+            getLikeState();
+            setIsLoadingDislike(false);
             toast({
-                title: "You've disliked a Post",
-                status: "success",
+                title: "You've undisliked a Post",
+                status: "warning",
                 isClosable: true,
                 position: "top",
                 duration: 2000,
             });
         } catch (error) {
+            renderCount();
+            getLikeState();
+            mutate();
+            setIsLoadingDislike(false);
             console.log(error);
             toast({
-                title: `Oops! ${error.response.data.message}`,
+                title: "Oops! Something went wrong.",
                 status: "error",
                 isClosable: true,
                 position: "top",
@@ -160,6 +230,11 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
             });
         }
     };
+
+    useEffect(() => {
+        getLikeState();
+        renderCount();
+    }, []);
 
     return (
         <>
@@ -263,6 +338,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
 
                     {post?.hasPhoto && (
                         <Image
+                            alt="post img"
                             src={`https://vibelybackend-1-a9532540.deta.app/post/photo?id=${post?.key}`}
                             fallbackSrc="https://via.placeholder.com/150"
                             className="w-full h-[10rem] lg:h-[20rem] object-contain"
@@ -276,9 +352,18 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                             variant="outline"
                             color={isDarked ? "white" : "black"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
-                            onClick={likePost}
+                            isLoading={isLoadingLike}
+                            spinnerPlacement="start"
+                            onClick={likeState ? unlikePost : likePost}
                         >
-                            <AiOutlineHeart fontSize={18} />
+                            {likeState ? (
+                                <AiFillHeart
+                                    fontSize={18}
+                                    className="text-red-600"
+                                />
+                            ) : (
+                                <AiOutlineHeart fontSize={18} />
+                            )}
                             <Text ml="5px">{post?.likes}</Text>
                         </Button>
                         <Button
@@ -286,9 +371,19 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                             variant="outline"
                             color={isDarked ? "white" : "black"}
                             _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
-                            onClick={dislikePost}
+                            isLoading={isLoadingDislike}
+                            spinnerPlacement="start"
+                            onClick={
+                                likeState === false
+                                    ? undislikePost
+                                    : dislikePost
+                            }
                         >
-                            <BsHandThumbsDown fontSize={16} />
+                            {likeState === false ? (
+                                <BsHandThumbsDownFill fontSize={16} />
+                            ) : (
+                                <BsHandThumbsDown fontSize={16} />
+                            )}
                             <Text ml="5px">{post?.dislikes}</Text>
                         </Button>
                         <Button
@@ -310,6 +405,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                         variant="outline"
                         color={isDarked ? "white" : "black"}
                         _hover={{ bg: isDarked ? "#1A1F40" : "#E9ECEF" }}
+                        isDisabled
                     >
                         <p className="hidden lg:block">Repost</p>
                     </Button>

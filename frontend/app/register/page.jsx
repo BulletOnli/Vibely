@@ -2,7 +2,7 @@
 import Link from "next/link";
 import RegisterForm from "../components/form/RegisterForm";
 import Footer from "../components/Footer";
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, HStack, Image } from "@chakra-ui/react";
 
 const RegisterPage = () => {
     return (
@@ -24,7 +24,7 @@ const RegisterPage = () => {
 
                 <div className="w-[60rem] h-[40rem] flex bg-white rounded-xl shadow-lg overflow-hidden">
                     <div className="w-[45%] flex flex-col items-center justify-center bg-blue-500">
-                        <img src="/register-logo.svg" alt="Logo" />
+                        <Image src="/register-logo.svg" alt="Logo" />
                         <p className="text-white font-semibold text-center px-4">
                             Enter your personal details and start journey with
                             us

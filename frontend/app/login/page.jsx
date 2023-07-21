@@ -2,7 +2,7 @@
 import Link from "next/link";
 import LoginForm from "../components/form/LoginForm";
 import Footer from "../components/Footer";
-import { HStack, Button } from "@chakra-ui/react";
+import { HStack, Button, Image } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { checkAccessToken } from "../utils/accessToken";
 import { redirect } from "next/navigation";
@@ -35,7 +35,7 @@ const LoginPage = () => {
                 </nav>
                 <div className="w-[60rem] h-[40rem] flex bg-white rounded-xl shadow-lg overflow-hidden">
                     <div className="w-[45%] flex flex-col items-center justify-center bg-blue-500">
-                        <img src="/login-logo.svg" alt="Logo" />
+                        <Image src="/login-logo.svg" alt="Logo" />
                         <p className="text-white font-semibold text-center px-4 ">
                             To keep connected with us please login with your
                             personal info
@@ -51,7 +51,7 @@ const LoginPage = () => {
                         </p>
                         <LoginForm />
                         <p className="w-full flex justify-center gap-1 mt-4 text-sm">
-                            Don't have an account?
+                            Dont have an account?
                             <Link href="/register" className="text-blue-800">
                                 Get started
                             </Link>

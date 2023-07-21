@@ -4,6 +4,7 @@ import {
     Button,
     HStack,
     useToast,
+    Image,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
@@ -80,10 +81,11 @@ const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
                     name="caption"
                     onChange={(e) => setInputCaption(e.target.value)}
                     value={inputCaption}
+                    required
                 />
                 {previewImage && (
                     <div className="relative flex justify-center items-center p-2 gap-2 border border-gray-200 rounded-md mb-3">
-                        <img
+                        <Image
                             src={previewImage}
                             alt="Image Preview"
                             className="w-[20%]"

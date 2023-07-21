@@ -15,11 +15,13 @@ export const checkAccessToken = () => {
 
         if (currentTime > expirationTime) {
             console.log("token expired");
+            localStorage.removeItem("vibelyToken");
             return false;
         }
         console.log("token is available and not expired");
         return true;
     } catch (error) {
+        localStorage.removeItem("vibelyToken");
         console.log("token expired");
         return false;
     }

@@ -1,7 +1,6 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 import { FiCamera } from "react-icons/fi";
 import UploadBannerModal from "../modal/UploadBannerModal";
-import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { getRequest } from "@/app/utils/fetcher";
 
@@ -36,7 +35,11 @@ const Banner = ({ isOtherProfile, userData }) => {
                 )}
             </div>
 
-            <UploadBannerModal isOpen={isOpen} onClose={onClose} />
+            <UploadBannerModal
+                banner={banner}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
         </>
     );
 };

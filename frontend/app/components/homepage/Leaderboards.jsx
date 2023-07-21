@@ -24,9 +24,13 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
             <Flex direction="column" gap={3}>
                 <HStack w="full">
                     <div className="flex items-center gap-2">
-                        <img src="/top1.png" className="w-10" />
+                        <Image
+                            alt="medal img"
+                            src="/top1.png"
+                            className="w-10"
+                        />
                         <div className="flex flex-col gap-0">
-                            <h1 className="font-semibold">Gemmuel Dela Pena</h1>
+                            <h1 className="font-semibold">John Doe</h1>
                             <small
                                 className={`${
                                     isDarked ? "text-gray-300" : "text-black"
@@ -44,9 +48,13 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
 
                 <HStack w="full">
                     <div className="flex items-center gap-2">
-                        <img src="/top2.png" className="w-10" />
+                        <Image
+                            alt="medal img"
+                            src="/top2.png"
+                            className="w-10"
+                        />
                         <div className="flex flex-col gap-0">
-                            <h1 className="font-semibold">Gemmuel Dela Pena</h1>
+                            <h1 className="font-semibold">John Doe</h1>
                             <small
                                 className={`${
                                     isDarked ? "text-gray-300" : "text-black"
@@ -64,9 +72,13 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
 
                 <HStack w="full">
                     <div className="flex items-center gap-2">
-                        <img src="/top3.png" className="w-10" />
+                        <Image
+                            alt="medal img"
+                            src="/top3.png"
+                            className="w-10"
+                        />
                         <div className="flex flex-col gap-0">
-                            <h1 className="font-semibold">Gemmuel Dela Pena</h1>
+                            <h1 className="font-semibold">John Doe</h1>
                             <small
                                 className={`${
                                     isDarked ? "text-gray-300" : "text-black"

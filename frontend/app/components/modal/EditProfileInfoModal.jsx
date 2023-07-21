@@ -1,5 +1,5 @@
 "use client";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 import {
     Modal,
     ModalOverlay,
@@ -113,7 +113,9 @@ const EditProfileInfoModal = ({ isOpen, onClose }) => {
                     <Button onClick={onClose} mr={3}>
                         Cancel
                     </Button>
-                    <Button colorScheme="blue">Save</Button>
+                    <Button colorScheme="blue" isDisabled>
+                        Save
+                    </Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>

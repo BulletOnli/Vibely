@@ -1,14 +1,43 @@
-import { Avatar, Button, HStack, useDisclosure } from "@chakra-ui/react";
+import { Button, HStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { FaShare, FaBirthdayCake } from "react-icons/fa";
-import { FiEdit, FiCamera } from "react-icons/fi";
-import { MdLocationOn } from "react-icons/md";
-import { BsPersonFill, BsFacebook, BsInstagram, BsGlobe } from "react-icons/bs";
-import Link from "next/link";
+import { FiEdit } from "react-icons/fi";
+import { BsPersonFill } from "react-icons/bs";
 import EditProfileInfoModal from "../modal/EditProfileInfoModal";
 import ProfilePic from "./ProfilePic";
+import { useState } from "react";
+import { postRequest } from "@/app/utils/fetcher";
 
-const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
+const ProfileInfo = ({ userData, componentsBg, params, isOtherProfile }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const addFriend = async (userId) => {
+        try {
+            setIsLoading(true);
+            const res = await postRequest(`/user/friends/add?id=${userId}`);
+            mutate("/user/friends");
+            setIsLoading(false);
+
+            toast({
+                title: res.toastNotify,
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+            toast({
+                title: error?.response?.data?.message?.replace(/that/g, "this"),
+                status: "warning",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
+    };
 
     return (
         <>
@@ -18,22 +47,27 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                 <div
                     className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
                 >
-                    <ProfilePic isOtherProfile={isOtherProfile} />
+                    <ProfilePic
+                        userData={userData}
+                        isOtherProfile={isOtherProfile}
+                    />
                     <small className="tracking-wider text-gray-400 my-1">
-                        @{params.id}
+                        @{userData?.username}
                     </small>
-                    <h1 className="text-xl font-bold">{params.id}</h1>
+                    <h1 className="text-xl font-bold">
+                        {userData?.firstName} {userData?.lastName}
+                    </h1>
                     <HStack gap={7} mt={2}>
                         <div className="flex flex-col items-center">
-                            <p className="text-lg font-bold">56</p>
+                            <p className="text-lg font-bold">0</p>
                             <p className="text-sm text-gray-400">Following</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-lg font-bold">5183</p>
+                            <p className="text-lg font-bold">0</p>
                             <p className="text-sm text-gray-400">Followers</p>
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-lg font-bold">84.7K</p>
+                            <p className="text-lg font-bold">0</p>
                             <p className="text-sm text-gray-400">Likes</p>
                         </div>
                     </HStack>
@@ -45,8 +79,11 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                                     w="6rem"
                                     size="sm"
                                     colorScheme="telegram"
+                                    isLoading={isLoading}
+                                    spinnerPlacement="start"
+                                    onClick={() => addFriend(userData.key)}
                                 >
-                                    Follow
+                                    Add Friend
                                 </Button>
                                 <Button
                                     w="6rem"
@@ -83,20 +120,16 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         Personal Information
                     </p>
                     <HStack>
-                        <MdLocationOn fontSize={18} />
-                        <p className="text-sm">Nueva Ecija, Philippines</p>
-                    </HStack>
-                    <HStack>
                         <BsPersonFill fontSize={18} />
-                        <p className="text-sm">Male</p>
+                        <p className="text-sm">{userData?.gender}</p>
                     </HStack>
                     <HStack>
                         <FaBirthdayCake fontSize={18} />
-                        <p className="text-sm">June 20, 2023</p>
+                        <p className="text-sm">{userData?.birthday}</p>
                     </HStack>
                 </div>
 
-                <div
+                {/* <div
                     className={`${componentsBg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md`}
                 >
                     <p className="text-lg font-semibold">
@@ -106,7 +139,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsFacebook fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.id}
+                                {username}
                             </p>
                         </Link>
                     </HStack>
@@ -114,7 +147,7 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsInstagram fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.id}
+                                {username}
                             </p>
                         </Link>
                     </HStack>
@@ -122,11 +155,11 @@ const ProfileInfo = ({ componentsBg, params, isOtherProfile }) => {
                         <BsGlobe fontSize={16} />
                         <Link href="#">
                             <p className="text-sm text-blue-600 hover:underline">
-                                {params.id}
+                                {username}
                             </p>
                         </Link>
                     </HStack>
-                </div>
+                </div> */}
             </div>
 
             <EditProfileInfoModal isOpen={isOpen} onClose={onClose} />

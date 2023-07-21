@@ -1,4 +1,5 @@
-import { useThemeStore } from "@/app/store/themeStore";
+import { deleteRequest, getRequest, postRequest } from "@/app/utils/fetcher";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
 import {
     Modal,
     ModalOverlay,
@@ -7,23 +8,117 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Button,
-    SimpleGrid,
-    HStack,
     VStack,
-    Avatar,
-    Spacer,
     Input,
     FormControl,
     InputGroup,
     InputRightElement,
+    useToast,
+    IconButton,
 } from "@chakra-ui/react";
-
-import { AiOutlineHeart } from "react-icons/ai";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
+import Comment from "../Comment";
 
-const CommentsModal = ({ onClose, isOpen }) => {
+const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
+    const toast = useToast();
     const { isDarked } = useThemeStore();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [inputComment, setInputComment] = useState("");
+    const [comments, setComments] = useState([]);
+
+    // functions to get the user based on id
+    async function getCommentor(id) {
+        const response = await axios.get(
+            `https://vibelybackend-1-a9532540.deta.app/user?id=${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        "vibelyToken"
+                    )}`,
+                },
+            }
+        );
+
+        return `${response.data.firstName} ${response.data.lastName}`;
+    }
+
+    const addComment = async (e) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            await postRequest(`/comment/add?id=${postId}`, {
+                text: inputComment,
+            });
+            commentsData?.mutate();
+            setIsLoading(false);
+            setInputComment("");
+            toast({
+                title: "You've created a post",
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+            toast({
+                title: "Oops! Something went wrong.",
+                status: "error",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
+    };
+
+    const deleteComment = async (commentKey) => {
+        try {
+            setIsLoading(true);
+            await deleteRequest(
+                `/comment/delete?postId=${postId}&id=${commentKey}`
+            );
+            commentsData?.mutate();
+            setIsLoading(false);
+            setInputComment("");
+            toast({
+                title: "You've deleted your comment",
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+            toast({
+                title: "Oops! Something went wrong.",
+                status: "error",
+                isClosable: true,
+                position: "top",
+                duration: 2000,
+            });
+        }
+    };
+
+    useEffect(() => {
+        // map all the data and convert the userId to create a new property
+        if (commentsData?.data?.length > 0) {
+            Promise.all(
+                commentsData?.data?.map((comment) =>
+                    getCommentor(comment?.userId).then((res) => ({
+                        ...comment,
+                        commentorName: res,
+                    }))
+                )
+            ).then((results) => {
+                setComments(results);
+            });
+        }
+    }, [commentsData]);
 
     return (
         <Modal isCentered onClose={onClose} isOpen={isOpen} size="md">
@@ -37,99 +132,33 @@ const CommentsModal = ({ onClose, isOpen }) => {
                 <ModalHeader textAlign="center">Comments</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <VStack spacing={3}>
-                        <HStack w="full">
-                            <div className="flex items-center gap-3">
-                                <Avatar
-                                    size="md"
-                                    name="Gemmuel"
-                                    src="/tzuyu.jpg"
+                    <VStack spacing={4}>
+                        {commentsData?.isLoading && (
+                            <h1 className="w-full text-center">
+                                Loading comments...
+                            </h1>
+                        )}
+                        {commentsData?.data?.length > 0 ? (
+                            comments?.map((comment) => (
+                                <Comment
+                                    key={comment?.key}
+                                    comment={comment}
+                                    deleteComment={deleteComment}
+                                    postId={postId}
+                                    mutate={commentsData?.mutate}
                                 />
-                                <div className="flex flex-col gap-0">
-                                    <h1 className="font-semibold text-sm">
-                                        Gemmuel Dela Pena
-                                    </h1>
-                                    <small
-                                        className={`${
-                                            isDarked
-                                                ? "text-gray-300"
-                                                : "text-black"
-                                        } text-sm max-w-sm`}
-                                    >
-                                        Have a great day!
-                                    </small>
-                                </div>
-                            </div>
-                            <Spacer />
-                            <VStack spacing={0}>
-                                <AiOutlineHeart size={20} cursor="pointer" />
-                                <small>10</small>
-                            </VStack>
-                        </HStack>
-
-                        <HStack w="full">
-                            <div className="flex items-center gap-3">
-                                <Avatar
-                                    size="md"
-                                    name="Gemmuel"
-                                    src="/tzuyu.jpg"
-                                />
-                                <div className="flex flex-col gap-0">
-                                    <h1 className="font-semibold text-sm">
-                                        Gemmuel Dela Pena
-                                    </h1>
-                                    <small
-                                        className={`${
-                                            isDarked
-                                                ? "text-gray-300"
-                                                : "text-black"
-                                        } text-sm max-w-xs`}
-                                    >
-                                        Thanks for sharing your thoughts
-                                    </small>
-                                </div>
-                            </div>
-                            <Spacer />
-                            <VStack spacing={0}>
-                                <AiOutlineHeart size={20} cursor="pointer" />
-                                <small>23</small>
-                            </VStack>
-                        </HStack>
-
-                        <HStack w="full">
-                            <div className="flex items-center gap-3">
-                                <Avatar
-                                    size="md"
-                                    name="Gemmuel"
-                                    src="/tzuyu.jpg"
-                                />
-                                <div className="flex flex-col gap-0">
-                                    <h1 className="font-semibold text-sm">
-                                        Gemmuel Dela Pena
-                                    </h1>
-                                    <small
-                                        className={`${
-                                            isDarked
-                                                ? "text-gray-300"
-                                                : "text-black"
-                                        } text-sm max-w-xs`}
-                                    >
-                                        Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Suscipit,
-                                        reprehenderit.
-                                    </small>
-                                </div>
-                            </div>
-                            <Spacer />
-                            <VStack spacing={0}>
-                                <AiOutlineHeart size={20} cursor="pointer" />
-                                <small>12</small>
-                            </VStack>
-                        </HStack>
+                            ))
+                        ) : (
+                            <p>No Comments Available</p>
+                        )}
                     </VStack>
                 </ModalBody>
                 <ModalFooter>
-                    <FormControl as="form" w={{ sm: "xs", lg: "md" }}>
+                    <FormControl
+                        as="form"
+                        w={{ sm: "xs", lg: "md" }}
+                        onSubmit={addComment}
+                    >
                         <InputGroup>
                             <Input
                                 placeholder="Write a comment"
@@ -138,12 +167,24 @@ const CommentsModal = ({ onClose, isOpen }) => {
                                 textAlign="center"
                                 bg={isDarked ? "#1A1F40" : "#F0F2F5"}
                                 borderWidth={0}
+                                onChange={(e) =>
+                                    setInputComment(e.target.value)
+                                }
+                                value={inputComment}
+                                isDisabled={isLoading}
+                                required
                             />
                             <InputRightElement
                                 children={
-                                    <BsFillSendFill
-                                        fontSize={20}
-                                        color="#9CA3AF"
+                                    <IconButton
+                                        type="submit"
+                                        colorScheme=""
+                                        icon={
+                                            <BsFillSendFill
+                                                fontSize={20}
+                                                color="#9CA3AF"
+                                            />
+                                        }
                                     />
                                 }
                             />

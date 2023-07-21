@@ -12,9 +12,11 @@ import {
     Text,
 } from "@chakra-ui/react";
 
-import Notifications from "../Notifcations";
-import Leaderboards from "../Leaderboards";
-import { useThemeStore } from "../../store/themeStore";
+import Notifications from "../homepage/Notifcations";
+import Leaderboards from "../homepage/Leaderboards";
+import { useThemeStore } from "../../zustandStore/themeStore";
+import FriendRequests from "../homepage/FriendRequests";
+import FriendsList from "../homepage/FriendsList";
 
 const NotificationDrawer = ({ isOpen, onClose }) => {
     const { isDarked } = useThemeStore();
@@ -39,7 +41,12 @@ const NotificationDrawer = ({ isOpen, onClose }) => {
                             isDarked={isDarked}
                             componentsBg={componentsBg}
                         />
-                        <Notifications
+                        <FriendRequests
+                            isDarked={isDarked}
+                            componentsBg={componentsBg}
+                        />
+
+                        <FriendsList
                             isDarked={isDarked}
                             componentsBg={componentsBg}
                         />

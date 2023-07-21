@@ -14,12 +14,17 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { mutate } from "swr";
+import { useRouter } from "next/navigation";
+import { postRequest } from "@/app/utils/fetcher";
 
-const EditBannerModal = ({ isOpen, onClose }) => {
-    const [previewImage, setPreviewImage] = useState("");
+const EditBannerModal = ({ isOpen, onClose, banner }) => {
+    const router = useRouter();
+    const [previewImage, setPreviewImage] = useState(banner);
     const toast = useToast();
     const { isDarked } = useThemeStore();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleImgUpload = (e) => {
         const file = e.target.files[0];
@@ -38,17 +43,10 @@ const EditBannerModal = ({ isOpen, onClose }) => {
         const data = new FormData(e.target);
 
         try {
-            const response = await axios.post(
-                "http://localhost:8080/user/profile/upload",
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "vibelyToken"
-                        )}`,
-                    },
-                }
-            );
+            setIsLoading(true);
+            await postRequest("/user/cover/upload", data);
+            mutate();
+            setIsLoading(false);
             toast({
                 title: "Profile Banner successfully changed",
                 status: "success",
@@ -58,7 +56,9 @@ const EditBannerModal = ({ isOpen, onClose }) => {
             });
             onClose();
             setPreviewImage("");
+            router.refresh();
         } catch (error) {
+            setIsLoading(false);
             console.log(error);
             toast({
                 title: "Oops! Something went wrong.",
@@ -85,14 +85,14 @@ const EditBannerModal = ({ isOpen, onClose }) => {
                             <div
                                 style={{
                                     backgroundImage: `url(${
-                                        previewImage || "/pcbg.png"
+                                        previewImage || banner
                                     })`,
                                 }}
                                 className={`relative w-full h-[10rem] lg:h-[15rem] bg-cover bg-center bg-no-repeat border-2 rounded-2xl shadow-custom`}
                             ></div>
                             <Button w="full" colorScheme="telegram">
                                 <label
-                                    htmlFor="banner-upload"
+                                    htmlFor="cover-upload"
                                     className="w-full"
                                 >
                                     Upload image
@@ -101,9 +101,9 @@ const EditBannerModal = ({ isOpen, onClose }) => {
                                     onChange={handleImgUpload}
                                     type="file"
                                     accept="image/*"
-                                    id="banner-upload"
+                                    id="cover-upload"
                                     className="hidden"
-                                    name="banner"
+                                    name="cover"
                                     required
                                 />
                             </Button>
@@ -118,6 +118,8 @@ const EditBannerModal = ({ isOpen, onClose }) => {
                             isDisabled={!previewImage}
                             type="submit"
                             colorScheme="blue"
+                            isLoading={isLoading}
+                            spinnerPlacement="start"
                         >
                             Save Changes
                         </Button>

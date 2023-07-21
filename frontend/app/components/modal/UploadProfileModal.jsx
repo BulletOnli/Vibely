@@ -14,12 +14,17 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import axios from "axios";
-import { useThemeStore } from "@/app/store/themeStore";
+import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { postRequest } from "@/app/utils/fetcher";
+import { mutate } from "swr";
+import { useUserStore } from "@/app/zustandStore/userStore";
 
 const EditProfilePicModal = ({ isOpen, onClose }) => {
     const [previewImage, setPreviewImage] = useState("");
     const { isDarked } = useThemeStore();
     const toast = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+    const { currentAccount } = useUserStore();
 
     const handleImgUpload = (e) => {
         const file = e.target.files[0];
@@ -38,17 +43,13 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
         const data = new FormData(e.target);
 
         try {
-            const response = await axios.post(
-                "http://localhost:8080/user/profile/upload",
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "vibelyToken"
-                        )}`,
-                    },
-                }
+            setIsLoading(true);
+            await postRequest(
+                `/user/profile/upload?id=${currentAccount.key}`,
+                data
             );
+            mutate();
+            setIsLoading(false);
             toast({
                 title: "Profile successfuly changed",
                 status: "success",
@@ -59,6 +60,7 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
             onClose();
             setPreviewImage("");
         } catch (error) {
+            setIsLoading(false);
             console.log(error);
             toast({
                 title: "Oops! Something went wrong.",
@@ -84,7 +86,7 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
                         <Flex direction="column" align="center" gap={4}>
                             <Avatar
                                 size="2xl"
-                                src={previewImage || "/tzuyu.jpg"}
+                                src={previewImage || ""}
                                 border="2px"
                             />
                             <Button w="full" colorScheme="telegram">
@@ -115,6 +117,8 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
                             type="submit"
                             colorScheme="blue"
                             isDisabled={!previewImage}
+                            isLoading={isLoading}
+                            spinnerPlacement="start"
                         >
                             Save Changes
                         </Button>

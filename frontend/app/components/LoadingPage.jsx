@@ -1,6 +1,6 @@
-import "./globals.css";
+import "../globals.css";
 
-const loading = () => {
+const LoadingPage = () => {
     return (
         <div className="loader">
             <div className="spinner">
@@ -12,4 +12,4 @@ const loading = () => {
     );
 };
 
-export default loading;
+export default LoadingPage;

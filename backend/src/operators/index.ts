@@ -1,5 +1,6 @@
+import { HttpException } from "@nestjs/common";
 import { FetchResponse } from "deta/dist/types/types/base/response"
-import { Observable } from "rxjs"
+import { Observable, catchError, pipe } from "rxjs"
 
 export const sort = <T>(comparator: (a: T, b: T) => number) => {
 	return (observable: Observable<T[]>) => new Observable<T>(subscriber => {
@@ -25,6 +26,12 @@ export const getItems = <T>() => {
 			subscription.unsubscribe();
 		};
 	});
+};
+
+export const throwHttpError = (customMes?: string) => {
+	return pipe(
+		catchError(({ status, message }: HttpError) => { throw new HttpException(customMes || message, status) })
+	);
 };
 
 export { limitOffset } from './limitOffset';

@@ -12,16 +12,16 @@ import {
     useToast,
     Flex,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import { mutate } from "swr";
 import { useRouter } from "next/navigation";
 import { postRequest } from "@/app/utils/fetcher";
 
-const EditBannerModal = ({ isOpen, onClose, banner }) => {
+const EditBannerModal = ({ isOpen, onClose, hasBanner, userId }) => {
     const router = useRouter();
-    const [previewImage, setPreviewImage] = useState(banner);
+    const [previewImage, setPreviewImage] = useState("/pcbg.webp");
     const toast = useToast();
     const { isDarked } = useThemeStore();
     const [isLoading, setIsLoading] = useState(false);
@@ -70,6 +70,13 @@ const EditBannerModal = ({ isOpen, onClose, banner }) => {
         }
     };
 
+    useEffect(() => {
+        const banner = hasBanner
+            ? `https://vibelybackend-1-a9532540.deta.app/user/cover/${userId}`
+            : "/pcbg.webp";
+        setPreviewImage(banner);
+    }, []);
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg">
             <form onSubmit={handleSubmit}>
@@ -84,9 +91,7 @@ const EditBannerModal = ({ isOpen, onClose, banner }) => {
                         <Flex direction="column" align="center" gap={4}>
                             <div
                                 style={{
-                                    backgroundImage: `url(${
-                                        previewImage || banner
-                                    })`,
+                                    backgroundImage: `url(${previewImage})`,
                                 }}
                                 className={`relative w-full h-[10rem] lg:h-[15rem] bg-cover bg-center bg-no-repeat border-2 rounded-2xl shadow-custom`}
                             ></div>

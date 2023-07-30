@@ -17,8 +17,9 @@ import {
     IconButton,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
+
 import Comment from "../Comment";
 
 const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
@@ -55,13 +56,6 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
             commentsData?.mutate();
             setIsLoading(false);
             setInputComment("");
-            toast({
-                title: "You've created a post",
-                status: "success",
-                isClosable: true,
-                position: "top",
-                duration: 2000,
-            });
         } catch (error) {
             console.log(error);
             setIsLoading(false);
@@ -84,13 +78,6 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
             commentsData?.mutate();
             setIsLoading(false);
             setInputComment("");
-            toast({
-                title: "You've deleted your comment",
-                status: "success",
-                isClosable: true,
-                position: "top",
-                duration: 2000,
-            });
         } catch (error) {
             console.log(error);
             setIsLoading(false);

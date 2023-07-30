@@ -29,7 +29,6 @@ import {
     MdOutlineListAlt,
     MdOutlineEmail,
 } from "react-icons/md";
-
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import { useUserStore } from "@/app/zustandStore/userStore";
 import { useEffect } from "react";
@@ -106,7 +105,7 @@ const Navbar = () => {
                     // onClick={toggleTheme}
                     cursor="pointer"
                 />
-                <Menu>
+                <Menu isLazy>
                     <MenuButton
                         as={Button}
                         size={{ sm: "xs", lg: "sm" }}

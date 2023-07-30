@@ -2,18 +2,21 @@
 import Link from "next/link";
 import { Avatar, Button, HStack, Image, Text } from "@chakra-ui/react";
 import { BsGear } from "react-icons/bs";
-import CreatePostTab from "./components/post/CreatePostTab";
-import Post from "./components/post/Post";
 import { useThemeStore } from "./zustandStore/themeStore";
-import Leaderboards from "./components/homepage/Leaderboards";
 import useSWR from "swr";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { useUserStore } from "./zustandStore/userStore";
 import { getRequest } from "./utils/fetcher";
 import { checkAccessToken } from "./utils/accessToken";
-import FriendsList from "./components/homepage/FriendsList";
-import FriendRequests from "./components/homepage/FriendRequests";
+
+const CreatePostTab = lazy(() => import("./components/post/CreatePostTab"));
+const Post = lazy(() => import("./components/post/Post"));
+const Leaderboards = lazy(() => import("./components/homepage/Leaderboards"));
+const FriendsList = lazy(() => import("./components/homepage/FriendsList"));
+const FriendRequests = lazy(() =>
+    import("./components/homepage/FriendRequests")
+);
 
 const NewsFeedPage = () => {
     const { isDarked, toggleTheme } = useThemeStore();

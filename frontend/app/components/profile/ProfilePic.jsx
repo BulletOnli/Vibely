@@ -1,9 +1,16 @@
 import { Avatar, useDisclosure } from "@chakra-ui/react";
 import { FiCamera } from "react-icons/fi";
 import UploadProfileModal from "../modal/UploadProfileModal";
+import useSWR from "swr";
+import { getRequest } from "@/app/utils/fetcher";
 
 const ProfilePic = ({ isOtherProfile, userData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const hasProfile = useSWR(`/user/cover/${userData?.key}`, getRequest);
+    const profilePic = hasProfile?.data
+        ? `https://vibelybackend-1-a9532540.deta.app/user/profile/pic/${userData?.key}`
+        : "";
 
     return (
         <>
@@ -13,7 +20,7 @@ const ProfilePic = ({ isOtherProfile, userData }) => {
                 mt="-20"
                 border="2px"
                 name={userData?.firstName}
-                src={`https://vibelybackend-1-a9532540.deta.app/user/profile/pic/${userData?.key}`}
+                src={profilePic}
             >
                 {!isOtherProfile && (
                     <div className="absolute bottom-0 right-2 w-7 h-7 flex items-center justify-center  border-2 bg-[#DAE0E6] border-white rounded-full cursor-pointer">
@@ -25,7 +32,11 @@ const ProfilePic = ({ isOtherProfile, userData }) => {
                 )}
             </Avatar>
 
-            <UploadProfileModal isOpen={isOpen} onClose={onClose} />
+            <UploadProfileModal
+                profilePic={profilePic}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
         </>
     );
 };

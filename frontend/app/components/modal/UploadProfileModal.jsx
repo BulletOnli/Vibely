@@ -12,14 +12,14 @@ import {
     Flex,
     useToast,
 } from "@chakra-ui/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import { postRequest } from "@/app/utils/fetcher";
 import { mutate } from "swr";
 import { useUserStore } from "@/app/zustandStore/userStore";
 
-const EditProfilePicModal = ({ isOpen, onClose }) => {
+const UploadProfileModal = ({ profilePic, isOpen, onClose }) => {
     const [previewImage, setPreviewImage] = useState("");
     const { isDarked } = useThemeStore();
     const toast = useToast();
@@ -72,8 +72,14 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
         }
     };
 
+    const handleClose = () => {
+        setPreviewImage("");
+        setIsLoading(false);
+        onClose();
+    };
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={handleClose}>
             <form onSubmit={handleSubmit}>
                 <ModalOverlay />
                 <ModalContent
@@ -86,7 +92,7 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
                         <Flex direction="column" align="center" gap={4}>
                             <Avatar
                                 size="2xl"
-                                src={previewImage || ""}
+                                src={previewImage || profilePic}
                                 border="2px"
                             />
                             <Button w="full" colorScheme="telegram">
@@ -110,7 +116,7 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
                     </ModalBody>
 
                     <ModalFooter mt={2}>
-                        <Button mr={3} onClick={onClose}>
+                        <Button mr={3} onClick={handleClose}>
                             Close
                         </Button>
                         <Button
@@ -129,4 +135,4 @@ const EditProfilePicModal = ({ isOpen, onClose }) => {
     );
 };
 
-export default EditProfilePicModal;
+export default UploadProfileModal;

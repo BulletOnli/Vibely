@@ -1,10 +1,9 @@
 "use client";
 import { Button } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import Router from "next/router";
+// import { useRouter } from "next/navigation";
 
 export default function Error({ error }) {
-    const router = useRouter();
-
     return (
         <div className="w-full h-screen flex flex-col items-center">
             <h1 className="text-7xl mt-[10rem] font-bold">500</h1>
@@ -12,7 +11,7 @@ export default function Error({ error }) {
                 Ooops, Internal Server Error
             </h2>
 
-            <Button mt={7} colorScheme="teal" onClick={() => router.refresh()}>
+            <Button mt={7} colorScheme="teal" onClick={() => Router.reload()}>
                 Refresh
             </Button>
         </div>

@@ -31,16 +31,6 @@ const Comment = ({ comment, deleteComment, postId, mutate }) => {
             await postRequest(
                 `/comment/like?postId=${postId}&id=${commentKey}`
             );
-            mutate();
-            renderCount(commentKey);
-            getLikeState(commentKey);
-            toast({
-                title: "You've liked a comment",
-                status: "success",
-                isClosable: true,
-                position: "top",
-                duration: 2000,
-            });
         } catch (error) {
             console.log(error);
             toast({
@@ -50,6 +40,10 @@ const Comment = ({ comment, deleteComment, postId, mutate }) => {
                 position: "top",
                 duration: 2000,
             });
+        } finally {
+            mutate();
+            renderCount(commentKey);
+            getLikeState(commentKey);
         }
     };
 
@@ -58,16 +52,6 @@ const Comment = ({ comment, deleteComment, postId, mutate }) => {
             await postRequest(
                 `/comment/unlike?postId=${postId}&id=${commentKey}`
             );
-            mutate();
-            renderCount(commentKey);
-            getLikeState(commentKey);
-            toast({
-                title: "You've unliked a comment",
-                status: "success",
-                isClosable: true,
-                position: "top",
-                duration: 2000,
-            });
         } catch (error) {
             console.log(error);
             toast({
@@ -77,6 +61,10 @@ const Comment = ({ comment, deleteComment, postId, mutate }) => {
                 position: "top",
                 duration: 2000,
             });
+        } finally {
+            mutate();
+            renderCount(commentKey);
+            getLikeState(commentKey);
         }
     };
 

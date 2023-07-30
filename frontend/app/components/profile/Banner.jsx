@@ -3,14 +3,15 @@ import { FiCamera } from "react-icons/fi";
 import UploadBannerModal from "../modal/UploadBannerModal";
 import useSWR from "swr";
 import { getRequest } from "@/app/utils/fetcher";
+import { memo } from "react";
 
-const Banner = ({ isOtherProfile, userData }) => {
+const Banner = memo(({ isOtherProfile, userData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const hasBanner = useSWR(`/user/cover/${userData?.key}`, getRequest);
     const banner = hasBanner?.data
         ? `https://vibelybackend-1-a9532540.deta.app/user/cover/${userData?.key}`
-        : "/pcbg.png";
+        : "/pcbg.webp";
 
     return (
         <>
@@ -36,12 +37,13 @@ const Banner = ({ isOtherProfile, userData }) => {
             </div>
 
             <UploadBannerModal
-                banner={banner}
+                userId={userData?.key}
+                hasBanner={hasBanner}
                 isOpen={isOpen}
                 onClose={onClose}
             />
         </>
     );
-};
+});
 
 export default Banner;

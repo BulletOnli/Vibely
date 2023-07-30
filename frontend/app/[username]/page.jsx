@@ -10,9 +10,9 @@ import { getRequest } from "@/app/utils/fetcher";
 import ErrorPage from "../components/ErrorPage";
 import { useUserStore } from "../zustandStore/userStore";
 import LoadingPage from "../components/LoadingPage";
-import { useState } from "react";
+import { memo, useState } from "react";
 
-const ProfilePage = ({ params }) => {
+const ProfilePage = memo(({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
     const { currentAccount } = useUserStore();
@@ -84,6 +84,6 @@ const ProfilePage = ({ params }) => {
             </div>
         </div>
     );
-};
+});
 
 export default ProfilePage;

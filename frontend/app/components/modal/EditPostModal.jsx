@@ -54,7 +54,6 @@ const EditPostModal = ({ isOpen, onClose, postData, mutate }) => {
     };
 
     const handleClose = () => {
-        setPreviewImage("");
         setCaption(postData?.caption);
         onClose();
     };

@@ -1,8 +1,9 @@
 import { getRequest } from "@/app/utils/fetcher";
 import { Avatar, AvatarBadge, Flex, Spacer, VStack } from "@chakra-ui/react";
+import { memo } from "react";
 import useSWR from "swr";
 
-const FriendsList = ({ isDarked, componentsBg }) => {
+const FriendsList = memo(({ isDarked, componentsBg }) => {
     const hoverColor = isDarked ? "hover:bg-[#282E54]" : "hover:bg-gray-100";
 
     // const { data } = useSWR("/user/friends", getRequest);
@@ -41,6 +42,6 @@ const FriendsList = ({ isDarked, componentsBg }) => {
             </Flex>
         </div>
     );
-};
+});
 
 export default FriendsList;

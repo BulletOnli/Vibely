@@ -2,12 +2,12 @@
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import { ChakraProvider } from "@chakra-ui/react";
-import Navbar from "./components/navbar/Navbar";
-import NavbarBottom from "./components/navbar/NavbarBottom";
+import Navbar from "../components/navbar/Navbar";
+import NavbarBottom from "../components/navbar/NavbarBottom";
 import { useThemeStore } from "./zustandStore/themeStore";
 import NextTopLoader from "nextjs-toploader";
 
-const App = ({ children }) => {
+export function App({ children }) {
     const pathname = usePathname();
     const hideComponents = pathname === "/login" || pathname === "/register";
 
@@ -28,6 +28,4 @@ const App = ({ children }) => {
             </ChakraProvider>
         </>
     );
-};
-
-export default App;
+}

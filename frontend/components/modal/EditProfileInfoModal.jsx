@@ -1,4 +1,3 @@
-"use client";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
 import {
     Modal,

@@ -1,4 +1,3 @@
-"use client";
 import {
     Button,
     Checkbox,
@@ -14,7 +13,6 @@ import {
 import { useState } from "react";
 import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
 import { mutate } from "swr";
-import { MdWarningAmber } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { loginUser, postRequest } from "@/app/utils/fetcher";
 import { useUserStore } from "@/app/zustandStore/userStore";

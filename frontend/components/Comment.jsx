@@ -1,8 +1,8 @@
 import { HStack, VStack, Avatar, Spacer, useToast } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
-import { useThemeStore } from "../zustandStore/themeStore";
-import { useUserStore } from "../zustandStore/userStore";
+import { useThemeStore } from "../app/zustandStore/themeStore";
+import { useUserStore } from "../app/zustandStore/userStore";
 import { useEffect, useState } from "react";
 import { postRequest } from "@/app/utils/fetcher";
 import axios from "axios";

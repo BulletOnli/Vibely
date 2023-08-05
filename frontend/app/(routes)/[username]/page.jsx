@@ -1,22 +1,23 @@
 "use client";
 import { Button } from "@chakra-ui/react";
 import { useThemeStore } from "@/app/zustandStore/themeStore";
-import Post from "@/app/components/post/Post";
-import ProfileInfo from "@/app/components/profile/ProfileInfo";
-import Banner from "@/app/components/profile/Banner";
+import Post from "@/components/post/Post";
+import ProfileInfo from "@/components/profile/ProfileInfo";
+import Banner from "@/components/profile/Banner";
 
 import useSWR from "swr";
 import { getRequest } from "@/app/utils/fetcher";
-import ErrorPage from "../components/ErrorPage";
-import { useUserStore } from "../zustandStore/userStore";
-import LoadingPage from "../components/LoadingPage";
+import ErrorPage from "../../../components/ErrorPage";
+import { useUserStore } from "../../zustandStore/userStore";
+import LoadingPage from "../../../components/LoadingPage";
 import { memo, useState } from "react";
+import PostSkeleton from "@/components/post/PostSkeleton";
 
 const ProfilePage = memo(({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
     const { currentAccount } = useUserStore();
-    const [postLimit, setPostLimit] = useState(5);
+    const [postLimit, setPostLimit] = useState(10);
 
     const userProfileSWR = useSWR(
         `/user?username=${params.username}`,
@@ -28,7 +29,7 @@ const ProfilePage = memo(({ params }) => {
         getRequest
     );
 
-    const isOtherProfile = params.username !== currentAccount?.username; //account username
+    const isOtherProfile = params.username !== currentAccount?.username;
 
     if (
         !userProfileSWR?.data ||
@@ -60,7 +61,14 @@ const ProfilePage = memo(({ params }) => {
                         Vibely Timeline
                     </h1>
                     <div className="w-full flex flex-col items-center gap-4 mb-[5rem]">
-                        {allPostSWR?.isLoading && <h1>Loading posts...</h1>}
+                        {allPostSWR?.isLoading && (
+                            <>
+                                <PostSkeleton />
+                                <PostSkeleton />
+                                <PostSkeleton />
+                                <PostSkeleton />
+                            </>
+                        )}
                         {allPostSWR?.data?.slice(0, postLimit).map((post) => (
                             <Post
                                 post={post}

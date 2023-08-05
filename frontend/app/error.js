@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@chakra-ui/react";
 import Router from "next/router";
-// import { useRouter } from "next/navigation";
 
 export default function Error({ error }) {
     return (

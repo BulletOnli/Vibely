@@ -1,4 +1,3 @@
-"use client";
 import {
     Avatar,
     Button,
@@ -26,12 +25,12 @@ import useSWR, { useSWRConfig } from "swr";
 import { useUserStore } from "@/app/zustandStore/userStore";
 import Link from "next/link";
 import { deleteRequest, getRequest, postRequest } from "@/app/utils/fetcher";
-import { lazy, memo, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import axios from "axios";
 
-const CommentsModal = lazy(() => import("../modal/CommentsModal"));
-const EditPostModal = lazy(() => import("../modal/EditPostModal"));
+import CommentsModal from "../modal/CommentsModal";
+import EditPostModal from "../modal/EditPostModal";
 
 const Post = ({ componentsBg, isDarked, post, mutate }) => {
     const toast = useToast();
@@ -62,7 +61,6 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                 },
             }
         );
-        console.log("render count");
     }, []);
 
     const getLikeState = useCallback(async () => {
@@ -76,7 +74,6 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                 },
             }
         );
-        renderCount();
 
         if (response.data?.isLiked) {
             setLikeState(true);
@@ -101,6 +98,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
         } finally {
             mutate();
             getLikeState();
+            renderCount();
             setIsLoadingLike(false);
         }
     };
@@ -121,6 +119,8 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
         } finally {
             mutate();
             getLikeState();
+            renderCount();
+
             setIsLoadingLike(false);
         }
     };
@@ -140,6 +140,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
             });
         } finally {
             getLikeState();
+            renderCount();
             mutate();
             setIsLoadingDislike(false);
         }
@@ -161,6 +162,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
         } finally {
             mutate();
             getLikeState();
+            renderCount();
             setIsLoadingDislike(false);
         }
     };
@@ -190,7 +192,6 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
 
     useEffect(() => {
         getLikeState();
-        console.log("hi");
     }, []);
 
     return (

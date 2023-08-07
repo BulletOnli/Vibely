@@ -1,5 +1,5 @@
-import { deleteRequest, getRequest, postRequest } from "@/app/utils/fetcher";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { deleteRequest, getRequest, postRequest } from "@/lib/utils/fetcher";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import {
     Modal,
     ModalOverlay,

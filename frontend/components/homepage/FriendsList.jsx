@@ -1,4 +1,4 @@
-import { getRequest } from "@/app/utils/fetcher";
+import { getRequest } from "@/lib/utils/fetcher";
 import { Avatar, AvatarBadge, Flex, Spacer, VStack } from "@chakra-ui/react";
 import { memo } from "react";
 import useSWR from "swr";

@@ -12,8 +12,8 @@ import {
     Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
-import { putRequest } from "@/app/utils/fetcher";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
+import { putRequest } from "@/lib/utils/fetcher";
 
 const EditPostModal = ({ isOpen, onClose, postData, mutate }) => {
     const toast = useToast();

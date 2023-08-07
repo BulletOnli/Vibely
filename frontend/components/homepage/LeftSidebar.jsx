@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Avatar, Button, HStack, Image, Text } from "@chakra-ui/react";
 import { BsGear } from "react-icons/bs";
 import FriendsList from "./FriendsList";
-import { useUserStore } from "@/app/zustandStore/userStore";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useUserStore } from "@/lib/zustandStore/userStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 
 const LeftSidebar = () => {
     const { isDarked, toggleTheme } = useThemeStore();

@@ -5,7 +5,7 @@ import { BsPersonFill } from "react-icons/bs";
 import EditProfileInfoModal from "../modal/EditProfileInfoModal";
 import ProfilePic from "./ProfilePic";
 import { memo, useState } from "react";
-import { postRequest } from "@/app/utils/fetcher";
+import { postRequest } from "@/lib/utils/fetcher";
 
 const ProfileInfo = memo(
     ({ userData, componentsBg, params, isOtherProfile }) => {

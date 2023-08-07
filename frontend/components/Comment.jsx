@@ -1,10 +1,10 @@
 import { HStack, VStack, Avatar, Spacer, useToast } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
-import { useThemeStore } from "../app/zustandStore/themeStore";
-import { useUserStore } from "../app/zustandStore/userStore";
+import { useThemeStore } from "../lib/zustandStore/themeStore";
+import { useUserStore } from "../lib/zustandStore/userStore";
 import { useEffect, useState } from "react";
-import { postRequest } from "@/app/utils/fetcher";
+import { postRequest } from "@/lib/utils/fetcher";
 import axios from "axios";
 
 const Comment = ({ comment, deleteComment, postId, mutate }) => {

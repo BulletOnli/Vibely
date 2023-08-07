@@ -2,7 +2,7 @@
 import { Box, Button, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import Post from "../post/Post";
 import { useState } from "react";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import PostSkeleton from "../post/PostSkeleton";
 
 const Newsfeed = ({ allPostSWR }) => {

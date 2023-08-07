@@ -1,10 +1,5 @@
 import "./globals.css";
-import dynamic from "next/dynamic";
-
 import { App } from "./_app";
-// const App = dynamic(() => import("./App"), {
-//     ssr: false,
-// });
 
 export const metadata = {
     title: "Vibely",

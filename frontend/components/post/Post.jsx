@@ -22,9 +22,9 @@ import {
     BsHandThumbsDownFill,
 } from "react-icons/bs";
 import useSWR, { useSWRConfig } from "swr";
-import { useUserStore } from "@/app/zustandStore/userStore";
+import { useUserStore } from "@/lib/zustandStore/userStore";
 import Link from "next/link";
-import { deleteRequest, getRequest, postRequest } from "@/app/utils/fetcher";
+import { deleteRequest, getRequest, postRequest } from "@/lib/utils/fetcher";
 import { useCallback, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import axios from "axios";

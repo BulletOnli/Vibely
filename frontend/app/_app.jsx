@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "../components/navbar/Navbar";
 import NavbarBottom from "../components/navbar/NavbarBottom";
-import { useThemeStore } from "./zustandStore/themeStore";
+import { useThemeStore } from "../lib/zustandStore/themeStore";
 import NextTopLoader from "nextjs-toploader";
 
 export function App({ children }) {

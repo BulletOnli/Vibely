@@ -2,7 +2,7 @@ import { Avatar, useDisclosure } from "@chakra-ui/react";
 import { FiCamera } from "react-icons/fi";
 import UploadProfileModal from "../modal/UploadProfileModal";
 import useSWR from "swr";
-import { getRequest } from "@/app/utils/fetcher";
+import { getRequest } from "@/lib/utils/fetcher";
 
 const ProfilePic = ({ isOtherProfile, userData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();

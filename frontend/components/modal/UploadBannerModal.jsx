@@ -13,10 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import { mutate } from "swr";
 import { useRouter } from "next/navigation";
-import { postRequest } from "@/app/utils/fetcher";
+import { postRequest } from "@/lib/utils/fetcher";
 
 const EditBannerModal = ({ isOpen, onClose, hasBanner, userId }) => {
     const router = useRouter();

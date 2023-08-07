@@ -18,7 +18,7 @@ import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
 import { MdWarningAmber } from "react-icons/md";
 import { mutate } from "swr";
 import { useRouter } from "next/navigation";
-import { postRequest, registerUser } from "@/app/utils/fetcher";
+import { postRequest, registerUser } from "@/lib/utils/fetcher";
 
 const RegisterForm = () => {
     const router = useRouter();

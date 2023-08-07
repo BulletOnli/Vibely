@@ -1,11 +1,11 @@
 "use client";
-import { useThemeStore } from "./zustandStore/themeStore";
+import { useThemeStore } from "../lib/zustandStore/themeStore";
 import useSWR from "swr";
 import { lazy, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { useUserStore } from "./zustandStore/userStore";
-import { getRequest } from "./utils/fetcher";
-import { checkAccessToken } from "./utils/accessToken";
+import { useUserStore } from "../lib/zustandStore/userStore";
+import { getRequest } from "../lib/utils/fetcher";
+import { checkAccessToken } from "../lib/utils/accessToken";
 
 import CreatePostTab from "../components/post/CreatePostTab";
 import Newsfeed from "@/components/homepage/Newsfeed";

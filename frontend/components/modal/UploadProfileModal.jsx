@@ -13,10 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
-import { postRequest } from "@/app/utils/fetcher";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
+import { postRequest } from "@/lib/utils/fetcher";
 import { mutate } from "swr";
-import { useUserStore } from "@/app/zustandStore/userStore";
+import { useUserStore } from "@/lib/zustandStore/userStore";
 
 const UploadProfileModal = ({ profilePic, isOpen, onClose }) => {
     const [previewImage, setPreviewImage] = useState("");

@@ -13,7 +13,7 @@ import {
 
 import Notifications from "../homepage/Notifcations";
 import Leaderboards from "../homepage/Leaderboards";
-import { useThemeStore } from "../../app/zustandStore/themeStore";
+import { useThemeStore } from "../../lib/zustandStore/themeStore";
 import FriendRequests from "../homepage/FriendRequests";
 import FriendsList from "../homepage/FriendsList";
 

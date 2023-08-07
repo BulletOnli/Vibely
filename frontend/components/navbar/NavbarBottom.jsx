@@ -6,10 +6,10 @@ import {
     BsFillChatFill,
 } from "react-icons/bs";
 import Nav from "./Nav";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import { useDisclosure } from "@chakra-ui/react";
 import NotificationDrawer from "../modal/NotificationDrawer";
-import { useUserStore } from "@/app/zustandStore/userStore";
+import { useUserStore } from "@/lib/zustandStore/userStore";
 
 const NavbarBottom = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();

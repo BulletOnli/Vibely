@@ -1,4 +1,4 @@
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import {
     Modal,
     ModalOverlay,

@@ -28,11 +28,11 @@ import {
     MdOutlineListAlt,
     MdOutlineEmail,
 } from "react-icons/md";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
-import { useUserStore } from "@/app/zustandStore/userStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
+import { useUserStore } from "@/lib/zustandStore/userStore";
 import { useEffect } from "react";
 import { redirect, useRouter } from "next/navigation";
-import { checkAccessToken } from "@/app/utils/accessToken";
+import { checkAccessToken } from "@/lib/utils/accessToken";
 
 const Navbar = () => {
     const toast = useToast();

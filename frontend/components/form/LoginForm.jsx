@@ -14,8 +14,8 @@ import { useState } from "react";
 import { BsFillPersonFill, BsShieldLockFill } from "react-icons/bs";
 import { mutate } from "swr";
 import { useRouter } from "next/navigation";
-import { loginUser, postRequest } from "@/app/utils/fetcher";
-import { useUserStore } from "@/app/zustandStore/userStore";
+import { loginUser, postRequest } from "@/lib/utils/fetcher";
+import { useUserStore } from "@/lib/zustandStore/userStore";
 
 const LoginForm = () => {
     const router = useRouter();

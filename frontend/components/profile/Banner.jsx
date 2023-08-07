@@ -2,7 +2,7 @@ import { Button, useDisclosure } from "@chakra-ui/react";
 import { FiCamera } from "react-icons/fi";
 import UploadBannerModal from "../modal/UploadBannerModal";
 import useSWR from "swr";
-import { getRequest } from "@/app/utils/fetcher";
+import { getRequest } from "@/lib/utils/fetcher";
 import { memo } from "react";
 
 const Banner = memo(({ isOtherProfile, userData }) => {

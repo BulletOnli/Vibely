@@ -1,17 +1,17 @@
 "use client";
 import { Button } from "@chakra-ui/react";
-import { useThemeStore } from "@/app/zustandStore/themeStore";
+import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import Post from "@/components/post/Post";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 import Banner from "@/components/profile/Banner";
 
 import useSWR from "swr";
-import { getRequest } from "@/app/utils/fetcher";
-import ErrorPage from "../../../components/ErrorPage";
-import { useUserStore } from "../../zustandStore/userStore";
-import LoadingPage from "../../../components/LoadingPage";
+import { getRequest } from "@/lib/utils/fetcher";
 import { memo, useState } from "react";
 import PostSkeleton from "@/components/post/PostSkeleton";
+import LoadingPage from "@/components/LoadingPage";
+import ErrorPage from "@/components/ErrorPage";
+import { useUserStore } from "@/lib/zustandStore/userStore";
 
 const ProfilePage = memo(({ params }) => {
     const { isDarked } = useThemeStore();

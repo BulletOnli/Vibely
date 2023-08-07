@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiBaseUrl = axios.create({
-    baseURL: "https://vibelybackend-1-a9532540.deta.app",
+    baseURL: process.env.NEXT_PUBLIC_API_KEY,
 });
 
 export const loginUser = async (url, data) => {

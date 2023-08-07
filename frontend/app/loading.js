@@ -1,4 +1,4 @@
-import LoadingPage from "./components/LoadingPage";
+import LoadingPage from "../components/LoadingPage";
 import "./globals.css";
 
 const loading = () => {

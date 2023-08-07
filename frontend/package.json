@@ -9,14 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.7.0",
+    "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@next/eslint-plugin-next": "^13.4.6",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
-    "framer-motion": "^10.12.16",
+    "framer-motion": "^10.15.0",
     "jwt-decode": "^3.1.2",
+    "nextjs-toploader": "^1.4.2",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",

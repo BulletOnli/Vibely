@@ -3,9 +3,8 @@ import { FiCamera } from "react-icons/fi";
 import UploadBannerModal from "../modal/UploadBannerModal";
 import useSWR from "swr";
 import { getRequest } from "@/lib/utils/fetcher";
-import { memo } from "react";
 
-const Banner = memo(({ isOtherProfile, userData }) => {
+const Banner = ({ isOtherProfile, userData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const hasBanner = useSWR(`/user/cover/${userData?.key}`, getRequest);
@@ -44,6 +43,6 @@ const Banner = memo(({ isOtherProfile, userData }) => {
             />
         </>
     );
-});
+};
 
 export default Banner;

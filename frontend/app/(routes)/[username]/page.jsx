@@ -7,13 +7,13 @@ import Banner from "@/components/profile/Banner";
 
 import useSWR from "swr";
 import { getRequest } from "@/lib/utils/fetcher";
-import { memo, useState } from "react";
+import { useState } from "react";
 import PostSkeleton from "@/components/post/PostSkeleton";
 import LoadingPage from "@/components/LoadingPage";
 import ErrorPage from "@/components/ErrorPage";
 import { useUserStore } from "@/lib/zustandStore/userStore";
 
-const ProfilePage = memo(({ params }) => {
+const ProfilePage = ({ params }) => {
     const { isDarked } = useThemeStore();
     const componentsBg = isDarked ? "bg-[#242850]" : "bg-white";
     const { currentAccount } = useUserStore();
@@ -92,6 +92,6 @@ const ProfilePage = memo(({ params }) => {
             </div>
         </div>
     );
-});
+};
 
 export default ProfilePage;

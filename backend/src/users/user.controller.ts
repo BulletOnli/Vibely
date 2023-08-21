@@ -34,7 +34,7 @@ export class UserController {
 	}
 
 	@Post('login')
-	async loginUser(@Body() { password, username }: UserLoginDetails) {
+	async loginUser(@Body() { password: userPassword, username }: UserLoginDetails) {
 		return new Observable<AccessToken>(subscriber => {		
 			this.user.get({ username }).subscribe({
 				error(err) {
@@ -43,13 +43,13 @@ export class UserController {
 				  	message: "User " + (err as string).toLowerCase() 
 				  });
 				},
-				next: (val) => {
-					argon2.verify(val.password as string, password).then(bool => {
+				next: ({ password, username, key }) => {
+					argon2.verify(password as string, userPassword).then(bool => {
 						if (!bool) {
 							subscriber.error({ status: HttpStatus.BAD_REQUEST, message: "Wrong password" } as HttpError);
-						} else {					
+						} else {	
 							subscriber.next({
-								accessToken: this.jwtService.sign({ username: val.username, sub: val.key })
+								accessToken: this.jwtService.sign({ username, sub: key })
 							});
 							subscriber.complete();
 						}

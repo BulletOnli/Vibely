@@ -110,13 +110,16 @@ export class UserFriendsController {
 		if (currentId === id) {
 			throw new BadRequestException("You can't accept yourself.");
 		}
+
 		const items = await this.friend.getFriendItems(currentId, id);
 		if (isEmpty(items)) {
 			throw new BadRequestException(
 				"This user doesn't send you a friend request."
 			);
 		}
+
 		const [a, b] = items;
+
 		if (!a.isAccepted && !b.isAccepted) {
 			const prom1 = this.friendsBase.update(
 				{ isAccepted: true } as Friend,
@@ -129,6 +132,49 @@ export class UserFriendsController {
 			Promise.all([prom1, prom2]);
 		} else {
 			throw new BadRequestException('You already accepted this user.');
+		}
+	}
+
+	@Get('list')
+	async getListOfFrs(
+		@CurrentUserId() currentId: string,
+	) {
+		return (await this.friendsBase.fetch({
+			secondUser: currentId
+		} as Friend)).items;
+	}
+
+	@Post('cancel')
+	async cancelFriendRequest(
+		@CurrentUserId() currId: string,
+		@QueryId(uuidPipe, UserExistsPipe) id: string
+	) {
+		await this.deleteFr(currId, id);
+		return {
+			message: "Friend request cancelled"
+		};
+	}
+
+	private async deleteFr(currId: string, id: string){
+		const itemsToDel: Promise<null>[] = [];
+		const item = (await this.friend.getFriendItems(currId, id)).filter(x => 
+			x.secondUser === id && x.firstUser === currId ||
+			x.firstUser === id && x.secondUser === currId
+		);
+		item.forEach(x => {
+			itemsToDel.push(this.friendsBase.delete(x.key));
+		});
+		Promise.all(itemsToDel);
+	}
+
+	@Post('decline')
+	async declineFriendRequest(
+		@CurrentUserId() currentId: string,
+		@QueryId(uuidPipe, UserExistsPipe) id: string
+	) {
+		await this.deleteFr(currentId, id);
+		return {
+			message: "Friend request declined"
 		}
 	}
 }

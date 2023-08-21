@@ -5,3 +5,6 @@ yarn.lock
 package-lock.json
 dist
 *.log
+
+fr.js
+idk.txt

@@ -3,9 +3,9 @@ import {
 	Post,
 	Body,
 	BadRequestException,
-	NotFoundException,
 	Get,
-	Query
+	Query,
+  HttpStatus
 } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { omit } from 'lodash';
@@ -13,30 +13,72 @@ import { UserRegistrationDetails, UserLoginDetails } from './dto';
 import { UserService } from './services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CurrentUserId, QueryId } from 'src/decorators';
+import { DetaService, Model } from 'src/deta';
+import { User } from 'src/models';
+import { Observable } from 'rxjs';
+import { throwHttpError } from 'src/operators';
+
+type AccessToken = {
+	accessToken: string;
+}
 
 @Controller('user')
 export class UserController {
-	constructor(private user: UserService, private jwtService: JwtService) {}
+	user: Model<User>
+	constructor(
+		private userService: UserService, 
+		private jwtService: JwtService,
+		private deta: DetaService
+	){
+		this.user = this.deta.createModel<User>("users");
+	}
 
 	@Post('login')
-	async loginUser(@Body() { password, username }: UserLoginDetails) {
-		const user = await this.user.findOne(username);
-		if (!user) {
-			throw new NotFoundException('User not found');
-		} else if (!(await argon2.verify(user.password as string, password))) {
-			throw new BadRequestException('wrong password');
-		}
-		return {
-			accessToken: await this.jwtService.signAsync({ username, sub: user.key })
-		};
+	async loginUser(@Body() { password: userPassword, username }: UserLoginDetails) {
+		return new Observable<AccessToken>(subscriber => {		
+			this.user.get({ username }).subscribe({
+				error(err) {
+				  subscriber.error({ 
+				  	status: HttpStatus.NOT_FOUND, 
+				  	message: "User " + (err as string).toLowerCase() 
+				  });
+				},
+				next: ({ password, username, key }) => {
+					argon2.verify(password as string, userPassword).then(bool => {
+						if (!bool) {
+							subscriber.error({ status: HttpStatus.BAD_REQUEST, message: "Wrong password" } as HttpError);
+						} else {	
+							subscriber.next({
+								accessToken: this.jwtService.sign({ username, sub: key })
+							});
+							subscriber.complete();
+						}
+					})
+				}
+			});
+		}).pipe(throwHttpError());
 	}
 
 	@Post('register')
 	async registerUser(@Body() register: UserRegistrationDetails) {
-		const { username, key } = await this.user.registerUser(register);
-		return {
-			accessToken: await this.jwtService.signAsync({ username, sub: key })
-		};
+		return new Observable<AccessToken>(subscriber => {
+			this.user.get({ username: register.username }).subscribe({
+				error: () => {
+					this.userService.registerUser(register).then(({ username, key }) => {
+						this.jwtService.signAsync({ username, sub: key }).then(accessToken => {
+							subscriber.next({ accessToken });
+						});
+						subscriber.complete();
+					}).catch(err => {
+						const { statusCode, message } = err.response;
+						subscriber.error({ status: statusCode, message });
+					});
+				},
+				next() {
+				  subscriber.error({ status: HttpStatus.BAD_REQUEST, message: "Username exists" } as HttpError)
+				},
+			});
+		}).pipe(throwHttpError());
 	}
 
 	@Get('current')
@@ -58,10 +100,10 @@ export class UserController {
 	}
 
 	private async _getUserInfo(id: string) {
-		return this.omitSensitive(await this.user.findOneById(id));
+		return this.omitSensitive(await this.userService.findOneById(id));
 	}
 	private async _getUserInfoByUsername(username: string) {
-		return this.omitSensitive(await this.user.findOne(username));
+		return this.omitSensitive(await this.userService.findOne(username));
 	}
 
 	private omitSensitive(obj: object) {

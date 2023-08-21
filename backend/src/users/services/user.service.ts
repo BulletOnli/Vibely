@@ -3,8 +3,6 @@ import { randomUUID } from 'crypto';
 import { ObjectType } from 'deta/dist/types/types/basic';
 import { UserRegistrationDetails } from '../dto';
 import * as argon2 from 'argon2';
-import { isUndefined } from 'lodash';
-import * as dayjs from 'dayjs';
 import { Base, DetaService } from 'src/deta/deta.service';
 
 @Injectable()
@@ -24,9 +22,9 @@ export class UserService {
 	}
 
 	async registerUser(user: UserRegistrationDetails) {
-		if (!isUndefined(await this.findOne(user.username))) {
+		/*if (!isUndefined(await this.findOne(user.username))) {
 			throw new BadRequestException('Username exists');
-		} else if (user.password !== user.confirmPassword) {
+		} else*/ if (user.password !== user.confirmPassword) {
 			throw new BadRequestException("Passwords doesn't match.");
 		}
 
@@ -40,7 +38,7 @@ export class UserService {
 				birthday,
 				actualPassword: password,
 				gender,
-				createdAt: dayjs().toISOString()
+				createdAt: new Date().toISOString()
 			},
 			randomUUID()
 		);

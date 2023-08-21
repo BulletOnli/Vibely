@@ -1,5 +1,5 @@
 import { range } from "lodash";
-import { Observable, take } from "rxjs"
+import { Observable } from "rxjs"
 
 // observable version of limitPosts
 export const limitOffset = <T>(limit: number, offset: number) => {

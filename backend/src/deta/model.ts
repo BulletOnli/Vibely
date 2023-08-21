@@ -1,8 +1,9 @@
+import { HttpStatus } from "@nestjs/common";
+import { Observable } from "rxjs";
+import { randomUUID } from "crypto";
 import type { FetchResponse } from "deta/dist/types/types/base/response";
 import type { ObjectType } from "deta/dist/types/types/basic";
-import { Observable } from "rxjs";
 import type { BaseInst, DetaInst, VibelyBase } from './types';
-import { randomUUID } from "crypto";
 import { BaseModel } from "src/models/BaseModel";
 import { replaceKeyValues } from "src/utils";
 
@@ -19,6 +20,7 @@ export class Model<T extends DetaModel> {
 		this.deta = deta;
 		this.base = this.deta.Base(basename);
 	}
+	
 	fetch(args?: Partial<T>): Observable<FetchResponse> {
 		return new Observable(subscriber => {
 			this.base.fetch(args as ObjectType).then(fetchRes => {
@@ -40,8 +42,14 @@ export class Model<T extends DetaModel> {
 	get(args: Partial<T>, index: number = 0): Observable<T> {
 		return new Observable<T>(subscriber => {
 			this.base.fetch(args as ObjectType).then(fetchRes => {
-				subscriber.next(fetchRes.items.at(index) as T);
-				subscriber.complete();
+				const item = fetchRes.items.at(index) as T;
+				if (item) {
+					subscriber.next(item);
+					subscriber.complete();					
+				} else {
+					// subscriber.error({ message: "Not found", status: HttpStatus.NOT_FOUND } as HttpError);
+					subscriber.error("Not found");
+				}
 			});
 		});
 	}
@@ -50,12 +58,16 @@ export class Model<T extends DetaModel> {
 		return new Observable<T>(subscriber => {
 			this.base.fetch(args as ObjectType).then(x => {
 				const item = x.items.at(0) as T;
-				this.base.delete(item.key as string).then(() => {
-					subscriber.next(item);
-					subscriber.complete();
-				}).catch(err => {
-					subscriber.error(err);
-				});
+				if (!item) {
+					subscriber.error({ status: HttpStatus.NOT_FOUND, message: "Not found" } as HttpError);
+				} else {
+					this.base.delete(item.key as string).then(() => {
+						subscriber.next(item);
+						subscriber.complete();
+					}).catch(err => {
+						subscriber.error(err);
+					});					
+				}
 			});
 		})
 	}
@@ -81,8 +93,9 @@ export class Model<T extends DetaModel> {
 				this.base.update(args as ObjectType, key).then(() => {
 					subscriber.next(replaceKeyValues(x, args) as T);
 					subscriber.complete();
-				}).catch(err => {
-					subscriber.error(err);
+				}).catch(_err => {
+					const error: HttpError = { status: HttpStatus.NOT_FOUND, message: "Not found" };
+					subscriber.error(error);
 				});
 			});
 		});

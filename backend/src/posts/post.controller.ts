@@ -30,8 +30,8 @@ import { CurrentUserId, QueryId } from 'src/decorators';
 import * as dayjs from 'dayjs';
 import { Model } from 'src/deta/model';
 import { Post } from 'src/models';
-import { Observable, catchError, tap, toArray } from 'rxjs';
-import { getItems, limitOffset, sort } from 'src/operators';
+import { Observable, tap, toArray } from 'rxjs';
+import { getItems, limitOffset, sort, throwHttpError } from 'src/operators';
 import { Storage } from 'src/deta';
 
 @Controller('post')
@@ -97,11 +97,7 @@ export class PostController {
 		@QueryId() id: string,
 		@Body() body: PostCreationDetails
 	) {
-		return this.post.update(body, id).pipe(
-			catchError(() => { 
-				throw new NotFoundException("Post not found"); 
-			})
-		);
+		return this.post.update(body, id).pipe(throwHttpError("Post not found"));
 	}
 
 	@Delete('delete')
@@ -109,11 +105,7 @@ export class PostController {
 		@QueryId() id: string,
 		@CurrentUserId() currentId: string
 	) {
-		return this.post.delete({ key: id, userId: currentId }).pipe(
-			catchError(() => { 
-				throw new NotFoundException("Post not found"); 
-			})
-		);
+		return this.post.delete({ key: id, userId: currentId }).pipe(throwHttpError("Post not found"));
 	}
 
 	@Get('all')

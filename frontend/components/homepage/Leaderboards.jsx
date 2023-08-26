@@ -99,4 +99,6 @@ const Leaderboards = memo(({ isDarked, componentsBg }) => {
     );
 });
 
+Leaderboards.displayName = "Leaderboards";
+
 export default Leaderboards;

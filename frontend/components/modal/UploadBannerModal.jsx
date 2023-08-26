@@ -134,4 +134,6 @@ const EditBannerModal = memo(({ isOpen, onClose, hasBanner, userId }) => {
     );
 });
 
+EditBannerModal.displayName = "EditBannerModal";
+
 export default EditBannerModal;

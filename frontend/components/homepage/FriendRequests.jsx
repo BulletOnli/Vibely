@@ -51,4 +51,6 @@ const FriendRequests = memo(({ isDarked, componentsBg }) => {
     );
 });
 
+FriendRequests.displayName = "FriendRequests";
+
 export default FriendRequests;

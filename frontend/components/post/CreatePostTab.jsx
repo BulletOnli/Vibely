@@ -126,4 +126,6 @@ const CreatePostTab = memo(({ isDarked, componentsBg, mutate }) => {
     );
 });
 
+CreatePostTab.displayName = "CreatePostTab";
+
 export default CreatePostTab;

@@ -183,4 +183,6 @@ const CommentsModal = memo(({ onClose, isOpen, commentsData, postId }) => {
     );
 });
 
+CommentsModal.displayName = "CommentsModal";
+
 export default CommentsModal;

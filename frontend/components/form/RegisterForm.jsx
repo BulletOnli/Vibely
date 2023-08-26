@@ -181,6 +181,7 @@ const RegisterForm = () => {
                 mt={4}
                 isLoading={isLoading}
                 spinnerPlacement="start"
+                size={{ base: "sm", lg: "md" }}
             >
                 Register
             </Button>

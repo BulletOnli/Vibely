@@ -50,7 +50,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
     const isOtherPost =
         currentAccount?.username !== postCreator?.data?.username;
 
-    const renderCount = useCallback(async () => {
+    const renderCount = async () => {
         const response = await axios.get(
             `https://vibelybackend-1-a9532540.deta.app/post/likes/getcount?id=${post?.key}`,
             {
@@ -61,9 +61,9 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
                 },
             }
         );
-    }, []);
+    };
 
-    const getLikeState = useCallback(async () => {
+    const getLikeState = async () => {
         const response = await axios.get(
             `https://vibelybackend-1-a9532540.deta.app/post/likes/getstate?id=${post?.key}`,
             {
@@ -80,7 +80,7 @@ const Post = ({ componentsBg, isDarked, post, mutate }) => {
         } else {
             setLikeState(response.data?.isLiked);
         }
-    }, []);
+    };
 
     const likePost = async () => {
         try {

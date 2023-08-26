@@ -63,7 +63,7 @@ const LoginForm = () => {
     return (
         <FormControl
             as="form"
-            mt={6}
+            mt={4}
             onSubmit={handleSubmit}
             isInvalid={isError}
         >
@@ -98,7 +98,9 @@ const LoginForm = () => {
             <HStack w="full" my={3}>
                 <Checkbox size="sm">Remember me</Checkbox>
                 <Spacer />
-                <p className="text-[13px] text-blue-800">Forgot Password?</p>
+                <p className="text-xs lg:text-[13px] text-blue-800">
+                    Forgot Password?
+                </p>
             </HStack>
             <Button
                 type="submit"
@@ -106,6 +108,7 @@ const LoginForm = () => {
                 w="full"
                 isLoading={isLoading}
                 spinnerPlacement="start"
+                size={{ base: "sm", lg: "md" }}
             >
                 Log in
             </Button>

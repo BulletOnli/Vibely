@@ -11,14 +11,14 @@ import {
     useToast,
     Flex,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import axios from "axios";
 import { useThemeStore } from "@/lib/zustandStore/themeStore";
 import { mutate } from "swr";
 import { useRouter } from "next/navigation";
 import { postRequest } from "@/lib/utils/fetcher";
 
-const EditBannerModal = ({ isOpen, onClose, hasBanner, userId }) => {
+const EditBannerModal = memo(({ isOpen, onClose, hasBanner, userId }) => {
     const router = useRouter();
     const [previewImage, setPreviewImage] = useState("/pcbg.webp");
     const toast = useToast();
@@ -132,6 +132,6 @@ const EditBannerModal = ({ isOpen, onClose, hasBanner, userId }) => {
             </form>
         </Modal>
     );
-};
+});
 
 export default EditBannerModal;

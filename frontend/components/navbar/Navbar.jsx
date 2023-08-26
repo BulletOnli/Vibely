@@ -97,13 +97,13 @@ const Navbar = () => {
 
             <HStack>
                 {/* <Icon as={BsFillBellFill} boxSize={5} mx={3} cursor="pointer" /> */}
-                <Icon
+                {/* <Icon
                     as={isDarked ? BsSunFill : BsFillMoonStarsFill}
                     boxSize={5}
                     mx={3}
                     // onClick={toggleTheme}
                     cursor="pointer"
-                />
+                /> */}
                 <Menu isLazy>
                     <MenuButton
                         as={Button}

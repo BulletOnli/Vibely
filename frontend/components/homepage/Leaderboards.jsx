@@ -7,8 +7,9 @@ import {
     Flex,
     Image,
 } from "@chakra-ui/react";
+import { memo } from "react";
 
-const Leaderboards = ({ isDarked, componentsBg }) => {
+const Leaderboards = memo(({ isDarked, componentsBg }) => {
     return (
         <div
             className={`${componentsBg} w-full flex flex-col p-4 rounded-xl shadow-custom`}
@@ -96,6 +97,6 @@ const Leaderboards = ({ isDarked, componentsBg }) => {
             </Flex>
         </div>
     );
-};
+});
 
 export default Leaderboards;

@@ -8,10 +8,11 @@ import {
     Image,
     IconButton,
 } from "@chakra-ui/react";
+import { memo } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheck2 } from "react-icons/bs";
 
-const FriendRequests = ({ isDarked, componentsBg }) => {
+const FriendRequests = memo(({ isDarked, componentsBg }) => {
     return (
         <div
             className={`${componentsBg} w-full flex flex-col p-4 rounded-xl shadow-custom`}
@@ -48,6 +49,6 @@ const FriendRequests = ({ isDarked, componentsBg }) => {
             </Flex>
         </div>
     );
-};
+});
 
 export default FriendRequests;

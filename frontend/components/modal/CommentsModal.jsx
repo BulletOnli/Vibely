@@ -17,12 +17,12 @@ import {
     IconButton,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { lazy, useEffect, useState } from "react";
+import { lazy, memo, useEffect, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
 
 import Comment from "../Comment";
 
-const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
+const CommentsModal = memo(({ onClose, isOpen, commentsData, postId }) => {
     const toast = useToast();
     const { isDarked } = useThemeStore();
 
@@ -31,7 +31,7 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
     const [comments, setComments] = useState([]);
 
     // functions to get the user based on id
-    async function getCommentor(id) {
+    const getCommentor = async (id) => {
         const response = await axios.get(
             `https://vibelybackend-1-a9532540.deta.app/user?id=${id}`,
             {
@@ -44,7 +44,7 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
         );
 
         return `${response.data.firstName} ${response.data.lastName}`;
-    }
+    };
 
     const addComment = async (e) => {
         e.preventDefault();
@@ -54,11 +54,8 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
                 text: inputComment,
             });
             commentsData?.mutate();
-            setIsLoading(false);
-            setInputComment("");
         } catch (error) {
             console.log(error);
-            setIsLoading(false);
             toast({
                 title: "Oops! Something went wrong.",
                 status: "error",
@@ -66,6 +63,9 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
                 position: "top",
                 duration: 2000,
             });
+        } finally {
+            setIsLoading(false);
+            setInputComment("");
         }
     };
 
@@ -76,11 +76,8 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
                 `/comment/delete?postId=${postId}&id=${commentKey}`
             );
             commentsData?.mutate();
-            setIsLoading(false);
-            setInputComment("");
         } catch (error) {
             console.log(error);
-            setIsLoading(false);
             toast({
                 title: "Oops! Something went wrong.",
                 status: "error",
@@ -88,6 +85,9 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
                 position: "top",
                 duration: 2000,
             });
+        } finally {
+            setIsLoading(false);
+            setInputComment("");
         }
     };
 
@@ -181,6 +181,6 @@ const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
             </ModalContent>
         </Modal>
     );
-};
+});
 
 export default CommentsModal;

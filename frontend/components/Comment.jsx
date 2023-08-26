@@ -96,7 +96,7 @@ const Comment = ({ comment, deleteComment, postId, mutate }) => {
             <div className="flex items-center gap-3">
                 <Avatar
                     size="md"
-                    name={comment.userId}
+                    name={comment.commentorName}
                     src={`https://vibelybackend-1-a9532540.deta.app/user/profile/pic/${comment?.userId}`}
                 />
                 <div className="flex flex-col gap-0">

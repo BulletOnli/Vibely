@@ -7,7 +7,7 @@ import { getRequest } from "@/lib/utils/fetcher";
 const ProfilePic = ({ isOtherProfile, userData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const hasProfile = useSWR(`/user/cover/${userData?.key}`, getRequest);
+    const hasProfile = useSWR(`/user/profile/pic/${userData?.key}`, getRequest);
     const profilePic = hasProfile?.data
         ? `https://vibelybackend-1-a9532540.deta.app/user/profile/pic/${userData?.key}`
         : "";

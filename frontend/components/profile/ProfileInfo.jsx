@@ -45,7 +45,7 @@ const ProfileInfo = ({ userData, componentsBg, params, isOtherProfile }) => {
                 className={`relative lg:sticky lg:top-[9rem] lg:mt-[-7rem] w-[18rem] lg:w-[20rem] lg:flex flex-col items-center lg:gap-3`}
             >
                 <div
-                    className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md`}
+                    className={`relative ${componentsBg} w-full flex flex-col items-center p-6 rounded-lg shadow-md mt-2 lg:mt-0`}
                 >
                     <ProfilePic
                         userData={userData}
@@ -110,6 +110,22 @@ const ProfileInfo = ({ userData, componentsBg, params, isOtherProfile }) => {
                                 </Button>
                             </>
                         )}
+                    </HStack>
+                </div>
+
+                <div
+                    className={`${componentsBg} w-full flex flex-col gap-2 px-6 py-4 rounded-lg shadow-md mt-3 lg:mt-0`}
+                >
+                    <p className="text-lg font-semibold">
+                        Personal Information
+                    </p>
+                    <HStack>
+                        <BsPersonFill fontSize={18} />
+                        <p className="text-sm">{userData?.gender}</p>
+                    </HStack>
+                    <HStack>
+                        <FaBirthdayCake fontSize={18} />
+                        <p className="text-sm">{userData?.birthday}</p>
                     </HStack>
                 </div>
 

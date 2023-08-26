@@ -19,7 +19,7 @@ const Banner = memo(({ isOtherProfile, userData }) => {
                 style={{
                     backgroundImage: `url(${banner})`,
                 }}
-                className={` relative w-full lg:w-[70rem] h-[10rem] lg:h-[20rem] bg-cover bg-center bg-no-repeat rounded-2xl shadow-custom`}
+                className={` relative w-full lg:w-[70rem] h-[10rem] lg:h-[20rem] bg-cover bg-center bg-no-repeat lg:rounded-2xl shadow-custom`}
             >
                 {!isOtherProfile && (
                     <Button

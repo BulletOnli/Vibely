@@ -6,12 +6,12 @@ import {
     useToast,
     Image,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { CgCloseO } from "react-icons/cg";
 import { postRequest } from "@/lib/utils/fetcher";
 
-const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
+const CreatePostTab = memo(({ isDarked, componentsBg, mutate }) => {
     const toast = useToast();
     const postPhotoRef = useRef(null);
     const [previewImage, setPreviewImage] = useState("");
@@ -38,16 +38,12 @@ const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = new FormData(e.target);
-
         try {
+            const data = new FormData(e.target);
             setIsLoading(true);
             await postRequest("/post/create", data);
             mutate();
-            setIsLoading(false);
-            setInputCaption("");
-            setPreviewImage("");
-            postPhotoRef.current.value = "";
+
             toast({
                 title: "You've created a post",
                 status: "success",
@@ -57,7 +53,6 @@ const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
             });
         } catch (error) {
             console.log(error);
-            setIsLoading(false);
             toast({
                 title: "Oops! Something went wrong.",
                 status: "error",
@@ -65,6 +60,11 @@ const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
                 position: "top",
                 duration: 2000,
             });
+        } finally {
+            setIsLoading(false);
+            setInputCaption("");
+            setPreviewImage("");
+            postPhotoRef.current.value = "";
         }
     };
 
@@ -77,11 +77,11 @@ const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
                 <Textarea
                     placeholder="Share your thoughts..."
                     mb={2}
-                    resize="none"
                     name="caption"
                     onChange={(e) => setInputCaption(e.target.value)}
                     value={inputCaption}
                     required
+                    maxHeight="10rem"
                 />
                 {previewImage && (
                     <div className="relative flex justify-center items-center p-2 gap-2 border border-gray-200 rounded-md mb-3">
@@ -124,6 +124,6 @@ const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
             </FormControl>
         </div>
     );
-};
+});
 
 export default CreatePostTab;

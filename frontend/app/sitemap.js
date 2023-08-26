@@ -1,4 +1,4 @@
-const URL = "http://localhost:3000";
+const URL = "https://vibelyofficial.vercel.app";
 
 export default function sitemap() {
     return [

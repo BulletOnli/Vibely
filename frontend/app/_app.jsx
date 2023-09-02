@@ -18,8 +18,8 @@ export function App({ children }) {
 
     return (
         <>
-            <NextTopLoader />
             <ChakraProvider>
+                <NextTopLoader />
                 <div className={`${mainBg} relative w-full  flex flex-col`}>
                     {!hideComponents && <Navbar />}
                     {children}

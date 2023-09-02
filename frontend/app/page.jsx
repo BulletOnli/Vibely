@@ -9,12 +9,15 @@ import { checkAccessToken } from "../lib/utils/accessToken";
 
 import CreatePostTab from "../components/post/CreatePostTab";
 import Newsfeed from "@/components/homepage/Newsfeed";
+import LeftSidebar from "@/components/homepage/LeftSidebar";
+import Leaderboards from "@/components/homepage/Leaderboards";
+import FriendRequests from "@/components/homepage/FriendRequests";
 
-const LeftSidebar = lazy(() => import("@/components/homepage/LeftSidebar"));
-const Leaderboards = lazy(() => import("../components/homepage/Leaderboards"));
-const FriendRequests = lazy(() =>
-    import("../components/homepage/FriendRequests")
-);
+// const LeftSidebar = lazy(() => import("@/components/homepage/LeftSidebar"));
+// const Leaderboards = lazy(() => import("../components/homepage/Leaderboards"));
+// const FriendRequests = lazy(() =>
+//     import("../components/homepage/FriendRequests")
+// );
 
 const Homepage = () => {
     const { isDarked, toggleTheme } = useThemeStore();

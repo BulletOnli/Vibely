@@ -1,17 +1,7 @@
-import { getRequest } from "@/lib/utils/fetcher";
 import { Avatar, AvatarBadge, Flex, Spacer, VStack } from "@chakra-ui/react";
-import useSWR from "swr";
 
 const FriendsList = ({ isDarked, componentsBg }) => {
     const hoverColor = isDarked ? "hover:bg-[#282E54]" : "hover:bg-gray-100";
-
-    const { data } = useSWR("/user/friends/list", getRequest);
-
-    // data.forEach((element) => {
-    //     const friendSWR = useSWR(`/user?id=${element.senderId}`, getRequest);
-    // });
-
-    console.log(data);
 
     return (
         <div
@@ -29,7 +19,7 @@ const FriendsList = ({ isDarked, componentsBg }) => {
                 <div
                     className={`w-full flex items-center gap-3 p-1 rounded-md`}
                 >
-                    <Avatar size="sm" name="gemmuel">
+                    <Avatar size="sm" name="Gemmuel">
                         <AvatarBadge boxSize="1em" bg="green.500" />
                     </Avatar>
                     <p className="text-sm ">Gemmuel Dela Pena</p>
@@ -37,11 +27,10 @@ const FriendsList = ({ isDarked, componentsBg }) => {
                 <div
                     className={`w-full flex items-center gap-3 p-1 rounded-md`}
                 >
-                    <Avatar size="sm" name="clark">
+                    <Avatar size="sm" name="Clark">
                         <AvatarBadge boxSize="1em" bg="green.500" />
                     </Avatar>
-
-                    <p className="text-sm">Clark John</p>
+                    <p className="text-sm ">Clark John</p>
                 </div>
             </Flex>
         </div>

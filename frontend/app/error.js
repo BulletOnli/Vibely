@@ -9,10 +9,6 @@ export default function Error({ error }) {
             <h2 className="mt-4 text-2xl font-semibold text-[#00CCCC]">
                 Ooops, Internal Server Error
             </h2>
-
-            <Button mt={7} colorScheme="teal" onClick={() => Router.reload()}>
-                Refresh
-            </Button>
         </div>
     );
 }

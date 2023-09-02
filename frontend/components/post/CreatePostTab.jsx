@@ -6,12 +6,12 @@ import {
     useToast,
     Image,
 } from "@chakra-ui/react";
-import { memo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { CgCloseO } from "react-icons/cg";
 import { postRequest } from "@/lib/utils/fetcher";
 
-const CreatePostTab = memo(({ isDarked, componentsBg, mutate }) => {
+const CreatePostTab = ({ isDarked, componentsBg, mutate }) => {
     const toast = useToast();
     const postPhotoRef = useRef(null);
     const [previewImage, setPreviewImage] = useState("");
@@ -124,8 +124,6 @@ const CreatePostTab = memo(({ isDarked, componentsBg, mutate }) => {
             </FormControl>
         </div>
     );
-});
-
-CreatePostTab.displayName = "CreatePostTab";
+};
 
 export default CreatePostTab;

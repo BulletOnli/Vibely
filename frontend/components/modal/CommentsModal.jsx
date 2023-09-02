@@ -17,12 +17,12 @@ import {
     IconButton,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { lazy, memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
 
 import Comment from "../Comment";
 
-const CommentsModal = memo(({ onClose, isOpen, commentsData, postId }) => {
+const CommentsModal = ({ onClose, isOpen, commentsData, postId }) => {
     const toast = useToast();
     const { isDarked } = useThemeStore();
 
@@ -181,8 +181,6 @@ const CommentsModal = memo(({ onClose, isOpen, commentsData, postId }) => {
             </ModalContent>
         </Modal>
     );
-});
-
-CommentsModal.displayName = "CommentsModal";
+};
 
 export default CommentsModal;
